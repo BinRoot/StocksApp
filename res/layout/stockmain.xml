@@ -98,28 +98,33 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="DayClicked"
                 android:text="Day" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="WeekClicked"
                 android:text="Week" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="MonthClicked"
                 android:text="Month" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="YearClicked"
                 android:text="Year" />
         </LinearLayout>
 
         <ListView
+            android:id="@+id/list_stock_stocks"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
         </ListView>

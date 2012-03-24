@@ -56,8 +56,8 @@ public class StocksAppActivity extends Activity {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		Toast.makeText(StocksAppActivity.this, "yo yo yo", Toast.LENGTH_LONG).show();
-		Log.d(getString(R.string.APP), "data: "+data.toString());
+		Toast.makeText(StocksAppActivity.this, "Authorizing...", Toast.LENGTH_SHORT).show();
+		//Log.d(getString(R.string.APP), "data: "+data.toString());
 
 		facebook.authorizeCallback(requestCode, resultCode, data);
 	}
