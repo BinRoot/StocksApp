@@ -4,22 +4,70 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <LinearLayout 
-        android:id="@+id/chart" 
-        android:orientation="horizontal" 
-        android:layout_width="fill_parent" 
-        android:layout_height="wrap_content" 
-        android:layout_weight="1" />
-    
-    <RelativeLayout 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Values" />
+
+    <TableLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-       	<TextView 
-       	    android:id="@+id/text_yo"
-       	    android:layout_width="wrap_content"
-       	    android:layout_height="wrap_content"
-       	    android:text="YO!"
-       	    android:layout_centerInParent="true"/>
-    </RelativeLayout>
-    
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dip"
+                android:text="X" />
+
+            <EditText
+                android:id="@+id/xValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:enabled="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dip"
+                android:text="Y" />
+
+            <EditText
+                android:id="@+id/yValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:enabled="true" />
+
+            <Button
+                android:id="@+id/add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="true"
+                android:text="ADD" />
+        </TableRow>
+    </TableLayout>
+
+    <LinearLayout
+        android:id="@+id/chart"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/new_series"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NEW SERIES" />
+    </LinearLayout>
+
 </LinearLayout>

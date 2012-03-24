@@ -24,29 +24,16 @@ public class StockPage extends Activity {
 		String firstName = (String) getIntent().getExtras().get("firstName");
 		String id = (String) getIntent().getExtras().get("id");
 
-		TextView tv = (TextView)findViewById(R.id.text_yo);
-		tv.setText(firstName+", "+id);
-
-		GraphicalView mChartView = null;
-		//mChartView.repaint();
-		if (mChartView == null) {
-			LinearLayout layout = (LinearLayout) findViewById(R.id.chart);
-			XYMultipleSeriesDataset xyset = new XYMultipleSeriesDataset();
-			XYSeries xys = new XYSeries("My Stock");
-			xys.add(0, 0);
-			xys.add(1, 1);
-			xys.add(2, 2);
-			xys.add(3, 7);
-			xys.add(4, 6);
-			xyset.addSeries(xys);
-			
-			XYMultipleSeriesRenderer xymr = new XYMultipleSeriesRenderer();
-			xymr.setAxesColor(Color.BLACK);
-			mChartView = ChartFactory.getLineChartView(this, xyset, xymr);
-			layout.addView(mChartView, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-			
-		} else {
-			mChartView.repaint();
-		}
+		
+		LinearLayout ll = (LinearLayout) findViewById(R.id.chart);
+		
+		float[] values = new float[] { 2.0f,1.5f, 2.5f, 1.0f , 3.0f };
+		String[] verlabels = new String[] { "2", "1", "0" };
+		String[] horlabels = new String[] { "445", "446", "447", "448" };
+		GraphView graphView = new GraphView(this, values, "GraphViewDemo",horlabels, verlabels, GraphView.LINE);
+		
+		ll.addView(graphView);
 	}
+
+	
 }
