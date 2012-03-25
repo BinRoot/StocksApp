@@ -2,13 +2,19 @@ package com.stocksapp;
 
 import java.util.ArrayList;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -40,6 +46,7 @@ public class StockActivity extends Activity {
 		ListView lv = (ListView) findViewById(R.id.list_stock_stocks);
 		sa = new StockListAdapter(MODE_HOUR);
 		lv.setAdapter(sa);
+		lv.setOnItemClickListener(sa);
 
 		Stock s1 = new Stock("Ted and Marcy", 204, 1.2, -1.0, 3.0, 4.0);
 		Stock s2 = new Stock("Jeremy Lin", 401, 2.2, -2.0, 1.0, -2.0);
@@ -54,6 +61,18 @@ public class StockActivity extends Activity {
 		sa.notifyDataSetChanged();
 		
 		((Button)findViewById(R.id.button_stock_friends)).setOnClickListener(new LowerTabOnClickListener(BUTTON_FRIENDS));
+	
+	
+		String jsonStr = StockDataAPI.getInstance().getID(id);
+		try {
+			JSONObject joCredits = new JSONObject(jsonStr);
+			String credits = joCredits.getString("credits");
+			Log.d("StocksApp", "credits: "+credits);
+			((Button)findViewById(R.id.button_stock_money)).setText(credits);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public class LowerTabOnClickListener implements OnClickListener {
@@ -74,7 +93,7 @@ public class StockActivity extends Activity {
 		}
 	}
 
-	public class StockListAdapter extends BaseAdapter {
+	public class StockListAdapter extends BaseAdapter implements OnItemClickListener {
 
 		ArrayList<Stock> stockList;
 		int mode;
@@ -82,6 +101,10 @@ public class StockActivity extends Activity {
 		public StockListAdapter(int mode) {
 			stockList = new ArrayList<Stock>();
 			this.mode = mode;
+		}
+		
+		public int getMode() {
+			return mode;
 		}
 
 		public void addStock(Stock s) {
@@ -135,6 +158,30 @@ public class StockActivity extends Activity {
 			return v;
 		}
 
+		@Override
+		public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+			Stock stock = stockList.get(pos);
+			((TextView)findViewById(R.id.text_stock_portfolio_name)).setText(stock.getName());
+			((Button)findViewById(R.id.button_stock_trade)).setVisibility(View.VISIBLE);
+			((Button)findViewById(R.id.button_stock_back)).setVisibility(View.VISIBLE);
+			
+			if(sa.getMode()==MODE_HOUR) {
+				((TextView)findViewById(R.id.text_stock_percent)).setText(stock.getPercentChangeByLastHour()+" %");
+			}
+			else if(sa.getMode()==MODE_DAY) {
+				((TextView)findViewById(R.id.text_stock_percent)).setText(stock.getPercentChangeByLastDay()+" %");
+			}
+			else if(sa.getMode()==MODE_WEEK) {
+				((TextView)findViewById(R.id.text_stock_percent)).setText(stock.getPercentChangeByLastWeek()+" %");
+			}
+			else if(sa.getMode()==MODE_MONTH) {
+				((TextView)findViewById(R.id.text_stock_percent)).setText(stock.getPercentChangeByLastMonth()+" %");
+			}
+			
+			((TextView)findViewById(R.id.text_stock_worth)).setText(stock.getCurrentValue()+"");
+
+		}
+
 	}
 
 	private class GetStockGraphTasks extends AsyncTask<Void, Void, Void> {
@@ -184,5 +231,27 @@ public class StockActivity extends Activity {
 		sa.notifyDataSetChanged();
 	}
 
+	public void BackClicked(View v) {
+		
+		if( findViewById(R.id.relative_stock_trade).getVisibility() == View.VISIBLE ) {
+			findViewById(R.id.list_stock_stocks).setVisibility(View.VISIBLE);
+			findViewById(R.id.relative_stock_trade).setVisibility(View.GONE);
+		}
+		else {
+			((TextView)findViewById(R.id.text_stock_portfolio_name)).setText("My Portfolio");
+			((Button)findViewById(R.id.button_stock_trade)).setVisibility(View.GONE);
+			((Button)findViewById(R.id.button_stock_back)).setVisibility(View.GONE);
+			
+			((TextView)findViewById(R.id.text_stock_percent)).setText("+ 4.3%");
+			
+			((TextView)findViewById(R.id.text_stock_worth)).setText("7324");
+		}
+		
+	}
+	
+	public void TradeClicked(View v) {
+		findViewById(R.id.list_stock_stocks).setVisibility(View.GONE);
+		findViewById(R.id.relative_stock_trade).setVisibility(View.VISIBLE);
+	}
 
 }

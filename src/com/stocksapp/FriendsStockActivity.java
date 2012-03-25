@@ -6,7 +6,10 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -125,6 +128,8 @@ public class FriendsStockActivity extends Activity {
 			
 			return v;
 		}
+
+		
 		
 	}
 	
@@ -138,6 +143,10 @@ public class FriendsStockActivity extends Activity {
 		(findViewById(R.id.list_friends_activity)).setVisibility(View.VISIBLE);
 		(findViewById(R.id.list_friends_my)).setVisibility(View.GONE);
 		(findViewById(R.id.linear_friends_textheader)).setVisibility(View.GONE);
+	}
+	
+	public void portfolioClicked(View v) {
+		this.finish();
 	}
 	
 	

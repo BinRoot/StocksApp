@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +23,8 @@ import com.facebook.android.FacebookError;
 public class StocksAppActivity extends Activity {
 
 	final int FACEBOOK_MODE = 0;
+	
+	SharedPreferences settings;
 
 	Facebook facebook = new Facebook("207018342738085");
 
@@ -30,7 +33,87 @@ public class StocksAppActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		
+		/*
+         * Get existing access_token if any
+         */
+		settings = getPreferences(MODE_PRIVATE);
+        String access_token = settings.getString("access_token", null);
+        long expires = settings.getLong("access_expires", 0);
+        if(access_token != null) {
+            facebook.setAccessToken(access_token);
+        }
+        if(expires != 0) {
+            facebook.setAccessExpires(expires);
+        }
+        
+        if(facebook.isSessionValid()) {
+        	try {
+				JSONObject jObject = new JSONObject(facebook.request("me")); 
+				Log.d(getString(R.string.APP), jObject.toString());
+				
+				Intent i = new Intent(StocksAppActivity.this, StockActivity.class);
+				
+				i.putExtra("firstName", jObject.getString("first_name"));
+				i.putExtra("id", jObject.getString("id"));
+				
+				startActivity(i);
+				
+				
+			} catch (Exception e) {
+				Log.d(getString(R.string.APP), "json err: "+e.getMessage());
+			}
+        }
+        
+        /*
+         * Only call authorize if the access_token has expired.
+         */
+        if(!facebook.isSessionValid()) {
 
+            facebook.authorize(this, new String[] {}, new DialogListener() {
+                @Override
+                public void onComplete(Bundle values) {
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("access_token", facebook.getAccessToken());
+                    editor.putLong("access_expires", facebook.getAccessExpires());
+                    editor.commit();
+                    
+                    try {
+						JSONObject jObject = new JSONObject(facebook.request("me")); 
+						Log.d(getString(R.string.APP), jObject.toString());
+						
+						Intent i = new Intent(StocksAppActivity.this, StockActivity.class);
+						
+						String facebook_id = jObject.getString("id");
+						
+						i.putExtra("firstName", jObject.getString("first_name"));
+						i.putExtra("id", facebook_id);
+						
+						
+						StockDataAPI.getInstance().postID(facebook_id);
+						
+						
+						startActivity(i);
+						
+						
+					} catch (Exception e) {
+						Log.d(getString(R.string.APP), "json err: "+e.getMessage());
+					}
+                }
+    
+                @Override
+                public void onFacebookError(FacebookError error) {}
+    
+                @Override
+                public void onError(DialogError e) {}
+    
+                @Override
+                public void onCancel() {}
+            });
+        }
+        
+		
+		
 		Button b = (Button)findViewById(R.id.button_main_fb);
 		b.setOnClickListener(new MyClickListener(0));
 
@@ -65,13 +148,22 @@ public class StocksAppActivity extends Activity {
 	}
 
 	public void facebookConnect() {
-		facebook.authorize(this, new String[] { "email", "user_relationships" }, new DialogListener() {
-			@Override
-			public void onComplete(Bundle values) {
-				Log.d(getString(R.string.APP), "complete: "+values.toString());
-				if(facebook.isSessionValid()) {
-					
-					try {
+		
+		
+		/*
+         * Only call authorize if the access_token has expired.
+         */
+        if(!facebook.isSessionValid()) {
+
+            facebook.authorize(this, new String[] {}, new DialogListener() {
+                @Override
+                public void onComplete(Bundle values) {
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("access_token", facebook.getAccessToken());
+                    editor.putLong("access_expires", facebook.getAccessExpires());
+                    editor.commit();
+                    
+                    try {
 						JSONObject jObject = new JSONObject(facebook.request("me")); 
 						Log.d(getString(R.string.APP), jObject.toString());
 						
@@ -86,26 +178,45 @@ public class StocksAppActivity extends Activity {
 					} catch (Exception e) {
 						Log.d(getString(R.string.APP), "json err: "+e.getMessage());
 					}
-				}
-				else {
-					Log.d(getString(R.string.APP), "not session valid");
-				}
-			}
-
-			@Override
-			public void onFacebookError(FacebookError error) {
-				Log.d(getString(R.string.APP), "er1: "+error.toString());
-			}
-
-			@Override
-			public void onError(DialogError e) {
-				Log.d(getString(R.string.APP), "er2: "+e.toString());
-			}
-
-			@Override
-			public void onCancel() {
-				Log.d(getString(R.string.APP), "canceled");
-			}
-		});
+                }
+    
+                @Override
+                public void onFacebookError(FacebookError error) {}
+    
+                @Override
+                public void onError(DialogError e) {}
+    
+                @Override
+                public void onCancel() {}
+            });
+        }
+        else {
+        	
+        }
+		
+	}
+	
+	public void storeLoggedIn(String facebook_id) {
+		settings = StocksAppActivity.this.getSharedPreferences("account", 0);
+        settings.edit().putBoolean("loggedin", true).commit();
+        settings.edit().putString("facebook_id", facebook_id).commit();
+	}
+	
+	public String alreadyLoggedIn() {
+		SharedPreferences settings = StocksAppActivity.this.getSharedPreferences("account", 0);
+        if( settings.getBoolean("loggedin", false) ) {
+        	return settings.getString("facebook_id", null);
+        }
+        return null;
+	}
+	
+	public void storeID(String facebook_id) {
+		SharedPreferences settings = StocksAppActivity.this.getSharedPreferences("account", 0);
+        settings.edit().putString("facebook_id", facebook_id).commit();
+	}
+	
+	public String getStoredID() {
+		SharedPreferences settings = StocksAppActivity.this.getSharedPreferences("account", 0);
+        return settings.getString("facebook_id", null);
 	}
 }
