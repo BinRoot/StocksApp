@@ -7,7 +7,9 @@
     <uses-sdk android:minSdkVersion="7" />
     <uses-permission android:name="android.permission.INTERNET"/>
 
+    
     <application
+        android:name="MyApplication" 
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoTitleBar" >
@@ -22,12 +24,12 @@
         </activity>
         
         <activity
-            android:name=".StockPage"
+            android:name=".StockActivity"
             android:label="@string/app_name" >
         </activity>
         
         <activity
-            android:name=".FriendsActivity"
+            android:name=".FriendsStockActivity"
             android:label="@string/app_name" >
         </activity>
         

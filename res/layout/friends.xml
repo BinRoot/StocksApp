@@ -49,6 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="myActivityClicked"
                 android:text="Friends Activity" />
 
             <Button
@@ -56,14 +57,46 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="myFriendsClicked"
                 android:text="My Friends" />
         </LinearLayout>
 
+        <LinearLayout 
+            android:id="@+id/linear_friends_textheader"
+            android:layout_below="@id/relative_friends_tab"
+            android:layout_width="fill_parent"
+            android:visibility="gone"
+            android:layout_height="60dip">
+            <TextView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="My Friends"
+                android:gravity="center"
+                android:layout_weight="1"/>
+            <TextView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Points"
+                android:gravity="center"
+                android:layout_weight="1"/>
+        </LinearLayout>
+        
         <ListView
             android:id="@+id/list_friends_activity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/relative_friends_tab" >
+            android:layout_below="@id/relative_friends_tab"
+            android:layout_above="@+id/linear_friends_bottom"
+            android:visibility="visible" >
+        </ListView>
+        
+        <ListView
+            android:id="@+id/list_friends_my"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/linear_friends_textheader"
+            android:layout_above="@+id/linear_friends_bottom"
+            android:visibility="gone" >
         </ListView>
         
     </RelativeLayout>

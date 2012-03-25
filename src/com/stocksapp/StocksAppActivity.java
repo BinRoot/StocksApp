@@ -34,6 +34,8 @@ public class StocksAppActivity extends Activity {
 		Button b = (Button)findViewById(R.id.button_main_fb);
 		b.setOnClickListener(new MyClickListener(0));
 
+		((MyApplication) this.getApplication()).setFacebook(facebook);
+		
 	}
 
 	public class MyClickListener implements OnClickListener {
@@ -73,7 +75,7 @@ public class StocksAppActivity extends Activity {
 						JSONObject jObject = new JSONObject(facebook.request("me")); 
 						Log.d(getString(R.string.APP), jObject.toString());
 						
-						Intent i = new Intent(StocksAppActivity.this, StockPage.class);
+						Intent i = new Intent(StocksAppActivity.this, StockActivity.class);
 						
 						i.putExtra("firstName", jObject.getString("first_name"));
 						i.putExtra("id", jObject.getString("id"));

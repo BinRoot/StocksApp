@@ -3,21 +3,26 @@ package com.stocksapp;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class StockPage extends Activity {
+public class StockActivity extends Activity {
 
 	final int MODE_HOUR = 0;
 	final int MODE_DAY = 1;
 	final int MODE_WEEK = 2;
 	final int MODE_MONTH = 3;
+	
+	final int BUTTON_FRIENDS = 0;
 
 	StockListAdapter sa;
 
@@ -47,6 +52,26 @@ public class StockPage extends Activity {
 		sa.addStock(s2);
 		sa.addStock(s3);
 		sa.notifyDataSetChanged();
+		
+		((Button)findViewById(R.id.button_stock_friends)).setOnClickListener(new LowerTabOnClickListener(BUTTON_FRIENDS));
+	}
+	
+	public class LowerTabOnClickListener implements OnClickListener {
+
+		int buttonMode;
+		
+		public LowerTabOnClickListener(int buttonMode) {
+			this.buttonMode = buttonMode;
+		}
+		
+		@Override
+		public void onClick(View arg0) {
+			if(buttonMode == BUTTON_FRIENDS) {
+				Intent i = new Intent(StockActivity.this, FriendsStockActivity.class);
+				
+				startActivity(i);
+			}
+		}
 	}
 
 	public class StockListAdapter extends BaseAdapter {
@@ -124,7 +149,7 @@ public class StockPage extends Activity {
 			float[] values = new float[] { 2.0f,1.5f, 2.5f, 1.0f , 3.0f };
 			String[] verlabels = new String[] { "2", "1", "0" };
 			String[] horlabels = new String[] { "445", "446", "447", "448" };
-			GraphView graphView = new GraphView(StockPage.this, values, "GraphViewDemo",horlabels, verlabels, GraphView.LINE);
+			GraphView graphView = new GraphView(StockActivity.this, values, "GraphViewDemo",horlabels, verlabels, GraphView.LINE);
 
 			ll.addView(graphView);
 
