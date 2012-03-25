@@ -9,12 +9,19 @@ public class GraphAPI {
 	private JSONObject pairs;
 	private float offset = .10f;
 	ArrayList<PointF> parsedPairs; 
-
-	public GraphAPI(JSONObject init){
-		pairs = init;
-		//Code to parse JSON into parsedPairs
+	static GraphAPI graphAPI;
+	
+	public static GraphAPI getInstance() {
+		if(graphAPI == null) {
+			graphAPI = new GraphAPI();
+		}
+		return graphAPI;
 	}
-
+	
+	public void setParsedPair(ArrayList<PointF> parsedPairs) {
+		this.parsedPairs = parsedPairs;
+	}
+	
 	public String[] getVarLabels(){
 		String[] result = new String[8];
 		float maxY = 0;

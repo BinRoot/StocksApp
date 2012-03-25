@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@drawable/gradient_bg" >
 
     <LinearLayout
         android:id="@+id/linear_friends_top"
@@ -21,6 +22,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:textColor="#ffffff"
+                android:textStyle="bold"
                 android:text="Friends" />
 
             <Button
@@ -28,7 +31,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="Add Friend" />
+                android:background="@drawable/icon_addfriends"
+                 />
         </RelativeLayout>
     </LinearLayout>
 
@@ -50,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:onClick="myActivityClicked"
-                android:text="Friends Activity" />
+                android:background="@drawable/tab_friendactivity_selected" />
 
             <Button
                 android:id="@+id/button_friends_my"
@@ -58,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:onClick="myFriendsClicked"
-                android:text="My Friends" />
+                android:background="@drawable/tab_myfriends_deselected" />
         </LinearLayout>
 
         <LinearLayout 
@@ -66,22 +70,30 @@
             android:layout_below="@id/relative_friends_tab"
             android:layout_width="fill_parent"
             android:visibility="gone"
-            android:layout_height="60dip">
+            android:layout_height="30dip">
             <TextView 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="My Friends"
+                android:textColor="#ffffff"
+                android:textStyle="bold"
                 android:gravity="center"
                 android:layout_weight="1"/>
             <TextView 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Points"
+                android:textColor="#ffffff"
+                android:textStyle="bold"
                 android:gravity="center"
                 android:layout_weight="1"/>
         </LinearLayout>
         
         <ListView
+            android:background="@drawable/bgbox_friendsfind"
+            android:paddingLeft="20dip"
+            android:paddingRight="20dip"
+            android:cacheColorHint="#00000000"
             android:id="@+id/list_friends_activity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -91,6 +103,10 @@
         </ListView>
         
         <ListView
+            android:background="@drawable/bgbox_friendsfind"
+            android:paddingLeft="20dip"
+            android:paddingRight="20dip"
+            android:cacheColorHint="#00000000"
             android:id="@+id/list_friends_my"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -114,19 +130,19 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="portfolioClicked"
-            android:text="My Portfolio" />
+            android:background="@drawable/tab_myport_deselected"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Friends" />
+            android:background="@drawable/tab_friends_selected" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Discover" />
+            android:background="@drawable/tab_find_deselected"  />
     </LinearLayout>
 
 </RelativeLayout>

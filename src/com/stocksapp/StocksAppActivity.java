@@ -191,6 +191,21 @@ public class StocksAppActivity extends Activity {
             });
         }
         else {
+        	//Intent i = new Intent(StocksAppActivity.this, StockActivity.class);
+			
+        	try {
+	        	Facebook fb = ((MyApplication) this.getApplication()).getFacebook();
+	        	JSONObject jObject = new JSONObject(fb.request("me")); 
+				Log.d(getString(R.string.APP), jObject.toString());
+				
+				Intent i = new Intent(StocksAppActivity.this, StockActivity.class);
+				
+				i.putExtra("firstName", jObject.getString("first_name"));
+				i.putExtra("id", jObject.getString("id"));
+				
+				startActivity(i);
+        	}
+        	catch (Exception e) {}
         	
         }
 		

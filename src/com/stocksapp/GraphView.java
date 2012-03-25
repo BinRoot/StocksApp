@@ -82,7 +82,7 @@ public class GraphView extends View {
 		}
 
 		paint.setTextAlign(Align.CENTER);
-		canvas.drawText(title, (graphwidth / 2) + horstart, border - 4, paint);
+		//canvas.drawText(title, (graphwidth / 2) + horstart, border - 4, paint);
 
 		if (max != min) {
 			paint.setColor(Color.LTGRAY);
@@ -104,8 +104,12 @@ public class GraphView extends View {
 					float val = values[i] - min;
 					float rat = val / diff;
 					float h = graphheight * rat;
-					if (i > 0)
-						canvas.drawLine(((i - 1) * colwidth) + (horstart + 1) + halfcol, (border - lasth) + graphheight, (i * colwidth) + (horstart + 1) + halfcol, (border - h) + graphheight, paint);
+					if (i > 0) {
+						for(int j=0; j<10; j++) {
+							canvas.drawLine(((i - 1) * colwidth) + (horstart + 1) + halfcol +j, (border - lasth) + graphheight, (i * colwidth) + (horstart + 1) + halfcol +j, (border - h) + graphheight, paint);
+						}
+						
+					}
 					lasth = h;
 				}
 			}

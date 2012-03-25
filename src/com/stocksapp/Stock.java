@@ -1,6 +1,9 @@
 package com.stocksapp;
 
+import java.util.ArrayList;
 import java.util.Date;
+
+import android.graphics.PointF;
 
 public class Stock {
 	int currentValue;
@@ -15,6 +18,8 @@ public class Stock {
 	double percentChangeByLastWeek;
 	double percentChangeByLastMonth;
 	
+	ArrayList<PointF> points = new ArrayList<PointF>();
+	
 	public Stock(String name, int currentValue,
 			double percentChangeByLastHour,
 			double percentChangeByLastDay,
@@ -26,6 +31,14 @@ public class Stock {
 		this.percentChangeByLastHour = percentChangeByLastHour;
 		this.percentChangeByLastMonth = percentChangeByLastMonth;
 		this.percentChangeByLastWeek = percentChangeByLastWeek;
+	}
+	
+	public void setPoints(ArrayList<PointF> points) {
+		this.points = points;
+	}
+	
+	public ArrayList<PointF> getPoints() {
+		return points;
 	}
 	
 	public int getCurrentValue() {

@@ -6,12 +6,11 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.facebook.android.Facebook;
 
 public class FriendsStockActivity extends Activity {
 	
@@ -25,7 +24,7 @@ public class FriendsStockActivity extends Activity {
 		fActivityAdapter.addActivityList("Dave bought Jeremy Li +400");
 		fActivityAdapter.addActivityList("Phil sold Lady Gaga -250");
 		fActivityAdapter.addActivityList("Jeremy bought Hunger Games +60");
-		fActivityAdapter.addActivityList("Bob");
+		fActivityAdapter.addActivityList("Bob bought Hunger Games +35");
 		
 		friendsActivityList.setAdapter(fActivityAdapter);
 		
@@ -37,10 +36,11 @@ public class FriendsStockActivity extends Activity {
 		fMyAdapter.addMyFriendList("Joe", 123);
 		fMyAdapter.addMyFriendList("Bob", 73);
 		fMyAdapter.addMyFriendList("Nick", 93);
+		fMyAdapter.addMyFriendList("Carly", 104);
+		fMyAdapter.addMyFriendList("Lewis", 168);
 		fMyAdapter.notifyDataSetChanged();
 		
 		friendsMyList.setAdapter(fMyAdapter);
-		
 		
 	}
 	
@@ -137,12 +137,21 @@ public class FriendsStockActivity extends Activity {
 		(findViewById(R.id.list_friends_activity)).setVisibility(View.GONE);
 		(findViewById(R.id.list_friends_my)).setVisibility(View.VISIBLE);
 		(findViewById(R.id.linear_friends_textheader)).setVisibility(View.VISIBLE);
+	
+	
+		(findViewById(R.id.button_friends_activity)).setBackgroundResource(R.drawable.tab_friendactivity_deselected);
+		(findViewById(R.id.button_friends_my)).setBackgroundResource(R.drawable.tab_myfriends_selected);
+		
 	}
 	
 	public void myActivityClicked(View v) {
 		(findViewById(R.id.list_friends_activity)).setVisibility(View.VISIBLE);
 		(findViewById(R.id.list_friends_my)).setVisibility(View.GONE);
 		(findViewById(R.id.linear_friends_textheader)).setVisibility(View.GONE);
+		
+		
+		(findViewById(R.id.button_friends_activity)).setBackgroundResource(R.drawable.tab_friendactivity_selected);
+		(findViewById(R.id.button_friends_my)).setBackgroundResource(R.drawable.tab_myfriends_deselected);
 	}
 	
 	public void portfolioClicked(View v) {
