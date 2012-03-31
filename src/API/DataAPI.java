@@ -10,6 +10,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -20,13 +21,15 @@ public class DataAPI {
 	private final String APIURL = "http://mycompanyAPI.com"; 
 	final static String DEBUG = "DataAPI";
 
+	final static boolean DEBUG_MODE = true;
+
 	public static DataAPI getInstance() {
 		if (dataAPI == null) {
 			dataAPI = new DataAPI();
 		}
 		return dataAPI;
 	}
-	
+
 	/**
 	 * <b>POST</b> /api/users <br>
 	 * <b>Client</b>: JSON { “facebook_id”:”blah”, “name”:”their facebook name” } <br>
@@ -38,16 +41,23 @@ public class DataAPI {
 	 *	#HTTP 403 (forbidden) JSON { “code”:some_integer, “message”:”some message” } <br>
 	 * @param facebookID
 	 * @param facebookName
-	 * @return POST result
+	 * @return POST result (0 = success), (1 = no content, already exists)
 	 */
-	public String usersPOST(String facebookID, String facebookName) {
-		HashMap<String, String> postMap = new HashMap<String, String>();
-		postMap.put("facebook_id", facebookID);
-		postMap.put("name", facebookName);
-		
-		return doPOST(APIURL+"/api/users", postMap);
+	public int usersPOST(String facebookID, String facebookName) {
+
+		if(DEBUG_MODE) {
+			return 0; // success
+		}
+		else {
+			HashMap<String, String> postMap = new HashMap<String, String>();
+			postMap.put("facebook_id", facebookID);
+			postMap.put("name", facebookName);
+
+			String result = doPOST(APIURL+"/api/users", postMap);
+			return 0; // TODO: fix this
+		}
 	}
-	
+
 	/**
 	 * <b>GET</b> /api/users/:facebook_id <br>
 	 * <b>Client</b>: query param facebook_id literally substituted for :facebook_id in the URL above <br>
@@ -61,18 +71,32 @@ public class DataAPI {
 	 * @return GET result {"created_at":"2012-03-25T00:24:45Z","credits":1000,"updated_at":"2012-03-25T00:24:45Z"}
 	 */
 	public JSONObject usersGET(String facebookID) {
-		String result = doGET(APIURL+"/api/users/"+facebookID);
-		try {
-			JSONObject jo = new JSONObject(result);
+
+		if(DEBUG_MODE) {
+			JSONObject jo = new JSONObject();
+			try {
+				jo.put("created_at", "2012-03-25T00:24:45Z");
+				jo.put("credits", 1000);
+				jo.put("updated_at", "2012-03-25T00:24:45Z");
+			}
+			catch (Exception e) {};
 			return jo;
-		} catch (JSONException e) {
-			Log.d("DataAPI", "usersGET err: "+e.getMessage());
-			return null;
 		}
+		else {
+			String result = doGET(APIURL+"/api/users/"+facebookID);
+			try {
+				JSONObject jo = new JSONObject(result);
+				return jo;
+			} catch (JSONException e) {
+				Log.d("DataAPI", "usersGET err: "+e.getMessage());
+				return null;
+			}
+		}
+
 	}
-	
-	
-	
+
+
+
 	/**
 	 * <b>GET</b> /api/portfolio/:facebook_id <br>
 	 * <b>Client</b>:  querystring parameter <br>
@@ -84,6 +108,7 @@ public class DataAPI {
 	 * @return GET result
 	 */
 	public JSONObject portfolioGET(String facebookID) {
+
 		String result = doGET(APIURL+"/api/portfolio/"+facebookID);
 		try {
 			JSONObject jo = new JSONObject(result);
@@ -92,9 +117,10 @@ public class DataAPI {
 			Log.d("DataAPI", "portfolioGET err: "+e.getMessage());
 			return null;
 		}
+		
 	}
-	
-	
+
+
 	/**
 	 * <b>POST</b> /api/portfolio/:facebook_id/sell <br>
 	 * <b>Client</b>: sell stocks they own <br>
@@ -118,15 +144,15 @@ public class DataAPI {
 		postMap.put("id", stockID);
 		postMap.put("quantity", quantity);
 		// test if this properly converts to JSON
-		
+
 		//TODO: turn into JSON?
 		return doPOST(APIURL+"/api/portfolio/"+facebookID+"/sell", postMap);
 	}
-	
+
 	/**
 	 * <b>POST</b> /api/market/:stock_id/buy <br>
 	 * <b>Client</b>: buy stocks available on the market <br>
- 	 * BuyOrder structure < Order <br>
+	 * BuyOrder structure < Order <br>
 	 * { “id”:12, “quantity”:44, “facebook_id”:”blah” } <br>
 	 * <b>Server</b>: <br>
 	 * HTTP 200 <br>
@@ -147,11 +173,11 @@ public class DataAPI {
 		postMap.put("quantity", quantity);
 		postMap.put("facebookID", facebookID);
 		// test if this properly converts to JSON
-		
+
 		//TODO: turn into JSON?
 		return doPOST(APIURL+"/api/market/"+stockID+"/buy", postMap);
 	}
-	
+
 	/**
 	 * <b>GET</b> /api/market <br>
 	 * <b>Client</b>: wants a list of all the available stocks <br>
@@ -170,7 +196,7 @@ public class DataAPI {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * <b>GET</b> /api/performance/:stock_id/daily <br>
 	 * <b>Client</b>: wants the performance of a stock for the previous 24 hours <br>
@@ -193,7 +219,7 @@ public class DataAPI {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * <b>GET</b> /api/leaderboard <br>
 	 * <b>Client</b>: wants the leaderboard <br>
@@ -211,62 +237,62 @@ public class DataAPI {
 			return null;
 		}
 	}
-	
-	
-	
-	
+
+
+
+
 	/*
 	 * general HTTP GET and POST methods below
 	 */
-	
+
 	public static String doGET(String path) {
 		try {
 			DefaultHttpClient httpclient = new DefaultHttpClient();
 			HttpGet httpget = new HttpGet(path);
 			ResponseHandler responseHandler = new BasicResponseHandler();
-		    String response = httpclient.execute(httpget, responseHandler);
-		    return response;
+			String response = httpclient.execute(httpget, responseHandler);
+			return response;
 		}
 		catch (Exception e) {
 			Log.d("DataAPI", "doGET err: "+e.getMessage());
 			return null;
 		}
 	}
-	
+
 	public static String doPOST(String path, Map params) {
 		try {
-		    DefaultHttpClient httpclient = new DefaultHttpClient();
-		    HttpPost httpost = new HttpPost(path);
-		    
-		    JSONObject holder = mapToJSON(params);
-	
-		    //passes the results to a string builder/entity
-		    StringEntity se = new StringEntity(holder.toString());
-	
-		    //sets the post request as the resulting string
-		    httpost.setEntity(se);
-		    //sets a request header so the page receving the request will know what to do with it
-		    httpost.setHeader("Accept", "application/json");
-		    httpost.setHeader("Content-type", "application/json");
-	
-		    //Handles what is returned from the page 
-		    ResponseHandler responseHandler = new BasicResponseHandler();
-		    String response = httpclient.execute(httpost, responseHandler);
-		    return response;
+			DefaultHttpClient httpclient = new DefaultHttpClient();
+			HttpPost httpost = new HttpPost(path);
+
+			JSONObject holder = mapToJSON(params);
+
+			//passes the results to a string builder/entity
+			StringEntity se = new StringEntity(holder.toString());
+
+			//sets the post request as the resulting string
+			httpost.setEntity(se);
+			//sets a request header so the page receving the request will know what to do with it
+			httpost.setHeader("Accept", "application/json");
+			httpost.setHeader("Content-type", "application/json");
+
+			//Handles what is returned from the page 
+			ResponseHandler responseHandler = new BasicResponseHandler();
+			String response = httpclient.execute(httpost, responseHandler);
+			return response;
 		}
 		catch (Exception e) {
 			Log.d("DataAPI", "doPOST err: "+e.getMessage());
 			return null;
 		}
 	}
-	
+
 	public static JSONObject mapToJSON(Map params) {
 		try {
 			JSONObject holder = new JSONObject();
 			for(Object key : params.keySet()) {
 				holder.put(key.toString(), params.get(key));
 			}
-		    return holder;
+			return holder;
 		}
 		catch (Exception e) {
 			Log.d("DataAPI", "doPOST err: "+e.getMessage());

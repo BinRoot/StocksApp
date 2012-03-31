@@ -56,14 +56,17 @@ public class StockActivity extends Activity {
 		String firstName = (String) getIntent().getExtras().get("firstName");
 		String id = (String) getIntent().getExtras().get("id");
 
-		GetStockGraphTasks getGraphTask = new GetStockGraphTasks();
-		getGraphTask.execute();
+		//GetStockGraphTasks getGraphTask = new GetStockGraphTasks();
+		//getGraphTask.execute();
 
 		ListView lv = (ListView) findViewById(R.id.list_stock_stocks);
 		sa = new StockListAdapter(MODE_HOUR);
 		lv.setAdapter(sa);
 		lv.setOnItemClickListener(sa);
 
+		/*
+		 * Fake data
+		 */
 		Stock s1 = new Stock("Ted and Marcy", 204, 1.4, -1.0, 3.0, 4.0);
 		
 		ArrayList<PointF> points = new ArrayList<PointF>();
@@ -148,6 +151,7 @@ public class StockActivity extends Activity {
 		sa.addStock(s5);
 		sa.addStock(s6);
 		sa.notifyDataSetChanged();
+		
 		
 		((Button)findViewById(R.id.button_stock_friends)).setOnClickListener(new LowerTabOnClickListener(BUTTON_FRIENDS));
 	
