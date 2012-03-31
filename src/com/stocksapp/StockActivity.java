@@ -3,6 +3,8 @@ package com.stocksapp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,6 +43,8 @@ public class StockActivity extends Activity {
 	final int MODE_MONTH = 3;
 	
 	final int BUTTON_FRIENDS = 0;
+	
+	String DEBUG = "StockActivity";
 
 	StockListAdapter sa;
 
@@ -48,7 +52,7 @@ public class StockActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.stockmain);
-
+		
 		String firstName = (String) getIntent().getExtras().get("firstName");
 		String id = (String) getIntent().getExtras().get("id");
 

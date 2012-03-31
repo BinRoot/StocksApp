@@ -18,6 +18,7 @@ import android.util.Log;
 public class DataAPI {
 	private static DataAPI dataAPI;
 	private final String APIURL = "http://mycompanyAPI.com"; 
+	final static String DEBUG = "DataAPI";
 
 	public static DataAPI getInstance() {
 		if (dataAPI == null) {
@@ -151,7 +152,14 @@ public class DataAPI {
 		return doPOST(APIURL+"/api/market/"+stockID+"/buy", postMap);
 	}
 	
-	
+	/**
+	 * <b>GET</b> /api/market <br>
+	 * <b>Client</b>: wants a list of all the available stocks <br>
+	 * <b>Server</b>: <br>
+	 * HTTP 200 <br>
+	 * { “stocks”:[ { “id”:492, “name”:”blah”, “current_price”:444}, … ] } <br>
+	 * @return GET result JSONObject 
+	 */
 	public JSONObject marketGET() {
 		String result = doGET(APIURL+"/api/market");
 		try {
@@ -163,6 +171,18 @@ public class DataAPI {
 		}
 	}
 	
+	/**
+	 * <b>GET</b> /api/performance/:stock_id/daily <br>
+	 * <b>Client</b>: wants the performance of a stock for the previous 24 hours <br>
+	 * <b>Server</b>: <br>
+	 * HTTP 200 <br>
+	 * Array with 0..24 values with hourly averages for the stock <br>
+	 * { “graph”:”daily”, “values”:[ { “date”, epoch_millis_since_epoch, “value”: 4400 }, …]} <br>
+	 * HTTP 404 <br>
+	 * Stock doesn’t exist <br>
+	 * @param stockID
+	 * @return GET result JSONObject
+	 */
 	public JSONObject performanceGET(String stockID) {
 		String result = doGET(APIURL+"/api/performance/"+stockID+"/daily");
 		try {
@@ -174,6 +194,13 @@ public class DataAPI {
 		}
 	}
 	
+	/**
+	 * <b>GET</b> /api/leaderboard <br>
+	 * <b>Client</b>: wants the leaderboard <br>
+	 * <b>Server</b>: this returns all the users and their net worth <br>
+	 * { “investors”: [ { “name”:”Charles Feduke”, “net”:3200 }, … ] }
+	 * @return GET result JSONObject
+	 */
 	public JSONObject leaderboardGET() {
 		String result = doGET(APIURL+"/api/leaderboard");
 		try {
@@ -184,6 +211,9 @@ public class DataAPI {
 			return null;
 		}
 	}
+	
+	
+	
 	
 	/*
 	 * general HTTP GET and POST methods below
@@ -232,24 +262,10 @@ public class DataAPI {
 	
 	public static JSONObject mapToJSON(Map params) {
 		try {
-			Iterator iter = params.entrySet().iterator();
-		    JSONObject holder = new JSONObject();
-		    
-		    while(iter.hasNext()) {
-		        Map.Entry pairs = (Map.Entry)iter.next();
-		        String key = (String)pairs.getKey();
-		        Map m = (Map)pairs.getValue();   
-	
-		        JSONObject data = new JSONObject();
-	
-		        Iterator iter2 = m.entrySet().iterator();
-		        while(iter2.hasNext()) {
-		            Map.Entry pairs2 = (Map.Entry)iter2.next();
-		            data.put((String)pairs2.getKey(), (String)pairs2.getValue());
-		        }
-	
-		        holder.put(key, data);
-		    }
+			JSONObject holder = new JSONObject();
+			for(Object key : params.keySet()) {
+				holder.put(key.toString(), params.get(key));
+			}
 		    return holder;
 		}
 		catch (Exception e) {
