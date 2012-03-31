@@ -14,6 +14,12 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:background="@drawable/fblogin"/>
+        <ProgressBar 
+            android:id="@+id/progress_fb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone"/>
     </RelativeLayout>
     
 </LinearLayout>

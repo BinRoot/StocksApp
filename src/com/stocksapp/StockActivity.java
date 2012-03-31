@@ -7,6 +7,10 @@ import java.util.Comparator;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import API.GraphAPI;
+import API.StockDataAPI;
+import Model.Stock;
+import View.GraphView;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;

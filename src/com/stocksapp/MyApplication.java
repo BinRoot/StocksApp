@@ -6,7 +6,7 @@ import com.facebook.android.Facebook;
 
 public class MyApplication extends Application {
 
-    private Facebook facebook;
+    public Facebook facebook;
 
     public Facebook getFacebook() {
         return facebook;

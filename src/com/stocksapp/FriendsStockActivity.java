@@ -2,6 +2,7 @@ package com.stocksapp;
 
 import java.util.ArrayList;
 
+import Model.Person;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
