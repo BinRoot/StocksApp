@@ -23,7 +23,7 @@ import com.facebook.android.FacebookError;
 public class StocksAppActivity extends Activity {
 
 	final int FACEBOOK_MODE = 0;
-	
+	String DEBUG = "StocksAppActivity";
 	SharedPreferences settings;
 
 	Facebook facebook = new Facebook("207018342738085");
@@ -50,7 +50,7 @@ public class StocksAppActivity extends Activity {
         if(facebook.isSessionValid()) {
         	try {
 				JSONObject jObject = new JSONObject(facebook.request("me")); 
-				Log.d(getString(R.string.APP), jObject.toString());
+				Log.d(DEBUG, jObject.toString());
 				
 				Intent i = new Intent(StocksAppActivity.this, StockActivity.class);
 				
@@ -61,7 +61,7 @@ public class StocksAppActivity extends Activity {
 				
 				
 			} catch (Exception e) {
-				Log.d(getString(R.string.APP), "json err: "+e.getMessage());
+				Log.d(DEBUG, "json err: "+e.getMessage());
 			}
         }
         
@@ -80,7 +80,7 @@ public class StocksAppActivity extends Activity {
                     
                     try {
 						JSONObject jObject = new JSONObject(facebook.request("me")); 
-						Log.d(getString(R.string.APP), jObject.toString());
+						Log.d(DEBUG, jObject.toString());
 						
 						Intent i = new Intent(StocksAppActivity.this, StockActivity.class);
 						
@@ -97,7 +97,7 @@ public class StocksAppActivity extends Activity {
 						
 						
 					} catch (Exception e) {
-						Log.d(getString(R.string.APP), "json err: "+e.getMessage());
+						Log.d(DEBUG, "json err: "+e.getMessage());
 					}
                 }
     
@@ -165,7 +165,7 @@ public class StocksAppActivity extends Activity {
                     
                     try {
 						JSONObject jObject = new JSONObject(facebook.request("me")); 
-						Log.d(getString(R.string.APP), jObject.toString());
+						Log.d(DEBUG, jObject.toString());
 						
 						Intent i = new Intent(StocksAppActivity.this, StockActivity.class);
 						
@@ -176,7 +176,7 @@ public class StocksAppActivity extends Activity {
 						
 						
 					} catch (Exception e) {
-						Log.d(getString(R.string.APP), "json err: "+e.getMessage());
+						Log.d(DEBUG, "json err: "+e.getMessage());
 					}
                 }
     
@@ -196,7 +196,7 @@ public class StocksAppActivity extends Activity {
         	try {
 	        	Facebook fb = ((MyApplication) this.getApplication()).getFacebook();
 	        	JSONObject jObject = new JSONObject(fb.request("me")); 
-				Log.d(getString(R.string.APP), jObject.toString());
+				Log.d(DEBUG, jObject.toString());
 				
 				Intent i = new Intent(StocksAppActivity.this, StockActivity.class);
 				
