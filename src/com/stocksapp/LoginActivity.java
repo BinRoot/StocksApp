@@ -52,7 +52,6 @@ public class LoginActivity extends Activity {
 
 		if(((MyApplication) this.getApplication()).facebook.isSessionValid()) {
 			(new LogInTask(LoginActivity.this)).execute();
-			//login();
 		}
 
 
@@ -63,17 +62,8 @@ public class LoginActivity extends Activity {
 
 	public void login() {
 		try {
-			JSONObject jObject = new JSONObject(((MyApplication) this.getApplication()).facebook.request("me")); 
-			Log.d(DEBUG, jObject.toString());
-
-			String firstName = jObject.getString("first_name");
-			String id = jObject.getString("id");
-
 			Intent i = new Intent(LoginActivity.this, StockActivity.class);
-			i.putExtra("firstName", firstName);
-			i.putExtra("id", id);
 			startActivity(i);
-
 		} catch (Exception e) {
 			Log.d(DEBUG, "json err: "+e.getMessage());
 		}

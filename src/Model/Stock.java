@@ -14,9 +14,7 @@ public class Stock {
 	String category;
 	int outstandingShares;
 	double percentChangeByLastHour;
-	double percentChangeByLastDay;
-	double percentChangeByLastWeek;
-	double percentChangeByLastMonth;
+	double percentChangeAllTime;
 	
 	ArrayList<PointF> points = new ArrayList<PointF>();
 	
@@ -24,13 +22,11 @@ public class Stock {
 			double percentChangeByLastHour,
 			double percentChangeByLastDay,
 			double percentChangeByLastWeek,
-			double percentChangeByLastMonth) {
+			double percentChangeAllTime) {
 		this.name = name;
 		this.currentValue = currentValue;
-		this.percentChangeByLastDay = percentChangeByLastDay;
 		this.percentChangeByLastHour = percentChangeByLastHour;
-		this.percentChangeByLastMonth = percentChangeByLastMonth;
-		this.percentChangeByLastWeek = percentChangeByLastWeek;
+		this.percentChangeAllTime = percentChangeAllTime;
 	}
 	
 	public void setPoints(ArrayList<PointF> points) {
@@ -95,23 +91,11 @@ public class Stock {
 	public void setPercentChangeByLastHour(double percentChangeByLastHour) {
 		this.percentChangeByLastHour = percentChangeByLastHour;
 	}
-	public double getPercentChangeByLastDay() {
-		return percentChangeByLastDay;
-	}
-	public void setPercentChangeByLastDay(double percentChangeByLastDay) {
-		this.percentChangeByLastDay = percentChangeByLastDay;
-	}
-	public double getPercentChangeByLastWeek() {
-		return percentChangeByLastWeek;
-	}
-	public void setPercentChangeByLastWeek(double percentChangeByLastWeek) {
-		this.percentChangeByLastWeek = percentChangeByLastWeek;
-	}
-	public double getPercentChangeByLastMonth() {
-		return percentChangeByLastMonth;
+	public double getPercentChangeAllTime() {
+		return percentChangeAllTime;
 	}
 	public void setPercentChangeByLastMonth(double percentChangeByLastMonth) {
-		this.percentChangeByLastMonth = percentChangeByLastMonth;
+		this.percentChangeAllTime = percentChangeAllTime;
 	}
 
 	
