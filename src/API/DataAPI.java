@@ -302,43 +302,79 @@ public class DataAPI {
 	 * @param stockID
 	 * @return GET result JSONObject
 	 */
-	public JSONObject performanceGET(String stockID) {
+	public JSONObject performanceGET(int stockID) {
 		
 		if(DEBUG_MODE) {
 			JSONObject jo = new JSONObject();
 			try {
+				if(stockID==1) {
+					
+				}
 				jo.put("graph", "daily");
 				JSONArray ja = new JSONArray();
 				
-				JSONObject jao1 = new JSONObject();
-				jao1.put("date", 100);
-				jao1.put("value", 300);
-				ja.put(jao1);
-				
-				JSONObject jao2 = new JSONObject();
-				jao2.put("date", 105);
-				jao2.put("value", 305);
-				ja.put(jao2);
-				
-				JSONObject jao3 = new JSONObject();
-				jao3.put("date", 110);
-				jao3.put("value", 310);
-				ja.put(jao3);
-				
-				JSONObject jao4 = new JSONObject();
-				jao4.put("date", 130);
-				jao4.put("value", 280);
-				ja.put(jao4);
-				
-				JSONObject jao5 = new JSONObject();
-				jao5.put("date", 140);
-				jao5.put("value", 290);
-				ja.put(jao5);
-				
-				JSONObject jao6 = new JSONObject();
-				jao6.put("date", 145);
-				jao6.put("value", 275);
-				ja.put(jao6);
+				if(stockID==1) {
+					JSONObject jao1 = new JSONObject();
+					jao1.put("date", 100);
+					jao1.put("value", 300);
+					ja.put(jao1);
+					
+					JSONObject jao2 = new JSONObject();
+					jao2.put("date", 105);
+					jao2.put("value", 305);
+					ja.put(jao2);
+					
+					JSONObject jao3 = new JSONObject();
+					jao3.put("date", 110);
+					jao3.put("value", 310);
+					ja.put(jao3);
+					
+					JSONObject jao4 = new JSONObject();
+					jao4.put("date", 130);
+					jao4.put("value", 280);
+					ja.put(jao4);
+					
+					JSONObject jao5 = new JSONObject();
+					jao5.put("date", 140);
+					jao5.put("value", 290);
+					ja.put(jao5);
+					
+					JSONObject jao6 = new JSONObject();
+					jao6.put("date", 145);
+					jao6.put("value", 275);
+					ja.put(jao6);
+				}
+				else {
+					JSONObject jao1 = new JSONObject();
+					jao1.put("date", 100);
+					jao1.put("value", 305);
+					ja.put(jao1);
+					
+					JSONObject jao2 = new JSONObject();
+					jao2.put("date", 105);
+					jao2.put("value", 300);
+					ja.put(jao2);
+					
+					JSONObject jao3 = new JSONObject();
+					jao3.put("date", 110);
+					jao3.put("value", 315);
+					ja.put(jao3);
+					
+					JSONObject jao4 = new JSONObject();
+					jao4.put("date", 130);
+					jao4.put("value", 275);
+					ja.put(jao4);
+					
+					JSONObject jao5 = new JSONObject();
+					jao5.put("date", 140);
+					jao5.put("value", 295);
+					ja.put(jao5);
+					
+					JSONObject jao6 = new JSONObject();
+					jao6.put("date", 145);
+					jao6.put("value", 270);
+					ja.put(jao6);
+				}
 				
 				jo.put("values", ja);
 			}

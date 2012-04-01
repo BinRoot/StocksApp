@@ -215,25 +215,33 @@ public class StockActivity extends Activity {
 			
 			((TextView)findViewById(R.id.text_stock_worth)).setText(stock.getCurrentValue()+"");
 
-			LinearLayout ll = (LinearLayout) findViewById(R.id.chart);
-
-			GraphAPI gAPI = GraphAPI.getInstance();
-			gAPI.setParsedPair(stock.getPoints());
-			float[] values = gAPI.getValues();
-			String [] verlabels = gAPI.getVarLabels();
-			String[] horlabels = gAPI.getHorLabels();
-			
-			//float[] values = new float[] { 2.0f,1.5f, 2.5f, 1.0f , 3.0f };
-			//String[] verlabels = new String[] { "2", "1", "0" };
-			//String[] horlabels = new String[] { "445", "446", "447", "448" };
-			GraphView graphView = new GraphView(StockActivity.this, values, "GraphViewDemo",horlabels, verlabels, GraphView.LINE);
-
-			ll.removeAllViews();
-			ll.addView(graphView);
+			(new UpdateGraphTask()).execute(stock);
 			
 			notifyDataSetChanged();
 		}
 
+	}
+	
+	/**
+	 * Updates GraphView
+	 * float[] values = new float[] { 2.0f,1.5f, 2.5f, 1.0f , 3.0f };
+	 * String[] verlabels = new String[] { "2", "1", "0" };
+	 * String[] horlabels = new String[] { "445", "446", "447", "448" };
+	 * @param stock
+	 */
+	public void updateGraph(Stock stock) {
+		LinearLayout ll = (LinearLayout) findViewById(R.id.chart);
+
+		GraphAPI gAPI = GraphAPI.getInstance();
+		gAPI.setParsedPair(stock.getPoints());
+		float[] values = gAPI.getValues();
+		String [] verlabels = gAPI.getVarLabels();
+		String[] horlabels = gAPI.getHorLabels();
+	
+		GraphView graphView = new GraphView(StockActivity.this, values, "GraphViewDemo",horlabels, verlabels, GraphView.LINE);
+
+		ll.removeAllViews();
+		ll.addView(graphView);
 	}
 
 	private class GetStockGraphTasks extends AsyncTask<Void, Void, Void> {
@@ -443,6 +451,32 @@ public class StockActivity extends Activity {
 		@Override
 		protected void onPostExecute(Void newCredits) {
 			sa.notifyDataSetChanged();
+		}
+
+	}
+	
+	private class UpdateGraphTask extends AsyncTask<Stock, Void, Stock> {
+		@Override
+		protected Stock doInBackground(Stock... stocks) {
+			JSONObject jo = DataAPI.getInstance().performanceGET(stocks[0].getId());
+			try {
+				JSONArray ja = jo.getJSONArray("values");
+				ArrayList<PointF> pts = new ArrayList<PointF>();
+				for(int i=0; i<ja.length(); i++) {
+					JSONObject jao = ja.getJSONObject(i);
+					PointF pf = new PointF(jao.getInt("date"), jao.getInt("value"));
+					pts.add(pf);
+				}
+				stocks[0].setPoints(pts);
+			} catch (JSONException e) {
+				Log.d(DEBUG, "onItemClick err: "+e.getMessage());
+			}
+			return stocks[0];
+		}
+
+		@Override
+		protected void onPostExecute(Stock stock) {
+			updateGraph(stock);
 		}
 
 	}
