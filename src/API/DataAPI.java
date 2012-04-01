@@ -109,13 +109,45 @@ public class DataAPI {
 	 */
 	public JSONObject portfolioGET(String facebookID) {
 
-		String result = doGET(APIURL+"/api/portfolio/"+facebookID);
-		try {
-			JSONObject jo = new JSONObject(result);
+		if(DEBUG_MODE) {
+			JSONObject jo = new JSONObject();
+			try {
+				JSONArray ja = new JSONArray();
+				JSONObject jao1 = new JSONObject();
+				jao1.put("name", "Ron Paul");
+				jao1.put("id", 1);
+				jao1.put("opening_price", 50);
+				jao1.put("current_price", 60);
+				jao1.put("purchase_price", 55);
+				ja.put(jao1);
+				JSONObject jao3 = new JSONObject();
+				jao3.put("name", "Red Sox");
+				jao3.put("id", 3);
+				jao3.put("opening_price", 200);
+				jao3.put("current_price", 311);
+				jao3.put("purchase_price", 151);
+				ja.put(jao3);
+				JSONObject jao5 = new JSONObject();
+				jao5.put("name", "iPhone 5");
+				jao5.put("id", 4);
+				jao5.put("opening_price", 400);
+				jao5.put("current_price", 500);
+				jao5.put("purchase_price", 430);
+				ja.put(jao5);
+				jo.put("stock", ja);
+			}
+			catch (Exception e) {};
 			return jo;
-		} catch (JSONException e) {
-			Log.d("DataAPI", "portfolioGET err: "+e.getMessage());
-			return null;
+		}
+		else {
+			String result = doGET(APIURL+"/api/portfolio/"+facebookID);
+			try {
+				JSONObject jo = new JSONObject(result);
+				return jo;
+			} catch (JSONException e) {
+				Log.d("DataAPI", "portfolioGET err: "+e.getMessage());
+				return null;
+			}
 		}
 		
 	}
@@ -140,13 +172,21 @@ public class DataAPI {
 	 * @return POST result
 	 */
 	public String portfolioPOST(String facebookID, String stockID, int quantity) {
-		HashMap postMap = new HashMap();
-		postMap.put("id", stockID);
-		postMap.put("quantity", quantity);
-		// test if this properly converts to JSON
 
-		//TODO: turn into JSON?
-		return doPOST(APIURL+"/api/portfolio/"+facebookID+"/sell", postMap);
+		if(DEBUG_MODE) {
+			return null; // TODO: fix this
+		}
+		else {
+			HashMap postMap = new HashMap();
+			postMap.put("id", stockID);
+			postMap.put("quantity", quantity);
+			// test if this properly converts to JSON
+
+			//TODO: turn into JSON?
+			return doPOST(APIURL+"/api/portfolio/"+facebookID+"/sell", postMap);
+		}
+		
+		
 	}
 
 	/**
@@ -168,14 +208,20 @@ public class DataAPI {
 	 * @return POST result
 	 */
 	public String marketPOST(String facebookID, String stockID, int quantity) {
-		HashMap postMap = new HashMap();
-		postMap.put("id", stockID);
-		postMap.put("quantity", quantity);
-		postMap.put("facebookID", facebookID);
-		// test if this properly converts to JSON
+		
+		if(DEBUG_MODE) {
+			return null; //TODO: fix me!
+		}
+		else {
+			HashMap postMap = new HashMap();
+			postMap.put("id", stockID);
+			postMap.put("quantity", quantity);
+			postMap.put("facebookID", facebookID);
+			// test if this properly converts to JSON
 
-		//TODO: turn into JSON?
-		return doPOST(APIURL+"/api/market/"+stockID+"/buy", postMap);
+			//TODO: turn into JSON?
+			return doPOST(APIURL+"/api/market/"+stockID+"/buy", postMap);
+		}
 	}
 
 	/**
@@ -187,13 +233,60 @@ public class DataAPI {
 	 * @return GET result JSONObject 
 	 */
 	public JSONObject marketGET() {
-		String result = doGET(APIURL+"/api/market");
-		try {
-			JSONObject jo = new JSONObject(result);
+		
+		if(DEBUG_MODE) {
+			JSONObject jo = new JSONObject();
+			try {
+				JSONArray ja = new JSONArray();
+				JSONObject jao1 = new JSONObject();
+				jao1.put("name", "Ron Paul");
+				jao1.put("id", 1);
+				jao1.put("opening_price", 50);
+				jao1.put("current_price", 60);
+				jao1.put("purchase_price", 55);
+				ja.put(jao1);
+				JSONObject jao2 = new JSONObject();
+				jao2.put("name", "Charlie Sheen");
+				jao2.put("id", 2);
+				jao2.put("opening_price", 9);
+				jao2.put("current_price", 5);
+				jao2.put("purchase_price", 8);
+				ja.put(jao2);
+				JSONObject jao3 = new JSONObject();
+				jao3.put("name", "Red Sox");
+				jao3.put("id", 3);
+				jao3.put("opening_price", 200);
+				jao3.put("current_price", 311);
+				jao3.put("purchase_price", 151);
+				ja.put(jao3);
+				JSONObject jao4 = new JSONObject();
+				jao4.put("name", "Taylor Swift");
+				jao4.put("id", 4);
+				jao4.put("opening_price", 100);
+				jao4.put("current_price", 107);
+				jao4.put("purchase_price", 120);
+				ja.put(jao4);
+				JSONObject jao5 = new JSONObject();
+				jao5.put("name", "iPhone 5");
+				jao5.put("id", 4);
+				jao5.put("opening_price", 400);
+				jao5.put("current_price", 500);
+				jao5.put("purchase_price", 430);
+				ja.put(jao5);
+				jo.put("stock", ja);
+			}
+			catch (Exception e) {};
 			return jo;
-		} catch (JSONException e) {
-			Log.d("DataAPI", "marketGET err: "+e.getMessage());
-			return null;
+		}
+		else {
+			String result = doGET(APIURL+"/api/market");
+			try {
+				JSONObject jo = new JSONObject(result);
+				return jo;
+			} catch (JSONException e) {
+				Log.d("DataAPI", "marketGET err: "+e.getMessage());
+				return null;
+			}
 		}
 	}
 
@@ -210,13 +303,57 @@ public class DataAPI {
 	 * @return GET result JSONObject
 	 */
 	public JSONObject performanceGET(String stockID) {
-		String result = doGET(APIURL+"/api/performance/"+stockID+"/daily");
-		try {
-			JSONObject jo = new JSONObject(result);
+		
+		if(DEBUG_MODE) {
+			JSONObject jo = new JSONObject();
+			try {
+				jo.put("graph", "daily");
+				JSONArray ja = new JSONArray();
+				
+				JSONObject jao1 = new JSONObject();
+				jao1.put("date", 100);
+				jao1.put("value", 300);
+				ja.put(jao1);
+				
+				JSONObject jao2 = new JSONObject();
+				jao2.put("date", 105);
+				jao2.put("value", 305);
+				ja.put(jao2);
+				
+				JSONObject jao3 = new JSONObject();
+				jao3.put("date", 110);
+				jao3.put("value", 310);
+				ja.put(jao3);
+				
+				JSONObject jao4 = new JSONObject();
+				jao4.put("date", 130);
+				jao4.put("value", 280);
+				ja.put(jao4);
+				
+				JSONObject jao5 = new JSONObject();
+				jao5.put("date", 140);
+				jao5.put("value", 290);
+				ja.put(jao5);
+				
+				JSONObject jao6 = new JSONObject();
+				jao6.put("date", 145);
+				jao6.put("value", 275);
+				ja.put(jao6);
+				
+				jo.put("values", ja);
+			}
+			catch (Exception e) {}
 			return jo;
-		} catch (JSONException e) {
-			Log.d("DataAPI", "performanceGET err: "+e.getMessage());
-			return null;
+		}
+		else {
+			String result = doGET(APIURL+"/api/performance/"+stockID+"/daily");
+			try {
+				JSONObject jo = new JSONObject(result);
+				return jo;
+			} catch (JSONException e) {
+				Log.d("DataAPI", "performanceGET err: "+e.getMessage());
+				return null;
+			}
 		}
 	}
 
@@ -228,13 +365,56 @@ public class DataAPI {
 	 * @return GET result JSONObject
 	 */
 	public JSONObject leaderboardGET() {
-		String result = doGET(APIURL+"/api/leaderboard");
-		try {
-			JSONObject jo = new JSONObject(result);
+		
+		if(DEBUG_MODE) {
+			JSONObject jo = new JSONObject();
+			try {
+				JSONArray ja = new JSONArray();
+				
+				JSONObject jao1 = new JSONObject();
+				jao1.put("name", "Charles Feduke");
+				jao1.put("net", 300);
+				ja.put(jao1);
+				
+				JSONObject jao2 = new JSONObject();
+				jao2.put("name", "Nishant Shukla");
+				jao2.put("value", 9001);
+				ja.put(jao2);
+				
+				JSONObject jao3 = new JSONObject();
+				jao2.put("name", "David Kapp");
+				jao2.put("value", 200);
+				ja.put(jao3);
+				
+				JSONObject jao4 = new JSONObject();
+				jao2.put("name", "Greta N");
+				jao2.put("value", 400);
+				ja.put(jao4);
+				
+				JSONObject jao5 = new JSONObject();
+				jao2.put("name", "Pete Blair");
+				jao2.put("value", 500);
+				ja.put(jao5);
+				
+				JSONObject jao6 = new JSONObject();
+				jao2.put("name", "Phil Conein");
+				jao2.put("value", 600);
+				ja.put(jao6);
+				
+				jo.put("investors", ja);
+			}
+			catch (Exception e) {}
 			return jo;
-		} catch (JSONException e) {
-			Log.d("DataAPI", "leaderboardGET err: "+e.getMessage());
-			return null;
+		}
+		else {
+			String result = doGET(APIURL+"/api/leaderboard");
+			try {
+				JSONObject jo = new JSONObject(result);
+				return jo;
+			} catch (JSONException e) {
+				Log.d("DataAPI", "leaderboardGET err: "+e.getMessage());
+				return null;
+			}
 		}
 	}
 

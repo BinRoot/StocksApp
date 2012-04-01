@@ -64,6 +64,7 @@ public class StockActivity extends Activity {
 		lv.setAdapter(sa);
 		lv.setOnItemClickListener(sa);
 
+		
 		/*
 		 * Fake data
 		 */
