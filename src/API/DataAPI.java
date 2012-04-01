@@ -76,7 +76,7 @@ public class DataAPI {
 			JSONObject jo = new JSONObject();
 			try {
 				jo.put("created_at", "2012-03-25T00:24:45Z");
-				jo.put("credits", 1000);
+				jo.put("credits", 999);
 				jo.put("updated_at", "2012-03-25T00:24:45Z");
 			}
 			catch (Exception e) {};

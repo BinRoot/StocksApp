@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -20,6 +21,7 @@ import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -45,6 +47,9 @@ public class StockActivity extends Activity {
 	String DEBUG = "StockActivity";
 
 	StockListAdapter sa;
+	
+	String facebookName;
+	String facebookID;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -58,17 +63,21 @@ public class StockActivity extends Activity {
 		
 		((Button)findViewById(R.id.button_stock_friends)).setOnClickListener(new LowerTabOnClickListener(BUTTON_FRIENDS));
 	
-		
-		
+		Bundle b = getIntent().getExtras();
+		facebookName = b.getString("firstName");
+		facebookID = b.getString("id");
 	}
 	
 	@Override
 	public void onResume() {
 		super.onResume();
 		
-		// TODO: update credits
+		// updates credits
+		(new UpdateCreditsTask()).execute();
 		
-		// TODO: update stock portfolio list
+		// updates stock portfolio list
+		(new UpdatePortfolioListTask()).execute();
+		
 	}
 	
 	public class LowerTabOnClickListener implements OnClickListener {
@@ -97,6 +106,10 @@ public class StockActivity extends Activity {
 		public StockListAdapter(int mode) {
 			stockList = new ArrayList<Stock>();
 			this.mode = mode;
+		}
+		
+		public void clearList() {
+			stockList.clear();
 		}
 		
 		public int getPos() {
@@ -150,7 +163,7 @@ public class StockActivity extends Activity {
 				v.setBackgroundColor(0xffabbfcb);
 			}
 			else {
-				v.setBackgroundColor(Color.WHITE);
+				v.setBackgroundColor(0x00000000);
 			}
 			
 			((TextView)v.findViewById(R.id.text_stocklist_name)).setText(stockList.get(position).getName());
@@ -165,6 +178,7 @@ public class StockActivity extends Activity {
 				else {
 					((TextView)v.findViewById(R.id.text_stocklist_percent)).setTextColor(0xff307910);
 				}
+				
 			}
 			else if(mode == MODE_ALL) {
 				double percent = stockList.get(position).getPercentChangeAllTime();
@@ -186,7 +200,6 @@ public class StockActivity extends Activity {
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
 			currentPos = pos;
-			
 			
 			Stock stock = stockList.get(pos);
 			((TextView)findViewById(R.id.text_stock_portfolio_name)).setText(stock.getName());
@@ -385,5 +398,52 @@ public class StockActivity extends Activity {
 	
 	public void TradeClicked(View v) {
 		// TODO: go to Trade activity
+	}
+	
+	
+	private class UpdateCreditsTask extends AsyncTask<Void, Void, Integer> {
+		@Override
+		protected Integer doInBackground(Void... params) {
+			JSONObject userGETJSON = DataAPI.getInstance().usersGET(facebookID);
+			int newCredits = -1;
+			try {
+				newCredits = userGETJSON.getInt("credits");
+				//Log.d(DEBUG, "newCredits: "+newCredits);
+			} catch (JSONException e) { }
+			return newCredits;
+		}
+
+		@Override
+		protected void onPostExecute(Integer newCredits) {
+			((TextView)findViewById(R.id.button_stock_money)).setText(newCredits+"");
+		}
+	}
+	
+	private class UpdatePortfolioListTask extends AsyncTask<Void, Void, Void> {
+		@Override
+		protected Void doInBackground(Void... params) {
+			JSONObject portfolioGETJSON = DataAPI.getInstance().portfolioGET(facebookID);
+			try {
+				JSONArray ja = portfolioGETJSON.getJSONArray("stock");
+				sa.clearList();
+				for(int i=0; i<ja.length(); i++) {
+					Stock newStock = new Stock();
+					JSONObject jao = ja.getJSONObject(i);
+					newStock.setName(jao.getString("name"));
+					newStock.setId(jao.getInt("id"));
+					newStock.setCurrentValue(jao.getInt("current_price"));
+					newStock.setOpeningPrice(jao.getInt("opening_price"));
+					newStock.setPurchasePrice(jao.getInt("purchase_price"));
+					sa.addStock(newStock);
+				}
+			} catch (JSONException e) {	}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void newCredits) {
+			sa.notifyDataSetChanged();
+		}
+
 	}
 }

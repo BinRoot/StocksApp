@@ -9,14 +9,17 @@ public class Stock {
 	int currentValue;
 	int id;
 	String name;
-	int totalShares;
-	Date created, updated;
-	String category;
-	int outstandingShares;
+	int openingPrice;
+	int purchasePrice;
+	
 	double percentChangeByLastHour;
 	double percentChangeAllTime;
 	
 	ArrayList<PointF> points = new ArrayList<PointF>();
+	
+	public Stock() {
+		
+	}
 	
 	public Stock(String name, int currentValue,
 			double percentChangeByLastHour,
@@ -55,36 +58,6 @@ public class Stock {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getTotalShares() {
-		return totalShares;
-	}
-	public void setTotalShares(int totalShares) {
-		this.totalShares = totalShares;
-	}
-	public Date getCreated() {
-		return created;
-	}
-	public void setCreated(Date created) {
-		this.created = created;
-	}
-	public Date getUpdated() {
-		return updated;
-	}
-	public void setUpdated(Date updated) {
-		this.updated = updated;
-	}
-	public String getCategory() {
-		return category;
-	}
-	public void setCategory(String category) {
-		this.category = category;
-	}
-	public int getOutstandingShares() {
-		return outstandingShares;
-	}
-	public void setOutstandingShares(int outstandingShares) {
-		this.outstandingShares = outstandingShares;
-	}
 	public double getPercentChangeByLastHour() {
 		return percentChangeByLastHour;
 	}
@@ -98,5 +71,25 @@ public class Stock {
 		this.percentChangeAllTime = percentChangeAllTime;
 	}
 
+	public int getOpeningPrice() {
+		return openingPrice;
+	}
+
+	public void setOpeningPrice(int openingPrice) {
+		this.openingPrice = openingPrice;
+	}
+
+	public int getPurchasePrice() {
+		return purchasePrice;
+	}
+
+	public void setPurchasePrice(int purchasePrice) {
+		this.purchasePrice = purchasePrice;
+	}
+
+	public void setPercentChangeAllTime(double percentChangeAllTime) {
+		this.percentChangeAllTime = percentChangeAllTime;
+	}
+	
 	
 }
