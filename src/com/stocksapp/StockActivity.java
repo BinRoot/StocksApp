@@ -3,8 +3,6 @@ package com.stocksapp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,7 +10,6 @@ import org.json.JSONObject;
 
 import API.DataAPI;
 import API.GraphAPI;
-import API.StockDataAPI;
 import Model.Stock;
 import View.GraphView;
 import android.app.Activity;
@@ -21,9 +18,6 @@ import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,10 +26,13 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.jjoe64.graphview.GraphView.GraphViewData;
+import com.jjoe64.graphview.GraphView.GraphViewSeries;
+import com.jjoe64.graphview.LineGraphView;
 
 public class StockActivity extends Activity {
 
@@ -232,6 +229,40 @@ public class StockActivity extends Activity {
 	public void updateGraph(Stock stock) {
 		LinearLayout ll = (LinearLayout) findViewById(R.id.chart);
 
+		
+		// init example series data  
+		
+		Collections.sort(stock.getPoints(), new Comparator<PointF>() {
+			@Override
+			public int compare(PointF lhs, PointF rhs) {
+				if(lhs.x<rhs.x) return -1;
+				else if(lhs.x>rhs.x) return 1;
+				else return 0;
+			}
+		});
+		
+		GraphViewData[] gViews = new GraphViewData[stock.getPoints().size()];
+		for(int i=0; i<stock.getPoints().size(); i++) {
+			GraphViewData gv = new GraphViewData(stock.getPoints().get(i).x, stock.getPoints().get(i).y);
+			gViews[i] = gv;
+		}
+		
+		GraphViewSeries exampleSeries = new GraphViewSeries(gViews);  
+		
+		com.jjoe64.graphview.GraphView graphView = new LineGraphView(  
+		      this // context  
+		      , "GraphViewDemo" // heading  
+		);  
+		graphView.addSeries(exampleSeries); // data  
+		  
+		// set view port, start=2, size=40  
+		graphView.setViewPort(stock.getPoints().get(stock.getPoints().size()-1).x-24, 24);  
+		graphView.setScrollable(true);  
+		// optional - activate scaling / zooming  
+		graphView.setScalable(true);  
+		
+		
+	/*
 		GraphAPI gAPI = GraphAPI.getInstance();
 		gAPI.setParsedPair(stock.getPoints());
 		float[] values = gAPI.getValues();
@@ -239,7 +270,7 @@ public class StockActivity extends Activity {
 		String[] horlabels = gAPI.getHorLabels();
 	
 		GraphView graphView = new GraphView(StockActivity.this, values, "GraphViewDemo",horlabels, verlabels, GraphView.LINE);
-
+*/
 		ll.removeAllViews();
 		ll.addView(graphView);
 	}
