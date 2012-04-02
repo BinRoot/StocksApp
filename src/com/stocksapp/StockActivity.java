@@ -9,14 +9,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import API.DataAPI;
-import API.GraphAPI;
 import Model.Stock;
-import View.GraphView;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.PointF;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphView.GraphViewData;
 import com.jjoe64.graphview.GraphView.GraphViewSeries;
 import com.jjoe64.graphview.LineGraphView;
@@ -63,17 +63,29 @@ public class StockActivity extends Activity {
 		Bundle b = getIntent().getExtras();
 		facebookName = b.getString("firstName");
 		facebookID = b.getString("id");
+		
+		// must make this Async!
+		(new UpdateUserInDBTask()).execute();
+		
 	}
 	
 	@Override
 	public void onResume() {
 		super.onResume();
 		
-		// updates credits
-		(new UpdateCreditsTask()).execute();
+		// updates credits after waiting 1 second to allow a new user to be created in time
+		Handler mHandler = new Handler();
+		mHandler.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				(new UpdateCreditsTask()).execute();
+			}
+		}, 1000);
+		
 		
 		// updates stock portfolio list
 		(new UpdatePortfolioListTask()).execute();
+		
 		
 	}
 	
@@ -249,7 +261,7 @@ public class StockActivity extends Activity {
 		
 		GraphViewSeries exampleSeries = new GraphViewSeries(gViews);  
 		
-		com.jjoe64.graphview.GraphView graphView = new LineGraphView(  
+		GraphView graphView = new LineGraphView(  
 		      this // context  
 		      , "GraphViewDemo" // heading  
 		);  
@@ -266,46 +278,24 @@ public class StockActivity extends Activity {
 		ll.addView(graphView);
 	}
 
-	private class GetStockGraphTasks extends AsyncTask<Void, Void, Void> {
-
-		public GetStockGraphTasks() {
-
-		}
-
-		protected Void doInBackground(Void... urls) {
-			LinearLayout ll = (LinearLayout) findViewById(R.id.chart);
-
-			float[] values = new float[] { 2.0f,1.5f, 2.5f, 1.0f , 3.0f };
-			String[] verlabels = new String[] { "2", "1", "0" };
-			String[] horlabels = new String[] { "445", "446", "447", "448" };
-			GraphView graphView = new GraphView(StockActivity.this, values, "GraphViewDemo",horlabels, verlabels, GraphView.LINE);
-
-			ll.addView(graphView);
-
-			return null;
-		}
-
-		protected void onProgressUpdate(Void... progress) {
-		}
-
-		protected void onPostExecute(Void result) {
-
-		}
-	}
 
 	public void DayClicked(View v) {
 		
 		findViewById(R.id.button_stock_day).setBackgroundResource(R.drawable.btn_timeday_selected);
-		findViewById(R.id.button_stock_week).setBackgroundResource(R.drawable.btn_timeweek_deselected);
-		findViewById(R.id.button_stock_month).setBackgroundResource(R.drawable.btn_timemonth_deselected);
 		findViewById(R.id.button_stock_year).setBackgroundResource(R.drawable.btn_timeyear_deselected);
 		
 		Log.d("StocksAPI", "days clicked!");
 		sa.setMode(MODE_HOUR);
 		sa.notifyDataSetChanged();
 		
-		Stock curStock = sa.getStockList().get(sa.getPos());
+		Stock curStock = sa.getStockList().get(0);
 		ArrayList<PointF> pList = curStock.getPoints();
+		int curPos = sa.getPos();
+		if(curPos>=0) {
+			curStock = sa.getStockList().get(sa.getPos());
+			pList = curStock.getPoints();
+		}
+		
 		int totalSize = pList.size();
 		int lastFew = totalSize/4;
 		Log.d("StocksAPI", "last few: "+lastFew+"... "+lastFew/4);
@@ -332,17 +322,7 @@ public class StockActivity extends Activity {
 			
 		});
 
-		LinearLayout ll = (LinearLayout) findViewById(R.id.chart);
-		GraphAPI gAPI = GraphAPI.getInstance();
-		gAPI.setParsedPair(newPoints);
-		float[] values = gAPI.getValues();
-		String [] verlabels = gAPI.getVarLabels();
-		String[] horlabels = gAPI.getHorLabels();
 		
-		GraphView graphView = new GraphView(StockActivity.this, values, "GraphViewDemo",horlabels, verlabels, GraphView.LINE);
-
-		ll.removeAllViews();
-		ll.addView(graphView);
 	}
 
 	public void WeekClicked(View v) {
@@ -355,16 +335,21 @@ public class StockActivity extends Activity {
 
 	public void YearClicked(View v) {
 		findViewById(R.id.button_stock_day).setBackgroundResource(R.drawable.btn_timeday_deselected);
-		findViewById(R.id.button_stock_week).setBackgroundResource(R.drawable.btn_timeweek_deselected);
-		findViewById(R.id.button_stock_month).setBackgroundResource(R.drawable.btn_timemonth_deselected);
 		findViewById(R.id.button_stock_year).setBackgroundResource(R.drawable.btn_timeyear_selected);
 		
 		
 		sa.setMode(MODE_ALL);
 		sa.notifyDataSetChanged();
 		
-		Stock curStock = sa.getStockList().get(sa.getPos());
+		Stock curStock = sa.getStockList().get(0);
 		ArrayList<PointF> pList = curStock.getPoints();
+		int curPos = sa.getPos();
+		if(curPos>=0) {
+			curStock = sa.getStockList().get(sa.getPos());
+			pList = curStock.getPoints();
+		}
+		
+		
 		int totalSize = pList.size();
 		int lastFew = totalSize;
 		
@@ -390,17 +375,7 @@ public class StockActivity extends Activity {
 			
 		});
 
-		LinearLayout ll = (LinearLayout) findViewById(R.id.chart);
-		GraphAPI gAPI = GraphAPI.getInstance();
-		gAPI.setParsedPair(newPoints);
-		float[] values = gAPI.getValues();
-		String [] verlabels = gAPI.getVarLabels();
-		String[] horlabels = gAPI.getHorLabels();
 		
-		GraphView graphView = new GraphView(StockActivity.this, values, "GraphViewDemo",horlabels, verlabels, GraphView.LINE);
-
-		ll.removeAllViews();
-		ll.addView(graphView);
 	}
 
 	public void BackClicked(View v) {
@@ -416,14 +391,6 @@ public class StockActivity extends Activity {
 		
 		((TextView)findViewById(R.id.text_stock_worth)).setText("7324");
 		
-		
-		LinearLayout ll = (LinearLayout) findViewById(R.id.chart);
-		float[] values = new float[] { 2.0f,1.5f, 2.5f, 1.0f , 3.0f };
-		String[] verlabels = new String[] { "2", "1", "0" };
-		String[] horlabels = new String[] { "445", "446", "447", "448" };
-		GraphView graphView = new GraphView(StockActivity.this, values, "GraphViewDemo",horlabels, verlabels, GraphView.LINE);
-		ll.removeAllViews();
-		ll.addView(graphView);
 	}
 	
 	public void TradeClicked(View v) {
@@ -500,6 +467,18 @@ public class StockActivity extends Activity {
 		protected void onPostExecute(Stock stock) {
 			updateGraph(stock);
 		}
+	}
 
+	private class UpdateUserInDBTask extends AsyncTask<Void, Void, Void> {
+		@Override
+		protected Void doInBackground(Void... stocks) {
+			DataAPI.getInstance().usersPOST(facebookID, facebookName);
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void v) {
+			
+		}
 	}
 }

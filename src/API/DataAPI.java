@@ -18,8 +18,10 @@ import android.util.Log;
 
 public class DataAPI {
 	private static DataAPI dataAPI;
-	private final String APIURL = "http://mycompanyAPI.com"; 
+	private final String APIURL = "http://api.trend.swithfriends.com"; 
+	final static String APILEVEL = "/1.0";
 	final static String DEBUG = "DataAPI";
+	
 
 	final static boolean DEBUG_MODE = true;
 
@@ -44,16 +46,23 @@ public class DataAPI {
 	 * @return POST result (0 = success), (1 = no content, already exists)
 	 */
 	public int usersPOST(String facebookID, String facebookName) {
-
-		if(DEBUG_MODE) {
+		// TODO: change back to normal after testing
+		if(!DEBUG_MODE) {
 			return 0; // success
 		}
 		else {
-			HashMap<String, String> postMap = new HashMap<String, String>();
-			postMap.put("facebook_id", facebookID);
-			postMap.put("name", facebookName);
+			JSONObject jo = new JSONObject();
+			JSONObject joNest = new JSONObject();
+			try {
+				joNest.put("facebook_id", facebookID);
+				joNest.put("name", facebookName);
+				jo.put("user", joNest);
+			} catch (JSONException e) {	}
+			
+			//postMap.put("facebook_id", facebookID);
+			//postMap.put("name", facebookName);
 
-			String result = doPOST(APIURL+"/api/users", postMap);
+			String result = doPOST(APIURL+"/api"+APILEVEL+"/users", jo);
 			return 0; // TODO: fix this
 		}
 	}
@@ -72,7 +81,7 @@ public class DataAPI {
 	 */
 	public JSONObject usersGET(String facebookID) {
 
-		if(DEBUG_MODE) {
+		if(!DEBUG_MODE) {
 			JSONObject jo = new JSONObject();
 			try {
 				jo.put("created_at", "2012-03-25T00:24:45Z");
@@ -83,7 +92,7 @@ public class DataAPI {
 			return jo;
 		}
 		else {
-			String result = doGET(APIURL+"/api/users/"+facebookID);
+			String result = doGET(APIURL+"/api"+APILEVEL+"/users/"+facebookID);
 			try {
 				JSONObject jo = new JSONObject(result);
 				return jo;
@@ -121,7 +130,7 @@ public class DataAPI {
 				jao1.put("purchase_price", 55);
 				ja.put(jao1);
 				JSONObject jao3 = new JSONObject();
-				jao3.put("name", "Red Sox");
+				jao3.put("name", "LA Lakers Basketball Team");
 				jao3.put("id", 3);
 				jao3.put("opening_price", 200);
 				jao3.put("current_price", 311);
@@ -140,7 +149,7 @@ public class DataAPI {
 			return jo;
 		}
 		else {
-			String result = doGET(APIURL+"/api/portfolio/"+facebookID);
+			String result = doGET(APIURL+"/api"+APILEVEL+"/portfolio/"+facebookID);
 			try {
 				JSONObject jo = new JSONObject(result);
 				return jo;
@@ -183,7 +192,7 @@ public class DataAPI {
 			// test if this properly converts to JSON
 
 			//TODO: turn into JSON?
-			return doPOST(APIURL+"/api/portfolio/"+facebookID+"/sell", postMap);
+			return doPOST(APIURL+"/api"+APILEVEL+"/portfolio/"+facebookID+"/sell", postMap);
 		}
 		
 		
@@ -198,6 +207,7 @@ public class DataAPI {
 	 * HTTP 200 <br>
 	 * Transaction <br>
 	 * id, stock_id, price, shares <br>
+	 *  { "id": 432890432890, "stock_id": 12, "price": 444, "shares": 9 }
 	 * HTTP 404 <br>
 	 * If the stock doesn’t exist <br>
 	 * HTTP 403 <br>
@@ -220,7 +230,7 @@ public class DataAPI {
 			// test if this properly converts to JSON
 
 			//TODO: turn into JSON?
-			return doPOST(APIURL+"/api/market/"+stockID+"/buy", postMap);
+			return doPOST(APIURL+"/api"+APILEVEL+"/market/"+stockID+"/buy", postMap);
 		}
 	}
 
@@ -279,7 +289,7 @@ public class DataAPI {
 			return jo;
 		}
 		else {
-			String result = doGET(APIURL+"/api/market");
+			String result = doGET(APIURL+"/api"+APILEVEL+"/market");
 			try {
 				JSONObject jo = new JSONObject(result);
 				return jo;
@@ -382,7 +392,7 @@ public class DataAPI {
 			return jo;
 		}
 		else {
-			String result = doGET(APIURL+"/api/performance/"+stockID+"/daily");
+			String result = doGET(APIURL+"/api"+APILEVEL+"/performance/"+stockID+"/daily");
 			try {
 				JSONObject jo = new JSONObject(result);
 				return jo;
@@ -443,7 +453,7 @@ public class DataAPI {
 			return jo;
 		}
 		else {
-			String result = doGET(APIURL+"/api/leaderboard");
+			String result = doGET(APIURL+"/api"+APILEVEL+"/leaderboard");
 			try {
 				JSONObject jo = new JSONObject(result);
 				return jo;
@@ -471,6 +481,34 @@ public class DataAPI {
 		}
 		catch (Exception e) {
 			Log.d("DataAPI", "doGET err: "+e.getMessage());
+			return null;
+		}
+	}
+	
+	public static String doPOST(String path, JSONObject holder) {
+		try {
+			Log.d(DEBUG, "in doPOST, path is "+path+", with data "+holder.toString());
+			
+			DefaultHttpClient httpclient = new DefaultHttpClient();
+			HttpPost httpost = new HttpPost(path);
+			
+			//passes the results to a string builder/entity
+			StringEntity se = new StringEntity(holder.toString());
+
+			//sets the post request as the resulting string
+			httpost.setEntity(se);
+			//sets a request header so the page receving the request will know what to do with it
+			httpost.setHeader("Accept", "application/json");
+			httpost.setHeader("Content-type", "application/json");
+
+			//Handles what is returned from the page 
+			ResponseHandler responseHandler = new BasicResponseHandler();
+			String response = httpclient.execute(httpost, responseHandler);
+			Log.d(DEBUG, "success, the response is: "+response);
+			return response;
+		}
+		catch (Exception e) {
+			Log.d("DataAPI", "doPOST err: "+e.getMessage());
 			return null;
 		}
 	}

@@ -2,6 +2,7 @@ package com.stocksapp;
 
 import org.json.JSONObject;
 
+import API.DataAPI;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;

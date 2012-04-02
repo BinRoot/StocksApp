@@ -137,22 +137,6 @@
                     android:onClick="DayClicked" />
 
                 <Button
-                    android:id="@+id/button_stock_week"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/btn_timeweek_deselected"
-                    android:onClick="WeekClicked" />
-
-                <Button
-                    android:id="@+id/button_stock_month"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/btn_timemonth_deselected"
-                    android:onClick="MonthClicked" />
-
-                <Button
                     android:id="@+id/button_stock_year"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -196,7 +180,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="5dip"
         android:orientation="horizontal" >
 
         <Button
