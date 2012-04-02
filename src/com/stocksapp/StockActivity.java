@@ -14,7 +14,6 @@ import Model.Stock;
 import View.GraphView;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,6 +32,7 @@ import android.widget.TextView;
 import com.jjoe64.graphview.GraphView.GraphViewData;
 import com.jjoe64.graphview.GraphView.GraphViewSeries;
 import com.jjoe64.graphview.LineGraphView;
+
 
 public class StockActivity extends Activity {
 
@@ -254,23 +254,14 @@ public class StockActivity extends Activity {
 		      , "GraphViewDemo" // heading  
 		);  
 		graphView.addSeries(exampleSeries); // data  
-		  
-		// set view port, start=2, size=40  
+		   
 		graphView.setViewPort(stock.getPoints().get(stock.getPoints().size()-1).x-24, 24);  
 		graphView.setScrollable(true);  
 		// optional - activate scaling / zooming  
 		graphView.setScalable(true);  
 		
+		// ((LineGraphView) graphView).setDrawBackground(true);
 		
-	/*
-		GraphAPI gAPI = GraphAPI.getInstance();
-		gAPI.setParsedPair(stock.getPoints());
-		float[] values = gAPI.getValues();
-		String [] verlabels = gAPI.getVarLabels();
-		String[] horlabels = gAPI.getHorLabels();
-	
-		GraphView graphView = new GraphView(StockActivity.this, values, "GraphViewDemo",horlabels, verlabels, GraphView.LINE);
-*/
 		ll.removeAllViews();
 		ll.addView(graphView);
 	}
