@@ -6,16 +6,31 @@
     android:orientation="vertical" >
 
     <LinearLayout
+        android:id="@+id/linear_trade_top"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/linear_stock_bottom"
         android:layout_alignParentTop="true"
         android:orientation="vertical" >
 
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="40dip"
+            android:onClick="backClicked"
             android:background="@drawable/header_bg" >
+            
+            <RelativeLayout 
+                android:layout_width="50dip"
+                android:layout_height="fill_parent"
+                android:layout_alignParentLeft="true">
+                <ImageView
+                    android:layout_centerInParent="true" 
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:background="@drawable/button_back"
+	                
+	                android:layout_centerVertical="true"/>
+            </RelativeLayout>
+            
 
             <Button
                 android:id="@+id/button_stock_back"
@@ -29,11 +44,11 @@
                 android:visibility="gone" />
 
             <TextView
-                android:id="@+id/text_stock_portfolio_name"
+                android:id="@+id/text_trade_stock_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="My Portfolio"
+                android:text="StockName"
                 android:textColor="#ffffff"
                 android:textStyle="bold" />
 
@@ -41,11 +56,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_toLeftOf="@+id/button_stock_money"
+                android:layout_toLeftOf="@+id/button_trade_money"
                 android:background="@drawable/icon_currency" />
 
             <TextView
-                android:id="@+id/button_stock_money"
+                android:id="@+id/button_trade_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -55,10 +70,141 @@
                 android:textColor="#ffffff"
                 android:textStyle="bold" />
         </RelativeLayout>
-
-        <RelativeLayout
+    </LinearLayout>
+    
+    <RelativeLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linear_trade_top"
+        android:layout_above="@+id/relative_trade_bottom"
+        android:background="@drawable/bgbox_graph">
+        
+        <RelativeLayout 
+            android:id="@+id/relative_trade_toplabel"
+            android:layout_width="fill_parent"
+            android:layout_height="30dip"
+            android:layout_marginTop="10dip">
+            <TextView 
+                android:id="@+id/text_trade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="#000000"
+                android:textSize="16dip"
+                android:text="Make a Trade"/>
+        </RelativeLayout>
+        
+        
+        <RelativeLayout 
+        	android:id="@+id/relative_trade_buysell"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:layout_below="@id/relative_trade_toplabel"
+        	android:layout_centerHorizontal="true"
+        	android:onClick="buysellClicked">
+            <TextView 
+                android:id="@+id/button_trade_buy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="on"
+                android:background="@drawable/buy_on"/>
+            <TextView 
+                android:id="@+id/button_trade_sell"
+                android:layout_toRightOf="@id/button_trade_buy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="off"
+                android:background="@drawable/sell_off"/>
+        </RelativeLayout>
+        
+        <RelativeLayout 
+            android:id="@+id/relative_trade_shares"
+            android:layout_below="@id/relative_trade_buysell"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:layout_marginLeft="20dip"
+            android:layout_marginRight="20dip">
+            <LinearLayout 
+                android:id="@+id/linear_trade_shares"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView 
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textColor="#32653F"
+                    android:textSize="18dip"
+                    android:text="Shares:"/>
+                <EditText 
+                    android:id="@+id/edit_trade_shares"
+                    android:layout_width="50dip"
+                    android:layout_margin="2dip"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            
+            
+            
+            <LinearLayout 
+                android:layout_below="@id/linear_trade_shares"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView 
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textColor="#32653F"
+                    android:textSize="14dip"
+                    android:text="Total Cost:"/>
+                <TextView 
+                    android:id="@+id/text_trade_credits"
+                    android:layout_width="50dip"
+                    android:layout_margin="2dip"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textSize="18dip"
+                    android:textStyle="bold"
+                    android:text="0"
+                    android:textColor="#32653F"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </RelativeLayout>
+        
+        <RelativeLayout 
+            android:id="@+id/relative_trade_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/relative_trade_shares"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true">
+            
+            <Button 
+                android:id="@+id/button_trade_place"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="tradeClicked"
+                android:background="@drawable/placetrade"/>
+            
+        </RelativeLayout>
+        
+    </RelativeLayout>
+    
+    
+    <RelativeLayout
+        	android:id="@+id/relative_trade_bottom"
             android:layout_width="wrap_content"
             android:layout_height="200dip"
+            android:layout_above="@+id/linear_stock_bottom"
             android:background="@drawable/bgbox_graph" >
 
             <LinearLayout
@@ -87,7 +233,7 @@
                         android:orientation="vertical" >
 
                         <TextView
-                            android:id="@+id/text_stock_worth"
+                            android:id="@+id/text_trade_worth"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -98,7 +244,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/text_stock_percent"
+                            android:id="@+id/text_trade_percent"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -146,42 +292,6 @@
             </LinearLayout>
         </RelativeLayout>
 
-        <RelativeLayout 
-            android:layout_width="fill_parent"
-            android:layout_marginLeft="10dip"
-            android:layout_marginRight="10dip"
-            android:layout_marginTop="10dip"
-            android:layout_height="20dip"
-            >
-            <TextView 
-                android:id="@+id/text_stock_stocks"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:text="My Stocks"
-                android:layout_marginLeft="10dip"
-                android:textColor="#ffffff"/>
-        </RelativeLayout>
-        
-        <ListView
-            android:id="@+id/list_stock_stocks"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bgbox_graph"
-            android:cacheColorHint="#00000000"
-            android:paddingLeft="15dip"
-            android:paddingRight="15dip"
-            android:visibility="visible" >
-        </ListView>
-        
-        <ProgressBar 
-            android:id="@+id/progress_stocklist"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"/>
-        
-    </LinearLayout>
-
     <LinearLayout
         android:id="@+id/linear_stock_bottom"
         android:layout_width="fill_parent"
@@ -194,7 +304,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/tab_myport_selected" />
+            android:background="@drawable/tab_myport_deselected" />
 
         <Button
             android:id="@+id/button_stock_friends"

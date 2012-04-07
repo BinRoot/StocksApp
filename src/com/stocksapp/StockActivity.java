@@ -28,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.facebook.android.Facebook;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphView.GraphViewData;
 import com.jjoe64.graphview.GraphView.GraphViewSeries;
@@ -40,6 +41,7 @@ public class StockActivity extends Activity {
 	final int MODE_ALL = 3;
 	
 	final int BUTTON_FRIENDS = 0;
+	final int BUTTON_DISCOVER = 1;
 	
 	String DEBUG = "StockActivity";
 
@@ -53,18 +55,26 @@ public class StockActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.stockmain);
 		
+		Bundle b = getIntent().getExtras();
+		if(b!=null) {
+			facebookName = b.getString("firstName");
+			facebookID = b.getString("id");
+			((MyApplication) this.getApplication()).facebookName = facebookName;
+			((MyApplication) this.getApplication()).facebookID = facebookID;
+		}
+		else {
+			facebookName = ((MyApplication) this.getApplication()).facebookName;
+			facebookID = ((MyApplication) this.getApplication()).facebookID;
+		}
+		
 		ListView lv = (ListView) findViewById(R.id.list_stock_stocks);
 		sa = new StockListAdapter(MODE_HOUR);
 		lv.setAdapter(sa);
 		lv.setOnItemClickListener(sa);
 		
 		((Button)findViewById(R.id.button_stock_friends)).setOnClickListener(new LowerTabOnClickListener(BUTTON_FRIENDS));
+		((Button)findViewById(R.id.button_stock_discover)).setOnClickListener(new LowerTabOnClickListener(BUTTON_DISCOVER));
 	
-		Bundle b = getIntent().getExtras();
-		facebookName = b.getString("firstName");
-		facebookID = b.getString("id");
-		
-		// must make this Async!
 		(new UpdateUserInDBTask()).execute();
 		
 	}
@@ -75,6 +85,7 @@ public class StockActivity extends Activity {
 		
 		// updates credits after waiting 1 second to allow a new user to be created in time
 		Handler mHandler = new Handler();
+		
 		mHandler.postDelayed(new Runnable() {
 			@Override
 			public void run() {
@@ -82,11 +93,8 @@ public class StockActivity extends Activity {
 			}
 		}, 1000);
 		
-		
 		// updates stock portfolio list
 		(new UpdatePortfolioListTask()).execute();
-		
-		
 	}
 	
 	public class LowerTabOnClickListener implements OnClickListener {
@@ -102,6 +110,12 @@ public class StockActivity extends Activity {
 			if(buttonMode == BUTTON_FRIENDS) {
 				Intent i = new Intent(StockActivity.this, FriendsStockActivity.class);
 				startActivity(i);
+				StockActivity.this.finish();
+			}
+			else if(buttonMode == BUTTON_DISCOVER) {
+				Intent i = new Intent(StockActivity.this, DiscoverActivity.class);
+				startActivity(i);
+				StockActivity.this.finish();
 			}
 		}
 	}
@@ -224,6 +238,7 @@ public class StockActivity extends Activity {
 			
 			((TextView)findViewById(R.id.text_stock_worth)).setText(stock.getCurrentValue()+"");
 
+			
 			(new UpdateGraphTask()).execute(stock);
 			
 			notifyDataSetChanged();
@@ -394,7 +409,9 @@ public class StockActivity extends Activity {
 	}
 	
 	public void TradeClicked(View v) {
-		// TODO: go to Trade activity
+		((MyApplication)StockActivity.this.getApplication()).stock = sa.getItem(sa.currentPos);
+		Intent i = new Intent(StockActivity.this, TradeActivity.class);
+		startActivity(i);
 	}
 	
 	
@@ -413,33 +430,74 @@ public class StockActivity extends Activity {
 		@Override
 		protected void onPostExecute(Integer newCredits) {
 			((TextView)findViewById(R.id.button_stock_money)).setText(newCredits+"");
+			((MyApplication)StockActivity.this.getApplication()).credits = newCredits;
 		}
 	}
 	
 	private class UpdatePortfolioListTask extends AsyncTask<Void, Void, Void> {
+		
+		@Override
+		protected void onPreExecute() {
+			findViewById(R.id.progress_stocklist).setVisibility(View.VISIBLE);
+			findViewById(R.id.list_stock_stocks).setVisibility(View.GONE);
+		}
+		
 		@Override
 		protected Void doInBackground(Void... params) {
 			JSONObject portfolioGETJSON = DataAPI.getInstance().portfolioGET(facebookID);
+			//Log.d(DEBUG, "protfolio GET: "+portfolioGETJSON.toString());
 			try {
-				JSONArray ja = portfolioGETJSON.getJSONArray("stock");
+				JSONArray ja = portfolioGETJSON.getJSONArray("stocks");
+				//Log.d(DEBUG, "protfolio GET, ja: "+ja.toString());
 				sa.clearList();
 				for(int i=0; i<ja.length(); i++) {
 					Stock newStock = new Stock();
 					JSONObject jao = ja.getJSONObject(i);
-					newStock.setName(jao.getString("name"));
-					newStock.setId(jao.getInt("id"));
-					newStock.setCurrentValue(jao.getInt("current_price"));
-					newStock.setOpeningPrice(jao.getInt("opening_price"));
+					
+					//Log.d(DEBUG, "stock: "+jao.toString());
+					
+					
+					int currentVal = jao.getInt("current_value");
+					int openingPrice = jao.getInt("opening_price");
+					int parValue = jao.getInt("par_value");
+					
+					double percentChangeAll = (currentVal - parValue)/parValue;
+					double percentChangeDay = (currentVal - openingPrice)/openingPrice;
+					
+					newStock.setPercentChangeAllTime(percentChangeAll);
+					newStock.setPercentChangeByLastHour(percentChangeDay);
+					
+					newStock.setName(jao.getString("description"));
+					newStock.setId(jao.getInt("stock_id"));
+					newStock.setCurrentValue(currentVal);
+					newStock.setParValue(parValue);
 					newStock.setPurchasePrice(jao.getInt("purchase_price"));
+					newStock.setOpeningPrice(openingPrice); 
+				
 					sa.addStock(newStock);
 				}
-			} catch (JSONException e) {	}
+			} catch (JSONException e) {	
+				Log.d(DEBUG, "portoflio JSON err: "+e.getMessage());
+			}
+			
+			// found this fix on stackoverflow
+			runOnUiThread(new Runnable() {
+			     public void run() {
+			    	 sa.notifyDataSetChanged();
+			    }
+			});
+			
+			
+			
 			return null;
 		}
 
 		@Override
 		protected void onPostExecute(Void newCredits) {
 			sa.notifyDataSetChanged();
+			
+			findViewById(R.id.progress_stocklist).setVisibility(View.GONE);
+			findViewById(R.id.list_stock_stocks).setVisibility(View.VISIBLE);
 		}
 
 	}

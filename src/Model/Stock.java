@@ -11,6 +11,7 @@ public class Stock {
 	String name;
 	int openingPrice;
 	int purchasePrice;
+	int parValue;
 	
 	double percentChangeByLastHour;
 	double percentChangeAllTime;
@@ -38,6 +39,14 @@ public class Stock {
 	
 	public ArrayList<PointF> getPoints() {
 		return points;
+	}
+	
+	public void setParValue(int parValue) {
+		this.parValue = parValue;
+	}
+	
+	public int getParValue() {
+		return parValue;
 	}
 	
 	public int getCurrentValue() {

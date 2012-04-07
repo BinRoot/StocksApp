@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import Model.Person;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -156,8 +157,15 @@ public class FriendsStockActivity extends Activity {
 	}
 	
 	public void portfolioClicked(View v) {
-		this.finish();
+		Intent i = new Intent(FriendsStockActivity.this, StockActivity.class);
+		startActivity(i);
+		FriendsStockActivity.this.finish();
 	}
 	
+	public void discoverClicked(View v) {
+		Intent i = new Intent(FriendsStockActivity.this, DiscoverActivity.class);
+		startActivity(i);
+		FriendsStockActivity.this.finish();
+	}
 	
 }

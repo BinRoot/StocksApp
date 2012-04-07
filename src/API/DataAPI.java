@@ -48,7 +48,7 @@ public class DataAPI {
 	public int usersPOST(String facebookID, String facebookName) {
 		// TODO: change back to normal after testing
 		if(!DEBUG_MODE) {
-			return 0; // success
+			return 0; // success	
 		}
 		else {
 			JSONObject jo = new JSONObject();
@@ -118,7 +118,7 @@ public class DataAPI {
 	 */
 	public JSONObject portfolioGET(String facebookID) {
 
-		if(DEBUG_MODE) {
+		if(!DEBUG_MODE) {
 			JSONObject jo = new JSONObject();
 			try {
 				JSONArray ja = new JSONArray();
@@ -149,7 +149,9 @@ public class DataAPI {
 			return jo;
 		}
 		else {
-			String result = doGET(APIURL+"/api"+APILEVEL+"/portfolio/"+facebookID);
+			Log.d(DEBUG, "trying to do GET Portfolio: "+APIURL+"/api"+APILEVEL+"/portfolio/"+facebookID);
+			String result = doGET(APIURL+"/api"+APILEVEL+"/portfolios/"+facebookID);
+			Log.d(DEBUG, "success, result is: "+result);
 			try {
 				JSONObject jo = new JSONObject(result);
 				return jo;
@@ -180,7 +182,7 @@ public class DataAPI {
 	 * @param quantity
 	 * @return POST result
 	 */
-	public String portfolioPOST(String facebookID, String stockID, int quantity) {
+	public JSONObject portfolioPOST(String facebookID, String stockID, int quantity) {
 
 		if(DEBUG_MODE) {
 			return null; // TODO: fix this
@@ -189,10 +191,15 @@ public class DataAPI {
 			HashMap postMap = new HashMap();
 			postMap.put("id", stockID);
 			postMap.put("quantity", quantity);
-			// test if this properly converts to JSON
 
-			//TODO: turn into JSON?
-			return doPOST(APIURL+"/api"+APILEVEL+"/portfolio/"+facebookID+"/sell", postMap);
+			String result = doPOST(APIURL+"/api"+APILEVEL+"/portfolios/"+facebookID+"/sell", postMap);
+			try {
+				JSONObject jo = new JSONObject(result);
+				return jo;
+			} catch (JSONException e) {
+				Log.d(DEBUG, "portfolio POST: "+e.getMessage());
+				return null;
+			}
 		}
 		
 		
@@ -217,20 +224,43 @@ public class DataAPI {
 	 * @param quantity
 	 * @return POST result
 	 */
-	public String marketPOST(String facebookID, String stockID, int quantity) {
+	public JSONObject marketPOST(String facebookID, int stockID, int quantity) {
 		
-		if(DEBUG_MODE) {
-			return null; //TODO: fix me!
+		if(!DEBUG_MODE) {
+			return null; 
 		}
 		else {
-			HashMap postMap = new HashMap();
-			postMap.put("id", stockID);
-			postMap.put("quantity", quantity);
-			postMap.put("facebookID", facebookID);
-			// test if this properly converts to JSON
-
-			//TODO: turn into JSON?
-			return doPOST(APIURL+"/api"+APILEVEL+"/market/"+stockID+"/buy", postMap);
+			
+			String result = "[default]";
+			
+			try {
+				JSONObject joPOST = new JSONObject();
+				
+				JSONObject joELS = new JSONObject();
+				joELS.put("stock_id", stockID);
+				joELS.put("quantity", quantity);
+				joELS.put("facebook_id", facebookID);
+				
+				joPOST.put("order", joELS);
+				
+				Log.d(DEBUG, "POSTing to "+APIURL+"/api"+APILEVEL+"/market/"+stockID+"/buy");
+				Log.d(DEBUG, "with data "+joPOST.toString());
+				
+				result = doPOST(APIURL+"/api"+APILEVEL+"/market/"+stockID+"/buy", joPOST);
+				
+				Log.d(DEBUG, "success! result: "+result);
+			}
+			catch (Exception e) {
+				Log.d(DEBUG, "json market post err: "+e.getMessage());
+			}
+			
+			try {
+				JSONObject jo = new JSONObject(result);
+				return jo;
+			} catch (JSONException e) {
+				Log.d(DEBUG, "market POST: "+e.getMessage());
+				return null;
+			}
 		}
 	}
 
@@ -244,7 +274,7 @@ public class DataAPI {
 	 */
 	public JSONObject marketGET() {
 		
-		if(DEBUG_MODE) {
+		if(!DEBUG_MODE) {
 			JSONObject jo = new JSONObject();
 			try {
 				JSONArray ja = new JSONArray();
@@ -474,9 +504,13 @@ public class DataAPI {
 	public static String doGET(String path) {
 		try {
 			DefaultHttpClient httpclient = new DefaultHttpClient();
+			
 			HttpGet httpget = new HttpGet(path);
 			ResponseHandler responseHandler = new BasicResponseHandler();
+			httpget.setHeader("Accept", "application/json");
+			httpget.setHeader("Content-type", "application/json");
 			String response = httpclient.execute(httpget, responseHandler);
+
 			return response;
 		}
 		catch (Exception e) {
@@ -484,6 +518,7 @@ public class DataAPI {
 			return null;
 		}
 	}
+
 	
 	public static String doPOST(String path, JSONObject holder) {
 		try {
