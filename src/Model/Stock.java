@@ -13,6 +13,8 @@ public class Stock {
 	int purchasePrice;
 	int parValue;
 	
+	int shareCount = 0;
+	
 	double percentChangeByLastHour;
 	double percentChangeAllTime;
 	
@@ -98,6 +100,14 @@ public class Stock {
 
 	public void setPercentChangeAllTime(double percentChangeAllTime) {
 		this.percentChangeAllTime = percentChangeAllTime;
+	}
+
+	public void setShareCount(int shareCount) {
+		this.shareCount = shareCount;
+	}
+	
+	public int getShareCount() {
+		return shareCount;
 	}
 	
 	

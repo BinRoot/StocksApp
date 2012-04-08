@@ -1,5 +1,6 @@
 package com.stocksapp;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -49,6 +50,8 @@ public class StockActivity extends Activity {
 	
 	String facebookName;
 	String facebookID;
+	
+	DecimalFormat df = new DecimalFormat("#0.0");
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -82,17 +85,7 @@ public class StockActivity extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		
-		// updates credits after waiting 1 second to allow a new user to be created in time
-		Handler mHandler = new Handler();
-		
-		mHandler.postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				(new UpdateCreditsTask()).execute();
-			}
-		}, 1000);
-		
+
 		// updates stock portfolio list
 		(new UpdatePortfolioListTask()).execute();
 	}
@@ -191,9 +184,10 @@ public class StockActivity extends Activity {
 			
 			((TextView)v.findViewById(R.id.text_stocklist_name)).setText(stockList.get(position).getName());
 
+			
 			if(mode == MODE_HOUR) {
 				double percent = stockList.get(position).getPercentChangeByLastHour();
-				((TextView)v.findViewById(R.id.text_stocklist_percent)).setText( percent+" %");
+				((TextView)v.findViewById(R.id.text_stocklist_percent)).setText( df.format(percent)+" %");
 				
 				if(percent < 0.0) {
 					((TextView)v.findViewById(R.id.text_stocklist_percent)).setTextColor(0xffae2a0b);
@@ -205,7 +199,7 @@ public class StockActivity extends Activity {
 			}
 			else if(mode == MODE_ALL) {
 				double percent = stockList.get(position).getPercentChangeAllTime();
-				((TextView)v.findViewById(R.id.text_stocklist_percent)).setText(percent +" %");
+				((TextView)v.findViewById(R.id.text_stocklist_percent)).setText(df.format(percent) +" %");
 				if(percent < 0.0) {
 					((TextView)v.findViewById(R.id.text_stocklist_percent)).setTextColor(0xffae2a0b); //
 				}
@@ -229,11 +223,25 @@ public class StockActivity extends Activity {
 			((Button)findViewById(R.id.button_stock_trade)).setVisibility(View.VISIBLE);
 			((Button)findViewById(R.id.button_stock_back)).setVisibility(View.VISIBLE);
 			
+			// TODO change to red
+			
 			if(sa.getMode()==MODE_HOUR) {
-				((TextView)findViewById(R.id.text_stock_percent)).setText(stock.getPercentChangeByLastHour()+" %");
+				if(stock.getPercentChangeByLastHour()<0.0) {
+					((TextView)findViewById(R.id.text_stock_percent)).setTextColor(0xffae2a0b);
+				}
+				else {
+					((TextView)findViewById(R.id.text_stock_percent)).setTextColor(0xff307910);
+				}
+				((TextView)findViewById(R.id.text_stock_percent)).setText(df.format(stock.getPercentChangeByLastHour())+" %");
 			}
 			else if(sa.getMode()==MODE_ALL) {
-				((TextView)findViewById(R.id.text_stock_percent)).setText(stock.getPercentChangeAllTime()+" %");
+				if(stock.getPercentChangeAllTime()<0.0) {
+					((TextView)findViewById(R.id.text_stock_percent)).setTextColor(0xffae2a0b);
+				}
+				else {
+					((TextView)findViewById(R.id.text_stock_percent)).setTextColor(0xff307910);
+				}
+				((TextView)findViewById(R.id.text_stock_percent)).setText(df.format(stock.getPercentChangeAllTime())+" %");
 			}
 			
 			((TextView)findViewById(R.id.text_stock_worth)).setText(stock.getCurrentValue()+"");
@@ -246,13 +254,7 @@ public class StockActivity extends Activity {
 
 	}
 	
-	/**
-	 * Updates GraphView
-	 * float[] values = new float[] { 2.0f,1.5f, 2.5f, 1.0f , 3.0f };
-	 * String[] verlabels = new String[] { "2", "1", "0" };
-	 * String[] horlabels = new String[] { "445", "446", "447", "448" };
-	 * @param stock
-	 */
+	
 	public void updateGraph(Stock stock) {
 		LinearLayout ll = (LinearLayout) findViewById(R.id.chart);
 
@@ -461,8 +463,8 @@ public class StockActivity extends Activity {
 					int openingPrice = jao.getInt("opening_price");
 					int parValue = jao.getInt("par_value");
 					
-					double percentChangeAll = (currentVal - parValue)/parValue;
-					double percentChangeDay = (currentVal - openingPrice)/openingPrice;
+					double percentChangeAll = ((double)(currentVal - parValue))/((double)parValue);
+					double percentChangeDay = ((double)(currentVal - openingPrice))/((double)openingPrice);
 					
 					newStock.setPercentChangeAllTime(percentChangeAll);
 					newStock.setPercentChangeByLastHour(percentChangeDay);
@@ -473,7 +475,8 @@ public class StockActivity extends Activity {
 					newStock.setParValue(parValue);
 					newStock.setPurchasePrice(jao.getInt("purchase_price"));
 					newStock.setOpeningPrice(openingPrice); 
-				
+					newStock.setShareCount(jao.getInt("share_count"));
+					
 					sa.addStock(newStock);
 				}
 			} catch (JSONException e) {	
@@ -528,6 +531,13 @@ public class StockActivity extends Activity {
 	}
 
 	private class UpdateUserInDBTask extends AsyncTask<Void, Void, Void> {
+		
+		@Override
+		protected void onPreExecute() {
+			int cr = ((MyApplication)StockActivity.this.getApplication()).credits;
+			((TextView)findViewById(R.id.button_stock_money)).setText(cr+""); 
+		}
+		
 		@Override
 		protected Void doInBackground(Void... stocks) {
 			DataAPI.getInstance().usersPOST(facebookID, facebookName);
@@ -536,7 +546,14 @@ public class StockActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(Void v) {
+			Handler mHandler = new Handler();
 			
+			mHandler.post(new Runnable() {
+				@Override
+				public void run() {
+					(new UpdateCreditsTask()).execute();
+				}
+			});
 		}
 	}
 }

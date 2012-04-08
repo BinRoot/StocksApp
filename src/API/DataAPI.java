@@ -182,21 +182,37 @@ public class DataAPI {
 	 * @param quantity
 	 * @return POST result
 	 */
-	public JSONObject portfolioPOST(String facebookID, String stockID, int quantity) {
+	public JSONObject portfolioPOST(String facebookID, int stockID, int quantity) {
 
-		if(DEBUG_MODE) {
-			return null; // TODO: fix this
+		if(!DEBUG_MODE) {
+			return null; 
 		}
 		else {
-			HashMap postMap = new HashMap();
-			postMap.put("id", stockID);
-			postMap.put("quantity", quantity);
 
-			String result = doPOST(APIURL+"/api"+APILEVEL+"/portfolios/"+facebookID+"/sell", postMap);
+			String result = "[default]";
+			
+			try {
+				JSONObject joPOST = new JSONObject();
+				
+				JSONObject joELS = new JSONObject();
+				joELS.put("stock_id", stockID);
+				joELS.put("quantity", quantity);
+				
+				joPOST.put("order", joELS);
+				
+				result = doPOST(APIURL+"/api"+APILEVEL+"/portfolios/"+facebookID+"/sell", joPOST);
+				
+				Log.d(DEBUG, "success! result: "+result);
+			}
+			catch (Exception e) {
+				Log.d(DEBUG, "json market post err: "+e.getMessage());
+			}
+			
+			
 			try {
 				JSONObject jo = new JSONObject(result);
 				return jo;
-			} catch (JSONException e) {
+			} catch (Exception e) {
 				Log.d(DEBUG, "portfolio POST: "+e.getMessage());
 				return null;
 			}
@@ -248,7 +264,7 @@ public class DataAPI {
 				
 				result = doPOST(APIURL+"/api"+APILEVEL+"/market/"+stockID+"/buy", joPOST);
 				
-				Log.d(DEBUG, "success! result: "+result);
+				Log.d(DEBUG, "success! market result: "+result);
 			}
 			catch (Exception e) {
 				Log.d(DEBUG, "json market post err: "+e.getMessage());
@@ -257,7 +273,7 @@ public class DataAPI {
 			try {
 				JSONObject jo = new JSONObject(result);
 				return jo;
-			} catch (JSONException e) {
+			} catch (Exception e) {
 				Log.d(DEBUG, "market POST: "+e.getMessage());
 				return null;
 			}
