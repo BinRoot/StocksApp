@@ -25,11 +25,12 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.facebook.android.Facebook;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphView.GraphViewData;
 import com.jjoe64.graphview.GraphView.GraphViewSeries;
@@ -122,6 +123,18 @@ public class StockActivity extends Activity {
 		public StockListAdapter(int mode) {
 			stockList = new ArrayList<Stock>();
 			this.mode = mode;
+		}
+		
+		@Override
+		public void notifyDataSetChanged() {
+			super.notifyDataSetChanged();
+			
+			if(stockList.isEmpty()) {
+				displayHelp();
+			}
+			else {
+				hideHelp();
+			}
 		}
 		
 		public void clearList() {
@@ -421,6 +434,11 @@ public class StockActivity extends Activity {
 		@Override
 		protected Integer doInBackground(Void... params) {
 			JSONObject userGETJSON = DataAPI.getInstance().usersGET(facebookID);
+			
+			if(userGETJSON == null) {
+				return null;
+			}
+			
 			int newCredits = -1;
 			try {
 				newCredits = userGETJSON.getInt("credits");
@@ -431,8 +449,13 @@ public class StockActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(Integer newCredits) {
-			((TextView)findViewById(R.id.button_stock_money)).setText(newCredits+"");
-			((MyApplication)StockActivity.this.getApplication()).credits = newCredits;
+			if(newCredits!=null) {
+				((TextView)findViewById(R.id.button_stock_money)).setText(newCredits+"");
+				((MyApplication)StockActivity.this.getApplication()).credits = newCredits;
+			}
+			else {
+				Toast.makeText(StockActivity.this, StockActivity.this.getString(R.string.connection_problem), Toast.LENGTH_LONG).show();
+			}
 		}
 	}
 	
@@ -479,7 +502,7 @@ public class StockActivity extends Activity {
 					
 					sa.addStock(newStock);
 				}
-			} catch (JSONException e) {	
+			} catch (Exception e) {	
 				Log.d(DEBUG, "portoflio JSON err: "+e.getMessage());
 			}
 			
@@ -555,5 +578,12 @@ public class StockActivity extends Activity {
 				}
 			});
 		}
+	}
+	
+	public void displayHelp() {
+		((ImageView)findViewById(R.id.image_stock_help)).setVisibility(View.VISIBLE);
+	}
+	public void hideHelp() {
+		((ImageView)findViewById(R.id.image_stock_help)).setVisibility(View.GONE);
 	}
 }

@@ -96,7 +96,7 @@ public class DataAPI {
 			try {
 				JSONObject jo = new JSONObject(result);
 				return jo;
-			} catch (JSONException e) {
+			} catch (Exception e) {
 				Log.d("DataAPI", "usersGET err: "+e.getMessage());
 				return null;
 			}
@@ -155,7 +155,7 @@ public class DataAPI {
 			try {
 				JSONObject jo = new JSONObject(result);
 				return jo;
-			} catch (JSONException e) {
+			} catch (Exception e) {
 				Log.d("DataAPI", "portfolioGET err: "+e.getMessage());
 				return null;
 			}
@@ -339,7 +339,7 @@ public class DataAPI {
 			try {
 				JSONObject jo = new JSONObject(result);
 				return jo;
-			} catch (JSONException e) {
+			} catch (Exception e) {
 				Log.d("DataAPI", "marketGET err: "+e.getMessage());
 				return null;
 			}
@@ -465,32 +465,32 @@ public class DataAPI {
 				
 				JSONObject jao1 = new JSONObject();
 				jao1.put("name", "Charles Feduke");
-				jao1.put("net", 300);
+				jao1.put("net", 301);
 				ja.put(jao1);
 				
 				JSONObject jao2 = new JSONObject();
 				jao2.put("name", "Nishant Shukla");
-				jao2.put("value", 9001);
+				jao2.put("net", 9001);
 				ja.put(jao2);
 				
 				JSONObject jao3 = new JSONObject();
-				jao2.put("name", "David Kapp");
-				jao2.put("value", 200);
+				jao3.put("name", "David Kapp");
+				jao3.put("net", 200);
 				ja.put(jao3);
 				
 				JSONObject jao4 = new JSONObject();
-				jao2.put("name", "Greta N");
-				jao2.put("value", 400);
+				jao4.put("name", "Greta N");
+				jao4.put("net", 400);
 				ja.put(jao4);
 				
 				JSONObject jao5 = new JSONObject();
-				jao2.put("name", "Pete Blair");
-				jao2.put("value", 500);
+				jao5.put("name", "Pete Blair");
+				jao5.put("net", 500);
 				ja.put(jao5);
 				
 				JSONObject jao6 = new JSONObject();
-				jao2.put("name", "Phil Conein");
-				jao2.put("value", 600);
+				jao6.put("name", "Phil Conein");
+				jao6.put("net", 600);
 				ja.put(jao6);
 				
 				jo.put("investors", ja);

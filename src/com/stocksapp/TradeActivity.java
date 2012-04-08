@@ -227,6 +227,11 @@ public class TradeActivity extends Activity {
 		protected Integer doInBackground(Void... params) {
 			String facebookID = ((MyApplication)TradeActivity.this.getApplication()).facebookID;
 			JSONObject userGETJSON = DataAPI.getInstance().usersGET(facebookID);
+			
+			if(userGETJSON==null) {
+				return null;
+			}
+			
 			int newCredits = -1;
 			try {
 				newCredits = userGETJSON.getInt("credits");
@@ -236,11 +241,15 @@ public class TradeActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(Integer newCredits) {
-			((TextView)TradeActivity.this.findViewById(R.id.button_trade_money)).setText(newCredits+"");
-			((MyApplication)TradeActivity.this.getApplication()).credits = newCredits;
+			if(newCredits != null) {
+				((TextView)TradeActivity.this.findViewById(R.id.button_trade_money)).setText(newCredits+"");
+				((MyApplication)TradeActivity.this.getApplication()).credits = newCredits;
 
-			(new UpdatePortfolioListTask()).execute();
-			
+				(new UpdatePortfolioListTask()).execute();
+			}
+			else {
+				Toast.makeText(TradeActivity.this, TradeActivity.this.getString(R.string.connection_problem), Toast.LENGTH_LONG).show();
+			}
 			cleanUp();
 		}
 	}
@@ -378,7 +387,12 @@ public class TradeActivity extends Activity {
 				}
 				
 				if(!found) {
-					((TextView) findViewById(R.id.text_trade_shares)).setText(0+"");
+					runOnUiThread(new Runnable() {
+					     public void run() {
+					    	 ((TextView) findViewById(R.id.text_trade_shares)).setText(0+"");
+					    }
+					});
+					
 				}
 				
 			} catch (JSONException e) {	

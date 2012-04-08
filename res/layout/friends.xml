@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:onClick="myActivityClicked"
-                android:background="@drawable/tab_friendactivity_selected" />
+                android:background="@drawable/tab_friendactivity_deselected" />
 
             <Button
                 android:id="@+id/button_friends_my"
@@ -63,14 +63,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:onClick="myFriendsClicked"
-                android:background="@drawable/tab_myfriends_deselected" />
+                android:background="@drawable/tab_myfriends_selected" />
         </LinearLayout>
 
         <LinearLayout 
             android:id="@+id/linear_friends_textheader"
             android:layout_below="@id/relative_friends_tab"
             android:layout_width="fill_parent"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_height="30dip">
             <TextView 
                 android:layout_width="wrap_content"
@@ -100,7 +100,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/relative_friends_tab"
             android:layout_above="@+id/linear_friends_bottom"
-            android:visibility="visible" >
+            android:visibility="gone" >
         </ListView>
         
         <ListView
@@ -113,7 +113,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/linear_friends_textheader"
             android:layout_above="@+id/linear_friends_bottom"
-            android:visibility="gone" >
+            android:visibility="visible" >
         </ListView>
         
     </RelativeLayout>

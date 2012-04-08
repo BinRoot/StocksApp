@@ -1,20 +1,35 @@
 package com.stocksapp;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import API.DataAPI;
 import Model.Person;
+import Model.Stock;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.PointF;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.android.Facebook;
 
 public class FriendsStockActivity extends Activity {
+	
+	final String DEBUG = "FriendsStockActivity";
+	FriendsMyAdapter fMyAdapter;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -34,16 +49,21 @@ public class FriendsStockActivity extends Activity {
 		
 		
 		ListView friendsMyList = (ListView) findViewById(R.id.list_friends_my);
-		FriendsMyAdapter fMyAdapter = new FriendsMyAdapter();
+		fMyAdapter = new FriendsMyAdapter();
+		
+		/*
 		fMyAdapter.addMyFriendList("Joe", 123);
 		fMyAdapter.addMyFriendList("Bob", 73);
 		fMyAdapter.addMyFriendList("Nick", 93);
 		fMyAdapter.addMyFriendList("Carly", 104);
 		fMyAdapter.addMyFriendList("Lewis", 168);
-		fMyAdapter.notifyDataSetChanged();
+		fMyAdapter.notifyDataSetChanged();*/
 		
 		friendsMyList.setAdapter(fMyAdapter);
 		
+		
+		(new UpdateFriendsTask()).execute();
+
 	}
 	
 	public class FriendsActivityAdapter extends BaseAdapter {
@@ -57,7 +77,7 @@ public class FriendsStockActivity extends Activity {
 		public void addActivityList(String s) {
 			activityList.add(s);
 		}
-		
+
 		@Override
 		public int getCount() {
 			return activityList.size();
@@ -99,6 +119,26 @@ public class FriendsStockActivity extends Activity {
 		
 		public void addMyFriendList(String s, int points) {
 			myFriendsList.add(new Person(s, points));
+		}
+		
+		@Override
+		public void notifyDataSetChanged() {
+			
+			Collections.sort(myFriendsList, new Comparator<Person>() {
+
+				@Override
+				public int compare(Person lhs, Person rhs) {
+					if(lhs.getPoints()<rhs.getPoints()) {
+						return 1;
+					}
+					else if(lhs.getPoints()>rhs.getPoints()) {
+						return -1;
+					}
+					return 0;
+				}
+			});
+			
+			super.notifyDataSetChanged();
 		}
 		
 		@Override
@@ -147,6 +187,7 @@ public class FriendsStockActivity extends Activity {
 	}
 	
 	public void myActivityClicked(View v) {
+		/*
 		(findViewById(R.id.list_friends_activity)).setVisibility(View.VISIBLE);
 		(findViewById(R.id.list_friends_my)).setVisibility(View.GONE);
 		(findViewById(R.id.linear_friends_textheader)).setVisibility(View.GONE);
@@ -154,6 +195,10 @@ public class FriendsStockActivity extends Activity {
 		
 		(findViewById(R.id.button_friends_activity)).setBackgroundResource(R.drawable.tab_friendactivity_selected);
 		(findViewById(R.id.button_friends_my)).setBackgroundResource(R.drawable.tab_myfriends_deselected);
+		*/
+		Toast.makeText(FriendsStockActivity.this, "Feature not yet implemented", Toast.LENGTH_SHORT).show();
+		
+		
 	}
 	
 	public void portfolioClicked(View v) {
@@ -166,6 +211,42 @@ public class FriendsStockActivity extends Activity {
 		Intent i = new Intent(FriendsStockActivity.this, DiscoverActivity.class);
 		startActivity(i);
 		FriendsStockActivity.this.finish();
+	}
+	
+	
+	private class UpdateFriendsTask extends AsyncTask<Void, Void, Void> {
+		
+		@Override
+		protected Void doInBackground(Void... v) {
+			
+			Log.d(DEBUG, "doing in background...");
+			
+			JSONObject jo = DataAPI.getInstance().leaderboardGET();
+			
+			Log.d(DEBUG, "jo: "+jo.toString());
+			
+			try {
+				JSONArray ja = jo.getJSONArray("investors");
+				Log.d(DEBUG, "ja: "+ja.toString());
+				for(int i=0; i<ja.length(); i++) {
+					JSONObject jao = ja.getJSONObject(i);
+					String name = jao.getString("name");
+					int net = jao.getInt("net");
+					fMyAdapter.addMyFriendList(name, net);
+				}
+				
+			} catch (JSONException e) {
+				Log.d(DEBUG, "leaderboard json err: "+e.getMessage());
+			}
+			
+			
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void v) {
+			fMyAdapter.notifyDataSetChanged();
+		}
 	}
 	
 }

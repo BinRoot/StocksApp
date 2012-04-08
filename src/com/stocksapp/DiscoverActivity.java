@@ -19,6 +19,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class DiscoverActivity extends Activity {
 	
@@ -88,10 +89,15 @@ public class DiscoverActivity extends Activity {
 	}
 	
 	
-	private class UpdateDiscoverListTask extends AsyncTask<Void, Void, Void> {
+	private class UpdateDiscoverListTask extends AsyncTask<Void, Void, Boolean> {
 		@Override
-		protected Void doInBackground(Void... stocks) {
+		protected Boolean doInBackground(Void... stocks) {
 			JSONObject jo = DataAPI.getInstance().marketGET();
+			
+			if(jo==null) {
+				return false;
+			}
+			
 			try {
 				JSONArray ja = jo.getJSONArray("stocks");
 				for(int i=0; i<ja.length(); i++) {
@@ -116,12 +122,18 @@ public class DiscoverActivity extends Activity {
 			}
 			
 			
-			return null;
+			return true;
 		}
 
 		@Override
-		protected void onPostExecute(Void v) {
-			da.notifyDataSetChanged();
+		protected void onPostExecute(Boolean b) {
+			if(b==true) {
+				da.notifyDataSetChanged();
+			}
+			else {
+				Toast.makeText(DiscoverActivity.this, DiscoverActivity.this.getString(R.string.connection_problem), Toast.LENGTH_LONG).show();
+			}
+			
 		}
 	}
 	

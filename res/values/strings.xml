@@ -3,5 +3,6 @@
 
     <string name="hello">Hello World, StocksAppActivity!</string>
     <string name="app_name">Trends with Friends</string>
+    <string name="connection_problem">Connection Problem!</string>
 
 </resources>
