@@ -10,10 +10,8 @@ import org.json.JSONObject;
 
 import API.DataAPI;
 import Model.Person;
-import Model.Stock;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.PointF;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,10 +19,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.facebook.android.Facebook;
 
 public class FriendsStockActivity extends Activity {
 	
@@ -121,6 +118,10 @@ public class FriendsStockActivity extends Activity {
 			myFriendsList.add(new Person(s, points));
 		}
 		
+		public void addMyFriendList(Person p) {
+			myFriendsList.add(p);
+		}
+		
 		@Override
 		public void notifyDataSetChanged() {
 			
@@ -128,10 +129,10 @@ public class FriendsStockActivity extends Activity {
 
 				@Override
 				public int compare(Person lhs, Person rhs) {
-					if(lhs.getPoints()<rhs.getPoints()) {
+					if(lhs.getNetWorth()<rhs.getNetWorth()) {
 						return 1;
 					}
-					else if(lhs.getPoints()>rhs.getPoints()) {
+					else if(lhs.getNetWorth()>rhs.getNetWorth()) {
 						return -1;
 					}
 					return 0;
@@ -165,7 +166,7 @@ public class FriendsStockActivity extends Activity {
 			}
 			
 			((TextView)v.findViewById(R.id.text_friendsmylist)).setText(myFriendsList.get(position).getName());
-			((TextView)v.findViewById(R.id.text_friendspoints)).setText(myFriendsList.get(position).getPoints()+"");
+			((TextView)v.findViewById(R.id.text_friendspoints)).setText(myFriendsList.get(position).getNetWorth()+"");
 
 			
 			return v;
@@ -217,6 +218,11 @@ public class FriendsStockActivity extends Activity {
 	private class UpdateFriendsTask extends AsyncTask<Void, Void, Void> {
 		
 		@Override
+		protected void onPreExecute() {
+			((ProgressBar)findViewById(R.id.progress_friends)).setVisibility(View.VISIBLE);
+		}
+		
+		@Override
 		protected Void doInBackground(Void... v) {
 			
 			Log.d(DEBUG, "doing in background...");
@@ -226,13 +232,18 @@ public class FriendsStockActivity extends Activity {
 			Log.d(DEBUG, "jo: "+jo.toString());
 			
 			try {
-				JSONArray ja = jo.getJSONArray("investors");
+				JSONArray ja = jo.getJSONArray("players");
 				Log.d(DEBUG, "ja: "+ja.toString());
 				for(int i=0; i<ja.length(); i++) {
 					JSONObject jao = ja.getJSONObject(i);
 					String name = jao.getString("name");
-					int net = jao.getInt("net");
-					fMyAdapter.addMyFriendList(name, net);
+					int net = jao.getInt("total_value");
+					int credits = jao.getInt("credits");
+
+					Person p = new Person(name, net);
+					p.setCredits(credits);
+					
+					fMyAdapter.addMyFriendList(p);
 				}
 				
 			} catch (JSONException e) {
@@ -246,6 +257,7 @@ public class FriendsStockActivity extends Activity {
 		@Override
 		protected void onPostExecute(Void v) {
 			fMyAdapter.notifyDataSetChanged();
+			((ProgressBar)findViewById(R.id.progress_friends)).setVisibility(View.GONE);
 		}
 	}
 	

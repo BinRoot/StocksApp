@@ -88,10 +88,11 @@
                 android:id="@+id/text_trade"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
                 android:text="Make a Trade"
+                android:layout_centerInParent="true"
+                android:textStyle="bold"
                 android:textColor="#000000"
-                android:textSize="16dip" />
+                android:textSize="18dip" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -207,11 +208,24 @@
         android:layout_height="200dip"
         android:layout_above="@+id/linear_stock_bottom"
         android:background="@drawable/bgbox_graph" >
+        
+       <TextView
+         android:id="@+id/text_trade_time"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="( Market updates in 30s )"
+         android:layout_alignParentTop="true"
+         android:layout_centerHorizontal="true"
+         android:layout_marginTop="5dip"
+         android:textColor="#000000"
+         android:textSize="12dip" />
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
+            
+             
 
             <LinearLayout
                 android:id="@+id/chart_trade"

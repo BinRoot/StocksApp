@@ -4,6 +4,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,6 +52,10 @@ public class TradeActivity extends Activity {
 	EditText et;
 	DecimalFormat df = new DecimalFormat("#0.0");
 	
+	int secondsLeft = 30;
+
+	Timer t;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -59,8 +65,36 @@ public class TradeActivity extends Activity {
 		et = (EditText) findViewById(R.id.edit_trade_shares);
 		TextWatcher stw = new ShareTextWatcher();
 		et.addTextChangedListener(stw);
+
+	}
+	
+	public class StockTimerTask extends TimerTask {
+		final DecimalFormat df2 = new DecimalFormat("00");
+		@Override
+		public void run() {
+			if(secondsLeft<=0) {
+				secondsLeft=30;
+			}
+			else if(secondsLeft<=1) {
+				refreshMarket();
+			}
+			
+			
+			runOnUiThread(new Runnable() {
+			     public void run() {
+			    	 ((TextView)findViewById(R.id.text_trade_time)).setText("( Market updates in "+df2.format(secondsLeft)+"s )");
+			    }
+			});
+			
+			secondsLeft--;
+		}
 		
-		
+	}
+	
+	public void refreshMarket() {
+		Log.d(DEBUG, "refreshing market...");
+		(new UpdateGraphTask()).execute(stock);
+		(new UpdatePortfolioListTask()).execute();
 	}
 	
 	public class ShareTextWatcher implements TextWatcher {
@@ -113,7 +147,19 @@ public class TradeActivity extends Activity {
 		(new UpdateGraphTask()).execute(stock);
 		
 		(new UpdateCreditsTask()).execute();
+		
+		StockTimerTask sTimer = new StockTimerTask();
+		t = new Timer();
+		t.schedule(sTimer, 1000, 1000);
 	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		t.cancel();
+	}
+	
+	
 	
 	public void buysellClicked(View v) {
 		Log.d(DEBUG, "clicked");
@@ -327,7 +373,7 @@ public class TradeActivity extends Activity {
 		
 		GraphView graphView = new LineGraphView(  
 		      this // context  
-		      , "GraphViewDemo" // heading  
+		      , "" // heading  
 		);  
 		graphView.addSeries(exampleSeries); // data  
 		   
@@ -396,7 +442,7 @@ public class TradeActivity extends Activity {
 				}
 				
 			} catch (JSONException e) {	
-				Log.d(DEBUG, "portoflio JSON err: "+e.getMessage());
+				Log.d(DEBUG, "portfolio JSON err: "+e.getMessage());
 			}
 
 			return null;

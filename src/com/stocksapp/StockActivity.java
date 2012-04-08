@@ -234,7 +234,7 @@ public class StockActivity extends Activity {
 			Stock stock = stockList.get(pos);
 			((TextView)findViewById(R.id.text_stock_portfolio_name)).setText(stock.getName());
 			((Button)findViewById(R.id.button_stock_trade)).setVisibility(View.VISIBLE);
-			((Button)findViewById(R.id.button_stock_back)).setVisibility(View.VISIBLE);
+			((ImageView)findViewById(R.id.button_stock_back)).setVisibility(View.VISIBLE);
 			
 			// TODO change to red
 			
@@ -415,11 +415,11 @@ public class StockActivity extends Activity {
 
 		((TextView)findViewById(R.id.text_stock_portfolio_name)).setText("My Portfolio");
 		((Button)findViewById(R.id.button_stock_trade)).setVisibility(View.GONE);
-		((Button)findViewById(R.id.button_stock_back)).setVisibility(View.GONE);
+		((ImageView)findViewById(R.id.button_stock_back)).setVisibility(View.GONE);
 		
-		((TextView)findViewById(R.id.text_stock_percent)).setText("+ 4.3%");
+		((TextView)findViewById(R.id.text_stock_percent)).setText("");
+		((TextView)findViewById(R.id.text_stock_worth)).setText("");
 		
-		((TextView)findViewById(R.id.text_stock_worth)).setText("7324");
 		
 	}
 	

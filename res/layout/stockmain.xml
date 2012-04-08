@@ -17,16 +17,20 @@
             android:layout_height="40dip"
             android:background="@drawable/header_bg" >
 
-            <Button
-                android:id="@+id/button_stock_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <RelativeLayout 
+                android:layout_width="50dip"
+                android:layout_height="fill_parent"
                 android:layout_alignParentLeft="true"
-                android:layout_centerInParent="true"
-                android:layout_marginLeft="10dip"
-                android:onClick="BackClicked"
-                android:background="@drawable/button_back"
-                android:visibility="gone" />
+                android:onClick="BackClicked">
+                <ImageView
+	                android:id="@+id/button_stock_back"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_centerInParent="true"
+	                android:background="@drawable/button_back"
+	                android:visibility="gone" />
+            </RelativeLayout>
+            
 
             <TextView
                 android:id="@+id/text_stock_portfolio_name"
@@ -92,7 +96,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="7324"
+                            android:text=""
                             android:textColor="#df7c08"
                             android:textSize="30dip"
                             android:textStyle="bold" />
@@ -103,7 +107,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="+ 4.3%"
+                            android:text=""
                             android:textColor="#3e8e12"
                             android:textSize="18dip" />
 

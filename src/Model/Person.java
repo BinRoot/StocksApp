@@ -2,11 +2,12 @@ package Model;
 
 public class Person {
 	String name;
-	int points;
+	int networth;
+	int credits;
 	
-	public Person(String name, int points) {
+	public Person(String name, int networth) {
 		this.name = name;
-		this.points = points;
+		this.networth = networth;
 	}
 	
 	public String getName() {
@@ -15,11 +16,18 @@ public class Person {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getPoints() {
-		return points;
+	public int getNetWorth() {
+		return networth;
 	}
-	public void setPoints(int points) {
-		this.points = points;
+	public void setNetWorth(int networth) {
+		this.networth = networth;
+	}
+	
+	public void setCredits(int credits) {
+		this.credits = credits;
+	}
+	public int getCredits() {
+		return credits;
 	}
 	
 	

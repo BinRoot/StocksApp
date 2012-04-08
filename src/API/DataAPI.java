@@ -453,12 +453,12 @@ public class DataAPI {
 	 * <b>GET</b> /api/leaderboard <br>
 	 * <b>Client</b>: wants the leaderboard <br>
 	 * <b>Server</b>: this returns all the users and their net worth <br>
-	 * { “investors”: [ { “name”:”Charles Feduke”, “net”:3200 }, … ] }
+	 * {"players":[{"name":"Nishant","credits":182345,"portfolio_value":968535,"total_value":1150880},{"name":"Taylor","credits":370,"portfolio_value":610,"total_value":980}]}
 	 * @return GET result JSONObject
 	 */
 	public JSONObject leaderboardGET() {
 		
-		if(DEBUG_MODE) {
+		if(!DEBUG_MODE) {
 			JSONObject jo = new JSONObject();
 			try {
 				JSONArray ja = new JSONArray();
@@ -499,7 +499,7 @@ public class DataAPI {
 			return jo;
 		}
 		else {
-			String result = doGET(APIURL+"/api"+APILEVEL+"/leaderboard");
+			String result = doGET(APIURL+"/api"+APILEVEL+"/performance/leaderboard");
 			try {
 				JSONObject jo = new JSONObject(result);
 				return jo;
