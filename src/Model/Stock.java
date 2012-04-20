@@ -39,6 +39,10 @@ public class Stock {
 		this.points = points;
 	}
 	
+	public void resetPoints() {
+		points = new ArrayList<PointF>();
+	}
+	
 	public ArrayList<PointF> getPoints() {
 		return points;
 	}

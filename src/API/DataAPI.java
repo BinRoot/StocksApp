@@ -353,6 +353,7 @@ public class DataAPI {
 	 * HTTP 200 <br>
 	 * Array with 0..24 values with hourly averages for the stock <br>
 	 * { “graph”:”daily”, “values”:[ { “date”, epoch_millis_since_epoch, “value”: 4400 }, …]} <br>
+	 * {"type":"stock","time_unit":"hourly","performance":[{"t":1334199600,"v":92},{"t":1334203200,"v":100},{"t":1334206800,"v":111}]} <br>
 	 * HTTP 404 <br>
 	 * Stock doesn’t exist <br>
 	 * @param stockID
@@ -360,7 +361,7 @@ public class DataAPI {
 	 */
 	public JSONObject performanceGET(int stockID) {
 		
-		if(DEBUG_MODE) {
+		if(!DEBUG_MODE) {
 			JSONObject jo = new JSONObject();
 			try {
 				if(stockID==1) {
@@ -438,12 +439,113 @@ public class DataAPI {
 			return jo;
 		}
 		else {
-			String result = doGET(APIURL+"/api"+APILEVEL+"/performance/"+stockID+"/daily");
+			String result = doGET(APIURL+"/api"+APILEVEL+"/performance/stocks/"+stockID+"/hourly");
 			try {
 				JSONObject jo = new JSONObject(result);
+				//Log.d("DataAPI", "performanceGET success: "+jo.toString());
 				return jo;
 			} catch (JSONException e) {
 				Log.d("DataAPI", "performanceGET err: "+e.getMessage());
+				return null;
+			}
+		}
+	}
+	
+	/**
+	 * GET /api/performance/stocks/:stock_id/detail <br>
+	 * {"type":"stock","time_unit":"detail","performance":[{"t":1334815497,"v":100},{"t":1334815499,"v":94},{"t":1334815501,"v":101},{"t":1334815503,"v":103},{"t":1334815505,"v":108},{"t":1334815507,"v":108},{"t":1334815509,"v":116},{"t":1334815511,"v":113},{"t":1334815513,"v":113},{"t":1334815515,"v":110},{"t":1334815517,"v":110},{"t":1334815519,"v":105},{"t":1334815521,"v":100},{"t":1334815523,"v":107},{"t":1334815525,"v":102}]}
+	 * @param stockID
+	 * @return
+	 */
+	public JSONObject performanceDETAIL(int stockID) {
+		
+		if(!DEBUG_MODE) {
+			JSONObject jo = new JSONObject();
+			try {
+				if(stockID==1) {
+					
+				}
+				jo.put("type", "stock");
+				jo.put("time_unit", "detail");
+				
+				JSONArray ja = new JSONArray();
+				
+				if(stockID==1) {
+					JSONObject jao1 = new JSONObject();
+					jao1.put("t", 100);
+					jao1.put("v", 300);
+					ja.put(jao1);
+					
+					JSONObject jao2 = new JSONObject();
+					jao2.put("t", 105);
+					jao2.put("v", 305);
+					ja.put(jao2);
+					
+					JSONObject jao3 = new JSONObject();
+					jao3.put("t", 110);
+					jao3.put("v", 310);
+					ja.put(jao3);
+					
+					JSONObject jao4 = new JSONObject();
+					jao4.put("t", 130);
+					jao4.put("v", 280);
+					ja.put(jao4);
+					
+					JSONObject jao5 = new JSONObject();
+					jao5.put("t", 140);
+					jao5.put("v", 290);
+					ja.put(jao5);
+					
+					JSONObject jao6 = new JSONObject();
+					jao6.put("t", 145);
+					jao6.put("v", 275);
+					ja.put(jao6);
+				}
+				else {
+					JSONObject jao1 = new JSONObject();
+					jao1.put("t", 100);
+					jao1.put("v", 305);
+					ja.put(jao1);
+					
+					JSONObject jao2 = new JSONObject();
+					jao2.put("t", 105);
+					jao2.put("v", 300);
+					ja.put(jao2);
+					
+					JSONObject jao3 = new JSONObject();
+					jao3.put("t", 110);
+					jao3.put("v", 315);
+					ja.put(jao3);
+					
+					JSONObject jao4 = new JSONObject();
+					jao4.put("t", 130);
+					jao4.put("v", 275);
+					ja.put(jao4);
+					
+					JSONObject jao5 = new JSONObject();
+					jao5.put("t", 140);
+					jao5.put("v", 295);
+					ja.put(jao5);
+					
+					JSONObject jao6 = new JSONObject();
+					jao6.put("t", 145);
+					jao6.put("v", 270);
+					ja.put(jao6);
+				}
+				
+				jo.put("performance", ja);
+			}
+			catch (Exception e) {}
+			return jo;
+		}
+		else {
+			String result = doGET(APIURL+"/api"+APILEVEL+"/performance/stocks/"+stockID+"/detail");
+			try {
+				JSONObject jo = new JSONObject(result);
+				//Log.d("DataAPI", "performanceGET success: "+jo.toString());
+				return jo;
+			} catch (JSONException e) {
+				Log.d("DataAPI", "performanceDETAIL err: "+e.getMessage());
 				return null;
 			}
 		}

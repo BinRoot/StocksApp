@@ -10,7 +10,7 @@ public class MyApplication extends Application {
     public Facebook facebook;
     public String facebookName;
     public String facebookID;
-    public Stock stock; // the currently selected stock on interest
+    public Stock stock; // the currently selected stock of interest
     int credits;
     
     public Facebook getFacebook() {

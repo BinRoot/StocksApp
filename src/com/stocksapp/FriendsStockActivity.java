@@ -228,6 +228,9 @@ public class FriendsStockActivity extends Activity {
 			Log.d(DEBUG, "doing in background...");
 			
 			JSONObject jo = DataAPI.getInstance().leaderboardGET();
+			if(jo==null) {
+				return null;
+			}
 			
 			Log.d(DEBUG, "jo: "+jo.toString());
 			

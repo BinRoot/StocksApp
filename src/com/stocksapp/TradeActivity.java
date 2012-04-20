@@ -2,8 +2,10 @@ package com.stocksapp;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -52,7 +54,8 @@ public class TradeActivity extends Activity {
 	EditText et;
 	DecimalFormat df = new DecimalFormat("#0.0");
 	
-	int secondsLeft = 30;
+	int secondsLeft = 15;
+	int countDownTime = 30;
 
 	Timer t;
 	
@@ -73,7 +76,7 @@ public class TradeActivity extends Activity {
 		@Override
 		public void run() {
 			if(secondsLeft<=0) {
-				secondsLeft=30;
+				secondsLeft=countDownTime;
 			}
 			else if(secondsLeft<=1) {
 				refreshMarket();
@@ -93,7 +96,7 @@ public class TradeActivity extends Activity {
 	
 	public void refreshMarket() {
 		Log.d(DEBUG, "refreshing market...");
-		(new UpdateGraphTask()).execute(stock);
+		(new UpdateGraphDetailTask()).execute(stock);
 		(new UpdatePortfolioListTask()).execute();
 	}
 	
@@ -144,13 +147,23 @@ public class TradeActivity extends Activity {
 		int credits = ((MyApplication)TradeActivity.this.getApplication()).credits;
 		((TextView)findViewById(R.id.button_trade_money)).setText(credits+"");
 		
-		(new UpdateGraphTask()).execute(stock);
+		//(new UpdateGraphTask()).execute(stock);
 		
 		(new UpdateCreditsTask()).execute();
 		
 		StockTimerTask sTimer = new StockTimerTask();
 		t = new Timer();
 		t.schedule(sTimer, 1000, 1000);
+		
+		if(stock!=null) {
+			if(!stock.getPoints().isEmpty()) {
+				updateGraph(stock);
+			}
+			else {
+				secondsLeft = 1;
+			}
+		}
+		
 	}
 	
 	@Override
@@ -172,6 +185,10 @@ public class TradeActivity extends Activity {
 			TradeActivity.this.findViewById(R.id.button_trade_sell).setTag("on");
 			
 			mode = MODE_SELL;
+			
+			((TextView)findViewById(R.id.text_trade_shares_label)).setTextColor(0xffcc3300);
+			((TextView)findViewById(R.id.text_trade_total_cost)).setTextColor(0xffcc3300);
+			((TextView)findViewById(R.id.text_trade_credits)).setTextColor(0xffcc3300);
 		}
 		// else buy is off, turn it on and turn sell off
 		else {
@@ -182,6 +199,11 @@ public class TradeActivity extends Activity {
 			TradeActivity.this.findViewById(R.id.button_trade_sell).setTag("off");
 			
 			mode = MODE_BUY;
+			
+			((TextView)findViewById(R.id.text_trade_shares_label)).setTextColor(0xff32653F);
+			((TextView)findViewById(R.id.text_trade_total_cost)).setTextColor(0xff32653F);
+			((TextView)findViewById(R.id.text_trade_credits)).setTextColor(0xff32653F);
+			// #32653F green
 		}
 	}
 	
@@ -250,7 +272,9 @@ public class TradeActivity extends Activity {
 			
 			if(shares>0) {
 				String facebookID = ((MyApplication)TradeActivity.this.getApplication()).facebookID;
-				return DataAPI.getInstance().portfolioPOST(facebookID, stock.getId(), shares);
+				JSONObject portfolioJSON = DataAPI.getInstance().portfolioPOST(facebookID, stock.getId(), shares);
+				//Log.d(DEBUG, "portfolio JSON: "+portfolioJSON);
+				return portfolioJSON;
 			}
 			return null;
 		}
@@ -330,11 +354,11 @@ public class TradeActivity extends Activity {
 		protected Stock doInBackground(Stock... stocks) {
 			JSONObject jo = DataAPI.getInstance().performanceGET(stocks[0].getId());
 			try {
-				JSONArray ja = jo.getJSONArray("values");
+				JSONArray ja = jo.getJSONArray("performance");
 				ArrayList<PointF> pts = new ArrayList<PointF>();
 				for(int i=0; i<ja.length(); i++) {
 					JSONObject jao = ja.getJSONObject(i);
-					PointF pf = new PointF(jao.getInt("date"), jao.getInt("value"));
+					PointF pf = new PointF(jao.getInt("t"), jao.getInt("v"));
 					pts.add(pf);
 				}
 				stocks[0].setPoints(pts);
@@ -369,15 +393,24 @@ public class TradeActivity extends Activity {
 			gViews[i] = gv;
 		}
 		
+		GraphViewData[] gViewsBot = new GraphViewData[stock.getPoints().size()];
+		for(int i=0; i<stock.getPoints().size(); i++) {
+			GraphViewData gv = new GraphViewData(stock.getPoints().get(i).x, 0);
+			gViewsBot[i] = gv;
+		}
+		
 		GraphViewSeries exampleSeries = new GraphViewSeries(gViews);  
+		
+		GraphViewSeries botSeries = new GraphViewSeries(gViewsBot);
 		
 		GraphView graphView = new LineGraphView(  
 		      this // context  
 		      , "" // heading  
 		);  
 		graphView.addSeries(exampleSeries); // data  
+		graphView.addSeries(botSeries); // data  
 		   
-		graphView.setViewPort(stock.getPoints().get(stock.getPoints().size()-1).x-24, 24);  
+		graphView.setViewPort(stock.getPoints().get(stock.getPoints().size()-1).x-0.015, 0.015);  
 		graphView.setScrollable(true);  
 		// optional - activate scaling / zooming  
 		graphView.setScalable(true);  
@@ -386,6 +419,49 @@ public class TradeActivity extends Activity {
 		
 		ll.removeAllViews();
 		ll.addView(graphView);
+		
+		/*
+		for(int i=0; i<stock.getPoints().size(); i++) {
+			Log.d(DEBUG, i+": "+stock.getPoints().get(i).x);
+		}*/
+	}
+	
+	private class UpdateGraphDetailTask extends AsyncTask<Stock, Void, Stock> {
+		@Override
+		protected Stock doInBackground(Stock... stocks) {
+			JSONObject jo = DataAPI.getInstance().performanceDETAIL(stocks[0].getId());
+			try {
+				JSONArray ja = jo.getJSONArray("performance");
+				ArrayList<PointF> pts = stocks[0].getPoints();
+				for(int i=0; i<ja.length(); i++) {
+					JSONObject jao = ja.getJSONObject(i);
+					
+					Date d = new Date(jao.getInt("t")*1000);
+					float xplot = (float)(d.getHours()+d.getMinutes()/60.0+d.getSeconds()/3600.0);
+					
+					
+					if(!stocks[0].getPoints().isEmpty()) {
+						if(xplot < stocks[0].getPoints().get(0).x) {
+							xplot += 24;
+						}
+					}
+					
+					Log.d(DEBUG, "plotting ("+((float)(jao.getInt("t")))+", "+jao.getInt("v")+")");
+					
+					PointF pf = new PointF(xplot, jao.getInt("v")); 
+					pts.add(pf);
+				}
+				stocks[0].setPoints(pts);
+			} catch (JSONException e) {
+				Log.d(DEBUG, "onItemClick err: "+e.getMessage());
+			}
+			return stocks[0];
+		}
+
+		@Override
+		protected void onPostExecute(Stock stock) {
+			updateGraph(stock);
+		}
 	}
 	
 	private class UpdatePortfolioListTask extends AsyncTask<Void, Void, Void> {

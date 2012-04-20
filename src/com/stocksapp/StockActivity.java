@@ -2,8 +2,12 @@ package com.stocksapp;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,12 +49,17 @@ public class StockActivity extends Activity {
 	final int BUTTON_FRIENDS = 0;
 	final int BUTTON_DISCOVER = 1;
 	
+	int secondsLeft = 15;
+	int countDownTime = 30;
+	
 	String DEBUG = "StockActivity";
 
 	StockListAdapter sa;
 	
 	String facebookName;
 	String facebookID;
+	
+	Timer t;
 	
 	DecimalFormat df = new DecimalFormat("#0.0");
 
@@ -89,6 +98,45 @@ public class StockActivity extends Activity {
 
 		// updates stock portfolio list
 		(new UpdatePortfolioListTask()).execute();
+		
+		StockTimerTask sTimer = new StockTimerTask();
+		t = new Timer();
+		t.schedule(sTimer, 100, 1000);
+	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		t.cancel();
+	}
+	
+	
+	public class StockTimerTask extends TimerTask {
+
+		@Override
+		public void run() {
+			if(secondsLeft<=0) {
+				secondsLeft=countDownTime;
+			}
+			else if(secondsLeft<=1) {
+				refreshMarket();
+			}
+			
+			secondsLeft--;
+		}
+		
+	}
+	
+	public void refreshMarket() {
+		Log.d(DEBUG, "refreshing market...");
+		
+		if(sa.stockList!=null) {
+			if(!sa.stockList.isEmpty()) {
+				(new UpdateGraphDetailTask()).execute(sa.stockList.get(sa.currentPos));
+			}
+		}
+		
+		//(new UpdatePortfolioListTask()).execute();
 	}
 	
 	public class LowerTabOnClickListener implements OnClickListener {
@@ -187,6 +235,14 @@ public class StockActivity extends Activity {
 			if(v==null) {
 				v = getLayoutInflater().inflate(R.layout.stocklistitem, null);
 			}
+			
+			
+			if(currentPos==-1) {
+				if(!stockList.isEmpty()) {
+					currentPos = 0;
+					onItemClick(null, null, 0, 0);
+				}
+			}
 
 			if(position == currentPos) {
 				v.setBackgroundColor(0xffabbfcb);
@@ -259,8 +315,11 @@ public class StockActivity extends Activity {
 			
 			((TextView)findViewById(R.id.text_stock_worth)).setText(stock.getCurrentValue()+"");
 
-			
+			stock.resetPoints();
 			(new UpdateGraphTask()).execute(stock);
+			
+			
+			secondsLeft = 1;
 			
 			notifyDataSetChanged();
 		}
@@ -289,18 +348,30 @@ public class StockActivity extends Activity {
 			gViews[i] = gv;
 		}
 		
+		
+		GraphViewData[] gViewsBot = new GraphViewData[stock.getPoints().size()];
+		for(int i=0; i<stock.getPoints().size(); i++) {
+			GraphViewData gv = new GraphViewData(stock.getPoints().get(i).x, 0);
+			gViewsBot[i] = gv;
+		}
+		
 		GraphViewSeries exampleSeries = new GraphViewSeries(gViews);  
+		
+		GraphViewSeries botSeries = new GraphViewSeries(gViewsBot);
+		
 		
 		GraphView graphView = new LineGraphView(  
 		      this // context  
 		      , "GraphViewDemo" // heading  
 		);  
 		graphView.addSeries(exampleSeries); // data  
+		graphView.addSeries(botSeries); // data  
 		   
-		graphView.setViewPort(stock.getPoints().get(stock.getPoints().size()-1).x-24, 24);  
+		graphView.setViewPort(stock.getPoints().get(stock.getPoints().size()-1).x-0.015, 0.015);  
 		graphView.setScrollable(true);  
 		// optional - activate scaling / zooming  
 		graphView.setScalable(true);  
+		
 		
 		// ((LineGraphView) graphView).setDrawBackground(true);
 		
@@ -317,6 +388,13 @@ public class StockActivity extends Activity {
 		Log.d("StocksAPI", "days clicked!");
 		sa.setMode(MODE_HOUR);
 		sa.notifyDataSetChanged();
+		
+		if(sa.getStockList()==null) {
+			return;
+		}
+		else if(sa.getStockList().isEmpty()){
+			return;
+		}
 		
 		Stock curStock = sa.getStockList().get(0);
 		ArrayList<PointF> pList = curStock.getPoints();
@@ -370,6 +448,13 @@ public class StockActivity extends Activity {
 		
 		sa.setMode(MODE_ALL);
 		sa.notifyDataSetChanged();
+		
+		if(sa.getStockList()==null) {
+			return;
+		}
+		else if(sa.getStockList().isEmpty()){
+			return;
+		}
 		
 		Stock curStock = sa.getStockList().get(0);
 		ArrayList<PointF> pList = curStock.getPoints();
@@ -533,11 +618,52 @@ public class StockActivity extends Activity {
 		protected Stock doInBackground(Stock... stocks) {
 			JSONObject jo = DataAPI.getInstance().performanceGET(stocks[0].getId());
 			try {
-				JSONArray ja = jo.getJSONArray("values");
-				ArrayList<PointF> pts = new ArrayList<PointF>();
+				JSONArray ja = jo.getJSONArray("performance");
+				ArrayList<PointF> pts = stocks[0].getPoints();
 				for(int i=0; i<ja.length(); i++) {
 					JSONObject jao = ja.getJSONObject(i);
-					PointF pf = new PointF(jao.getInt("date"), jao.getInt("value"));
+					
+					Date d = new Date(jao.getInt("t")*1000);
+					Log.d(DEBUG, "hourly plotting ("+d.getHours()+", "+jao.getInt("v")+")");
+					PointF pf = new PointF( d.getHours() , jao.getInt("v")); 
+					pts.add(pf);
+				}
+				stocks[0].setPoints(pts);
+			} catch (JSONException e) {
+				Log.d(DEBUG, "onItemClick err: "+e.getMessage());
+			}
+			return stocks[0];
+		}
+
+		@Override
+		protected void onPostExecute(Stock stock) {
+			updateGraph(stock);
+		}
+	}
+	
+	private class UpdateGraphDetailTask extends AsyncTask<Stock, Void, Stock> {
+		@Override
+		protected Stock doInBackground(Stock... stocks) {
+			JSONObject jo = DataAPI.getInstance().performanceDETAIL(stocks[0].getId());
+			try {
+				JSONArray ja = jo.getJSONArray("performance");
+				ArrayList<PointF> pts = stocks[0].getPoints();
+				for(int i=0; i<ja.length(); i++) {
+					JSONObject jao = ja.getJSONObject(i);
+					
+					Date d = new Date(jao.getInt("t")*1000);
+					float xplot = (float)(d.getHours()+d.getMinutes()/60.0+d.getSeconds()/3600.0);
+					
+					
+					if(!stocks[0].getPoints().isEmpty()) {
+						if(xplot < stocks[0].getPoints().get(0).x) {
+							xplot += 24;
+						}
+					}
+					
+					Log.d(DEBUG, "plotting ("+((float)(jao.getInt("t")))+", "+jao.getInt("v")+")");
+					
+					PointF pf = new PointF(xplot, jao.getInt("v")); 
 					pts.add(pf);
 				}
 				stocks[0].setPoints(pts);

@@ -1,6 +1,8 @@
 package com.stocksapp;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -64,6 +66,21 @@ public class DiscoverActivity extends Activity {
 		public long getItemId(int position) {
 			return position;
 		}
+		
+		@Override
+		public void notifyDataSetChanged() {
+			Collections.sort(stockList, new Comparator<Stock>() {
+				@Override
+				public int compare(Stock lhs, Stock rhs) {
+					if(lhs.getCurrentValue() > rhs.getCurrentValue())
+						return -1;
+					else if(lhs.getCurrentValue() < rhs.getCurrentValue())
+						return 1;
+					return 0;
+				}
+			});
+			super.notifyDataSetChanged();
+		}
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
@@ -90,6 +107,12 @@ public class DiscoverActivity extends Activity {
 	
 	
 	private class UpdateDiscoverListTask extends AsyncTask<Void, Void, Boolean> {
+		
+		@Override
+		protected void onPreExecute() {
+			findViewById(R.id.progress_discover).setVisibility(View.VISIBLE);
+		}
+		
 		@Override
 		protected Boolean doInBackground(Void... stocks) {
 			JSONObject jo = DataAPI.getInstance().marketGET();
@@ -129,6 +152,7 @@ public class DiscoverActivity extends Activity {
 		protected void onPostExecute(Boolean b) {
 			if(b==true) {
 				da.notifyDataSetChanged();
+				findViewById(R.id.progress_discover).setVisibility(View.GONE);
 			}
 			else {
 				Toast.makeText(DiscoverActivity.this, DiscoverActivity.this.getString(R.string.connection_problem), Toast.LENGTH_LONG).show();
