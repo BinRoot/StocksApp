@@ -23,7 +23,7 @@ import com.facebook.android.FacebookError;
 public class LoginActivity extends Activity {
 
 	final int FACEBOOK_MODE = 0;
-	String DEBUG = "StocksAppActivity";
+	String DEBUG = "LoginActivity";
 	SharedPreferences settings;
 
 
@@ -66,7 +66,7 @@ public class LoginActivity extends Activity {
 			JSONObject jObject = new JSONObject(((MyApplication) this.getApplication()).facebook.request("me")); 
 			String firstName = jObject.getString("first_name");
 			String id = jObject.getString("id");
-			Intent i = new Intent(LoginActivity.this, StockActivity.class);
+			Intent i = new Intent(LoginActivity.this, PortfolioActivity.class);
 			i.putExtra("firstName", firstName);
 			i.putExtra("id", id);
 			startActivity(i);

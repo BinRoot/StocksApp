@@ -39,6 +39,10 @@
             android:name=".TradeActivity"
             android:label="@string/app_name" >
         </activity>
+        <activity
+            android:name=".PortfolioActivity"
+            android:label="@string/app_name" >
+        </activity>
     </application>
 
 </manifest>

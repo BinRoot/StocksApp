@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#092b5d"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/port_topbar"
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:background="@drawable/port_topbar_grad" >
+
+        <ImageView
+            android:layout_width="160dip"
+            android:layout_height="35dip"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:background="@drawable/logo" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dip"
+            android:background="@drawable/btn_addfriends" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/port_navbar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/port_topbar" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@drawable/btn_portfolio_x" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@drawable/btn_friends_x" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@drawable/btn_discover_x" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!-- Header done -->
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="5dip"
+        android:layout_below="@id/port_navbar" >
+
+        <RelativeLayout 
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >"
+	        <RelativeLayout
+	            android:layout_width="fill_parent"
+	            android:id="@+id/port_graphbox"
+	            android:layout_height="260dip"
+	            android:background="@drawable/bgbox_graph" >
+	
+	            <RelativeLayout
+	                android:id="@+id/port_rel_boxheader"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_alignParentTop="true"
+	                android:layout_marginLeft="11dip"
+	                android:layout_marginRight="12dip"
+	                android:layout_marginTop="7dip"
+	                android:background="@drawable/bluebar_box_header" >
+	
+	                <TextView
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_alignParentLeft="true"
+	                    android:layout_centerVertical="true"
+	                    android:layout_marginLeft="10dip"
+	                    android:text="Net Worth"
+	                    android:textColor="#ffffff" />
+	
+	            </RelativeLayout>
+	
+	            <RelativeLayout 
+	                android:id="@+id/port_rel_graphinfo"
+	                android:layout_below="@id/port_rel_boxheader"
+	                android:layout_width="fill_parent"
+	                android:layout_marginLeft="20dip"
+	                android:layout_marginRight="20dip"
+	                android:layout_height="35dip">
+	                <ImageView 
+	                    android:id="@+id/port_img_gold"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:background="@drawable/goldcoins"
+	                    android:layout_alignParentLeft="true"
+	                    android:layout_centerVertical="true"/>
+	                <TextView 
+	                    android:id="@+id/port_text_credits"
+	                    android:layout_toRightOf="@id/port_img_gold"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_marginLeft="5dip"
+	                    android:textColor="@color/dblue"
+	                    android:typeface="normal"
+	                    android:textSize="7.5pt"
+	                    android:textStyle="bold"
+	                    android:text="9,000"
+	                    android:layout_centerVertical="true"/>
+	                
+	                
+	                <TextView 
+	                    android:id="@+id/port_text_percent"
+	                    android:layout_alignParentRight="true"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_marginRight="5dip"
+	                    android:textColor="@color/green"
+	                    android:typeface="normal"
+	                    android:textSize="7.5pt"
+	                    android:textStyle="bold"
+	                    android:text="+200 (1.5%)"
+	                    android:layout_centerVertical="true"/>
+	            </RelativeLayout>
+	            
+	            <LinearLayout
+	                android:id="@+id/chart"
+	                android:layout_below="@+id/port_rel_graphinfo"
+	                android:layout_width="fill_parent"
+	                android:layout_height="170dip"
+	                android:layout_marginLeft="20dip"
+	                android:layout_marginRight="20dip"
+	                android:orientation="horizontal" />
+	            <LinearLayout 
+	                android:layout_width="fill_parent"
+	                android:layout_below="@id/chart"
+	                android:layout_marginLeft="13dip"
+	                android:layout_marginRight="14dip"
+	                android:layout_height="20dip">
+	                <TextView 
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="fill_parent"
+	                    android:text="NOW"
+	                    android:gravity="center"
+	                    android:textColor="@color/dblue"
+	                    android:background="@color/lblue"
+	                    android:textStyle="bold"
+	                    android:layout_weight="1"/>
+	                <TextView 
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="fill_parent"
+	                    android:text="DAY"
+	                    android:gravity="center"
+	                    android:textColor="@color/dblue"
+	                    android:background="#ffffff"
+	                    android:textStyle="bold"
+	                    android:layout_weight="1"/>
+	                <TextView 
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="fill_parent"
+	                    android:text="WEEK"
+	                    android:gravity="center"
+	                    android:textColor="@color/dblue"
+	                    android:background="@color/lblue"
+	                    android:textStyle="bold"
+	                    android:layout_weight="1"/>
+	                <TextView 
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="fill_parent"
+	                    android:text="ALL"
+	                    android:gravity="center"
+	                    android:textColor="@color/dblue"
+	                    android:background="@color/lblue"
+	                    android:textStyle="bold"
+	                    android:layout_weight="1"/>
+	            </LinearLayout>
+	            
+	        </RelativeLayout>
+	        
+	    
+	        <RelativeLayout
+	            android:id="@+id/port_rel_trends"
+	            android:layout_width="fill_parent"
+	            android:layout_height="260dip"
+	            android:layout_below="@id/port_graphbox"
+	            android:layout_marginLeft="13dip"
+	            android:layout_marginRight="14dip"
+	            android:layout_marginTop="10dip" >
+	
+	            <RelativeLayout
+	                android:id="@+id/port_rel_trendheader"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_alignParentRight="true"
+	                android:layout_alignParentTop="true"
+	                android:background="@drawable/bluebar_box_header" >
+	
+	                <TextView
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_alignParentLeft="true"
+	                    android:layout_centerVertical="true"
+	                    android:layout_marginLeft="10dip"
+	                    android:text="My Trends"
+	                    android:textColor="#ffffff" />
+	            </RelativeLayout>
+				<LinearLayout 
+				    android:background="#ffffff"
+				    android:layout_below="@id/port_rel_trendheader"
+				    android:layout_width="fill_parent"
+				    android:layout_height="wrap_content"
+				    android:layout_marginLeft="10dip"
+				    android:orientation="vertical">
+				    <Button 
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:text="hi"/>
+				    <Button 
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:text="hi"/>
+				    <Button 
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:text="hi"/>
+				    <Button 
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:text="hi"/>
+				    
+				    <Button 
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:text="hi"/>
+				</LinearLayout>
+	            
+	            
+	        </RelativeLayout>
+	        
+	        
+	        
+        
+		</RelativeLayout>     
+	        
+    </ScrollView>
+
+</RelativeLayout>
