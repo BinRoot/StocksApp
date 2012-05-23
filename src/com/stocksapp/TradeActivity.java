@@ -144,7 +144,7 @@ public class TradeActivity extends Activity {
 			((TextView)findViewById(R.id.text_trade_percent)).setText(df.format(stock.getPercentChangeByLastHour())+"%");
 		}
 		
-		int credits = ((MyApplication)TradeActivity.this.getApplication()).credits;
+		long credits = ((MyApplication)TradeActivity.this.getApplication()).credits;
 		((TextView)findViewById(R.id.button_trade_money)).setText(credits+"");
 		
 		//(new UpdateGraphTask()).execute(stock);
@@ -313,7 +313,8 @@ public class TradeActivity extends Activity {
 		protected void onPostExecute(Integer newCredits) {
 			if(newCredits != null) {
 				((TextView)TradeActivity.this.findViewById(R.id.button_trade_money)).setText(newCredits+"");
-				((MyApplication)TradeActivity.this.getApplication()).credits = newCredits;
+				int nc = newCredits;
+				((MyApplication)TradeActivity.this.getApplication()).credits = (long) nc;
 
 				(new UpdatePortfolioListTask()).execute();
 			}

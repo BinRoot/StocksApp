@@ -536,7 +536,8 @@ public class StockActivity extends Activity {
 		protected void onPostExecute(Integer newCredits) {
 			if(newCredits!=null) {
 				((TextView)findViewById(R.id.button_stock_money)).setText(newCredits+"");
-				((MyApplication)StockActivity.this.getApplication()).credits = newCredits;
+				int nc = newCredits;
+				((MyApplication)StockActivity.this.getApplication()).credits = (long) nc;
 			}
 			else {
 				Toast.makeText(StockActivity.this, StockActivity.this.getString(R.string.connection_problem), Toast.LENGTH_LONG).show();
@@ -683,7 +684,7 @@ public class StockActivity extends Activity {
 		
 		@Override
 		protected void onPreExecute() {
-			int cr = ((MyApplication)StockActivity.this.getApplication()).credits;
+			long cr = ((MyApplication)StockActivity.this.getApplication()).credits;
 			((TextView)findViewById(R.id.button_stock_money)).setText(cr+""); 
 		}
 		
