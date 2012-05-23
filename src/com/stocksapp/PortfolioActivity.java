@@ -36,7 +36,6 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphView.GraphViewData;
 import com.jjoe64.graphview.GraphView.GraphViewSeries;
 import com.jjoe64.graphview.LineGraphView;
-import com.stocksapp.TradeActivity.ShareTextWatcher;
 
 public class PortfolioActivity extends Activity {
 

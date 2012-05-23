@@ -2,158 +2,89 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:background="@drawable/gradient_bg" >
-
-    <LinearLayout
-        android:id="@+id/linear_friends_top"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:orientation="vertical" >
-
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="40dip"
-            android:background="@drawable/header_bg" >
-
-            <TextView
-                android:id="@+id/text_stock_portfolio_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textColor="#ffffff"
-                android:textStyle="bold"
-                android:text="Friends" />
-
-            <Button
-                android:id="@+id/button_stock_money"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:background="@drawable/icon_addfriends"
-                 />
-        </RelativeLayout>
-    </LinearLayout>
+    android:background="#092b5d"
+    android:orientation="vertical" >
 
     <RelativeLayout
+        android:id="@+id/port_topbar"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/linear_friends_bottom"
-        android:layout_below="@id/linear_friends_top" >
+        android:layout_height="50dip"
+        android:background="@drawable/port_topbar_grad" >
 
-        <LinearLayout
-            android:id="@+id/relative_friends_tab"
+        <ImageView
+            android:layout_width="160dip"
+            android:layout_height="35dip"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:background="@drawable/logo" />
+
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:orientation="horizontal" >
-
-            <Button
-                android:id="@+id/button_friends_activity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="myActivityClicked"
-                android:background="@drawable/tab_friendactivity_deselected" />
-
-            <Button
-                android:id="@+id/button_friends_my"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="myFriendsClicked"
-                android:background="@drawable/tab_myfriends_selected" />
-        </LinearLayout>
-
-        <LinearLayout 
-            android:id="@+id/linear_friends_textheader"
-            android:layout_below="@id/relative_friends_tab"
-            android:layout_width="fill_parent"
-            android:visibility="visible"
-            android:layout_marginTop="5dip"
-            android:layout_height="20dip">
-            <TextView 
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="My Friends"
-                android:textColor="#ffffff"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:layout_weight="1"/>
-            <TextView 
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Net Worth"
-                android:textColor="#ffffff"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:layout_weight="1"/>
-        </LinearLayout>
-        
-        <ListView
-            android:background="@drawable/bgbox_friendsfind"
-            android:paddingLeft="20dip"
-            android:paddingRight="20dip"
-            android:cacheColorHint="#00000000"
-            android:id="@+id/list_friends_activity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/relative_friends_tab"
-            android:layout_above="@+id/linear_friends_bottom"
-            android:visibility="gone" >
-        </ListView>
-        
-        <ListView
-            android:background="@drawable/bgbox_friendsfind"
-            android:paddingLeft="20dip"
-            android:paddingRight="20dip"
-            android:cacheColorHint="#00000000"
-            android:id="@+id/list_friends_my"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/linear_friends_textheader"
-            android:layout_above="@+id/linear_friends_bottom"
-            android:visibility="visible" >
-        </ListView>
-        <ProgressBar 
-            android:paddingLeft="20dip"
-            android:paddingRight="20dip"
-            android:id="@+id/progress_friends"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="gone"/>
-        
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dip"
+            android:background="@drawable/btn_addfriends" />
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/linear_friends_bottom"
+    <RelativeLayout
+        android:id="@+id/port_navbar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal" >
+        android:layout_below="@id/port_topbar" >
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="portfolioClicked"
-            android:background="@drawable/tab_myport_deselected"/>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/tab_friends_selected" />
+            <Button
+                android:id="@+id/port_btn_port"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@drawable/btn_portfolio_x"
+                android:onClick="portfolioClicked" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="discoverClicked"
-            android:background="@drawable/tab_find_deselected"  />
-    </LinearLayout>
+            <Button
+                android:id="@+id/port_btn_friends"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@drawable/btn_friends_x" />
+
+            <Button
+                android:id="@+id/port_btn_discover"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@drawable/btn_discover_x" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!-- Header done -->
+	<RelativeLayout 
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:background="@drawable/bluebar"
+	    android:layout_below="@id/port_navbar"
+	    android:id="@+id/friends_rel_topbar">
+	    <TextView 
+	        android:id="@+id/friends_text_topbar"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Friend Rankings"
+	        android:textColor="#FFFFFF"
+	        android:layout_centerVertical="true"
+	        android:layout_marginLeft="10dip"
+	        android:textStyle="bold"/>
+	</RelativeLayout>
+	
+	<ListView 
+	    android:id="@+id/friends_list"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@id/friends_rel_topbar">
+	</ListView>
 
 </RelativeLayout>
