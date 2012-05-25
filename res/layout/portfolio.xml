@@ -51,7 +51,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:background="@drawable/btn_friends_x" />
+                android:background="@drawable/btn_friends_x"
+                android:onClick="friendsClicked" />
 
             <Button
                 android:id="@+id/port_btn_discover"

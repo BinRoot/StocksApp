@@ -39,7 +39,7 @@
             android:layout_height="wrap_content" >
 
             <Button
-                android:id="@+id/port_btn_port"
+                android:id="@+id/friends_btn_port"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
@@ -47,18 +47,20 @@
                 android:onClick="portfolioClicked" />
 
             <Button
-                android:id="@+id/port_btn_friends"
+                android:id="@+id/friends_btn_friends"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:background="@drawable/btn_friends_x" />
+                android:background="@drawable/btn_friends_x"
+                 />
 
             <Button
-                android:id="@+id/port_btn_discover"
+                android:id="@+id/friends_btn_discover"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:background="@drawable/btn_discover_x" />
+                android:background="@drawable/btn_discover_x"
+                android:onClick="discoverClicked" /> />
         </LinearLayout>
     </RelativeLayout>
 

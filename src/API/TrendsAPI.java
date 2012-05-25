@@ -130,6 +130,22 @@ public class TrendsAPI {
 		return null;
 	}
 	
+	public JSONObject getFriends(String userId) {
+		Log.d(DEBUG, "getFriends started");
+		HashMap<String, String> attrs = new HashMap<String, String>();
+		attrs.put("userId", userId);
+		String result = postData(APIurl+"/leaderboard", attrs);
+		Log.d(DEBUG, "ping result: "+result);
+		try {
+			JSONObject jo = new JSONObject(result);
+			return jo;
+		}
+		catch(Exception e) {
+			Log.d(DEBUG, "getfriends err: "+e.getMessage());
+		}
+		
+		return null;
+	}
 	
 	
 	

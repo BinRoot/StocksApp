@@ -17,6 +17,7 @@ import org.json.JSONObject;
 import API.TrendsAPI;
 import Model.Trend;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -72,15 +73,11 @@ public class PortfolioActivity extends Activity {
 			facebookID = ((MyApplication) this.getApplication()).facebookID;
 		}
 
-		Handler mHandler = new Handler();
-		mHandler.post(new Runnable() {
-
-			@Override
-			public void run() {
-				((Button)findViewById(R.id.port_btn_port)).setPressed(true);
-				((Button)findViewById(R.id.port_btn_port)).setClickable(false);
-			}
-		});
+		
+		// doesn't work :(
+		((Button)findViewById(R.id.port_btn_port)).setPressed(true);
+		((Button)findViewById(R.id.port_btn_port)).setClickable(false);
+		
 
 
 		new LoginUserTask().execute();
@@ -637,6 +634,11 @@ public class PortfolioActivity extends Activity {
 			}
 		});
 
+	}
+	
+	public void friendsClicked(View v) {
+		Intent i = new Intent(PortfolioActivity.this, FriendsActivity.class);
+		startActivity(i);
 	}
 
 	public void graphTrend(long stockId) {

@@ -1,38 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:layout_height="wrap_content" >
 
-    <LinearLayout 
+    <RelativeLayout
+        android:id="@+id/friendsitem_rel_main"
         android:layout_width="fill_parent"
-        android:layout_height="80dip">
-        
-        <TextView 
-            android:id="@+id/text_friendsmylist"
-            android:layout_width="fill_parent"
+        android:layout_height="65dip"
+        android:background="#ffffff" >
+
+        <TextView
+            android:id="@+id/friendsitem_text_rank"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="#000000"
-            android:layout_centerInParent="true"
-            android:layout_margin="10dip"
-            android:layout_weight="1"
-            android:text="Joe"
+            android:text="0"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:textColor="@color/dblue"
+            android:textSize="16dip"
             android:textStyle="bold"
-            android:layout_gravity="center"/>
+            />
         
-        <TextView 
-            android:id="@+id/text_friendspoints"
-            android:layout_width="fill_parent"
+        <ImageView
+            android:id="@+id/friendsitem_img_pic"
+            android:layout_width="55dip"
+            android:layout_height="55dip"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:layout_toRightOf="@id/friendsitem_text_rank"
+            android:background="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/friendsitem_text_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_centerInParent="true"
-            android:layout_margin="10dip"
-            android:layout_weight="1"
-            android:textColor="#000000"
-            android:textStyle="bold"
-            android:layout_gravity="center"
-            android:text="123"/>
-    </LinearLayout>
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:layout_toRightOf="@id/friendsitem_img_pic"
+            android:text="Jeremy Lin"
+            android:textColor="@color/dblue"
+            android:textSize="16dip"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/friendsitem_text_net"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dip"
+            android:text="4,837"
+            android:textColor="@color/dblue"
+            android:textSize="16dip"
+            android:textStyle="bold" />
+
+
+    </RelativeLayout>
 
 </RelativeLayout>
