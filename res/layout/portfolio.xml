@@ -1,0 +1,543 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#092b5d"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/port_topbar"
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:background="@drawable/port_topbar_grad" >
+
+        <ImageView
+            android:layout_width="160dip"
+            android:layout_height="35dip"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:background="@drawable/logo" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dip"
+            android:background="@drawable/btn_addfriends" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/port_navbar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/port_topbar" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/port_btn_port"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@drawable/btn_portfolio_x"
+                android:onClick="portfolioClicked" />
+
+            <Button
+                android:id="@+id/port_btn_friends"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@drawable/btn_friends_x"
+                android:onClick="friendsClicked" />
+
+            <Button
+                android:id="@+id/port_btn_discover"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@drawable/btn_discover_x" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!-- Header done -->
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/port_navbar" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:id="@+id/port_rel_trend_bio"
+                android:layout_width="fill_parent"
+                android:layout_height="64dip"
+                android:background="@drawable/port_bio_grad"
+                android:visibility="gone" >
+
+                <ImageView
+                    android:id="@+id/port_img_pic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dip"
+                    android:background="@drawable/ic_launcher" >
+                </ImageView>
+
+                <TextView
+                    android:id="@+id/port_text_trendname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginTop="15dip"
+                    android:layout_toRightOf="@id/port_img_pic"
+                    android:text="blah"
+                    android:textColor="#eff5f9"
+                    android:textSize="18dip" />
+
+                <TextView
+                    android:id="@+id/port_text_trenddesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/port_text_trendname"
+                    android:layout_marginLeft="10dip"
+                    android:layout_toRightOf="@id/port_img_pic"
+                    android:text="blah"
+                    android:textColor="#eff5f9"
+                    android:textSize="10dip" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dip"
+                    android:background="@drawable/btn_trade_x"
+                    android:onClick="tradeButtonClicked" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/port_rel_trend_trade"
+                android:layout_width="fill_parent"
+                android:layout_height="160dip"
+                android:layout_marginTop="7dip"
+                android:background="@drawable/bgbox_graph"
+                android:visibility="gone" >
+
+                <RelativeLayout
+                    android:id="@+id/port_rel_boxheader_tradenow"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="11dip"
+                    android:layout_marginRight="12dip"
+                    android:background="@drawable/tradenow_header" >
+                    <TextView 
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Trade Now"
+                        android:textColor="#FFFFFF"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="10dip" />"
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_below="@id/port_rel_boxheader_tradenow"
+                    android:layout_marginBottom="10dip"
+                    android:layout_marginLeft="11dip"
+                    android:layout_marginRight="12dip"
+                    android:layout_marginTop="10dip"
+                    android:orientation="vertical" >
+
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1" >
+                        <LinearLayout 
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content">
+                            <RelativeLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1" >
+                                <TextView
+                                    android:id="@+id/port_text_credits_mycredits"
+		                            android:layout_width="wrap_content"
+		                            android:layout_height="wrap_content"
+		                            android:layout_alignParentLeft="true"
+		                            android:layout_marginLeft="10dip"
+		                            android:textColor="@color/dblue"
+		                            android:textStyle="bold"
+		                            android:textSize="10dip"
+		                            android:text="MY CREDITS:"
+		                            android:layout_centerVertical="true" />
+                                <ImageView 
+                                    android:id="@+id/port_img_gold2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/goldcoins"
+                                    android:layout_toRightOf="@id/port_text_credits_mycredits"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="5dip"/>
+                                <TextView 
+                                    android:id="@+id/port_text_credits_mycredits_num"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="1,000,000"
+                                    android:textColor="@color/dblue"
+		                            android:textStyle="bold"
+		                            android:textSize="11dip"
+		                            android:layout_centerVertical="true"
+		                            android:layout_marginLeft="5dip"
+                                    android:layout_toRightOf="@id/port_img_gold2"/>
+                            </RelativeLayout>
+                            <RelativeLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1" >
+                                <TextView
+                                    android:id="@+id/port_text_sharesowned"
+		                            android:layout_width="wrap_content"
+		                            android:layout_height="wrap_content"
+		                            android:layout_alignParentLeft="true"
+		                            android:textColor="@color/dblue"
+		                            android:textStyle="bold"
+		                            android:textSize="10dip"
+		                            android:layout_marginLeft="20dip"
+		                            android:text="SHARES OWNED:"
+		                            android:layout_centerVertical="true" />
+                                <TextView 
+                                    android:id="@+id/port_text_sharesowned_num"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0"
+                                    android:textColor="@color/dblue"
+		                            android:textStyle="bold"
+		                            android:textSize="11dip"
+		                            android:layout_toRightOf="@id/port_text_sharesowned"
+		                            android:layout_marginLeft="5dip"
+		                            android:layout_centerVertical="true"/>
+                            </RelativeLayout>
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1" >
+                        
+						<LinearLayout 
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content">
+                            <RelativeLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1" >
+                                <TextView 
+                                    android:id="@+id/text_port_shares"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="SHARES:"
+                                    android:textColor="@color/dblue"
+		                            android:textStyle="bold"
+		                            android:layout_marginLeft="10dip"
+		                            android:textSize="11dip"
+		                            android:layout_centerVertical="true"/>
+                                <EditText 
+                                    android:id="@+id/port_edit_shares"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:layout_toRightOf="@id/text_port_shares"
+                                    android:layout_marginLeft="5dip"
+                                    />
+                            </RelativeLayout>
+                            <RelativeLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1" >
+                                <TextView
+                                    android:id="@+id/port_text_total"
+		                            android:layout_width="wrap_content"
+		                            android:layout_height="wrap_content"
+		                            android:layout_alignParentLeft="true"
+		                            android:textColor="@color/dblue"
+		                            android:textStyle="bold"
+		                            android:textSize="10dip"
+		                            android:layout_marginLeft="20dip"
+		                            android:text="TOTAL:"
+		                            android:layout_centerVertical="true" />
+                                <TextView 
+                                    android:id="@+id/port_text_total_num"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="$0"
+                                    android:textColor="@color/dblue"
+		                            android:textStyle="bold"
+		                            android:textSize="11dip"
+		                            android:layout_toRightOf="@id/port_text_total"
+		                            android:layout_marginLeft="5dip"
+		                            android:layout_centerVertical="true"/>
+                           
+                            </RelativeLayout>
+                       </LinearLayout>
+                        
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1" >
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent" >
+
+                            <RelativeLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1" >
+
+                                <Button
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="10dip"
+                                    android:background="@drawable/btn_buy_x"
+                                    android:onClick="buyClicked" />
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1" >
+
+                                <Button
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_marginLeft="10dip"
+                                    android:background="@drawable/btn_sell_x"
+                                    android:onClick="sellClicked" />
+                            </RelativeLayout>
+                        </LinearLayout>
+                    </RelativeLayout>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/port_graphbox"
+                android:layout_width="fill_parent"
+                android:layout_height="260dip"
+                android:layout_below="@id/port_rel_trend_bio"
+                android:background="@drawable/graph_box_x"
+                android:layout_marginLeft="13dip"
+                android:layout_marginRight="14dip"
+                android:layout_marginTop="10dip"
+                 >
+
+                <RelativeLayout
+                    android:id="@+id/port_rel_boxheader"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:background="@drawable/bluebar_box_header" >
+
+                    <TextView
+                        android:id="@+id/port_text_toptitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dip"
+                        android:text="Net Worth"
+                        android:textColor="#ffffff" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/port_rel_graphinfo"
+                    android:layout_width="fill_parent"
+                    android:layout_height="35dip"
+                    android:layout_below="@id/port_rel_boxheader"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip" >
+
+                    <ImageView
+                        android:id="@+id/port_img_gold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/goldcoins" />
+
+                    <TextView
+                        android:id="@+id/port_text_credits"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="5dip"
+                        android:layout_toRightOf="@id/port_img_gold"
+                        android:text=""
+                        android:textColor="@color/dblue"
+                        android:textSize="7.5pt"
+                        android:textStyle="bold"
+                        android:typeface="normal" />
+
+                    <TextView
+                        android:id="@+id/port_text_percent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="5dip"
+                        android:text="+200 (1.5%)"
+                        android:textColor="@color/green"
+                        android:textSize="7.5pt"
+                        android:textStyle="bold"
+                        android:typeface="normal" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/chart"
+                    android:layout_width="fill_parent"
+                    android:layout_height="170dip"
+                    android:layout_below="@+id/port_rel_graphinfo"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip"
+                    android:orientation="horizontal" />
+
+                <LinearLayout
+                    android:id="@+id/chart2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="170dip"
+                    android:layout_below="@+id/port_rel_graphinfo"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip"
+                    android:orientation="horizontal"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="20dip"
+                    android:layout_alignParentBottom="true">
+
+                    <TextView
+                        android:id="@+id/port_text_now"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/now_1"
+                        android:gravity="center"
+                        android:text="NOW"
+                        android:textColor="@color/dblue"
+                        android:textStyle="bold"
+                        android:clickable="true"
+                        android:onClick="nowTabClicked" />
+
+                    <TextView
+                        android:id="@+id/port_text_day"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/day_selected"
+                        android:gravity="center"
+                        android:text="DAY"
+                        android:textColor="@color/dblue"
+                        android:textStyle="bold"
+                        android:clickable="true"
+                        android:onClick="dayTabClicked" />
+
+                    <TextView
+                        android:id="@+id/port_text_week"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/week_1"
+                        android:gravity="center"
+                        android:text="WEEK"
+                        android:textColor="@color/dblue"
+                        android:textStyle="bold"
+                        android:clickable="true"
+                        android:onClick="weekTabClicked" />
+
+                    <TextView
+                        android:id="@+id/port_text_all"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/all_1"
+                        android:gravity="center"
+                        android:text="ALL"
+                        android:textColor="@color/dblue"
+                        android:textStyle="bold"
+                        android:clickable="true"
+                        android:onClick="allTabClicked" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/port_rel_trends"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/port_graphbox"
+                android:layout_marginLeft="13dip"
+                android:layout_marginRight="14dip"
+                android:layout_marginTop="10dip" >
+
+                <RelativeLayout
+                    android:id="@+id/port_rel_trendheader"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@drawable/bluebar_box_header" >
+
+                    <TextView
+                        android:id="@+id/port_text_bottomtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dip"
+                        android:text="My Trends"
+                        android:textColor="#ffffff" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/port_linear_trends"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/port_rel_trendheader"
+                    android:layout_marginLeft="2dip"
+                    android:layout_marginRight="2dip"
+                    android:background="#ffffff"
+                    android:orientation="vertical" >
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/port_linear_trends2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/port_rel_trendheader"
+                    android:layout_marginLeft="2dip"
+                    android:layout_marginRight="2dip"
+                    android:background="#ffffff"
+                    android:orientation="vertical"
+                    android:visibility="gone" >
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

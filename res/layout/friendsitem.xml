@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" >
+
+    <RelativeLayout
+        android:id="@+id/friendsitem_rel_main"
+        android:layout_width="fill_parent"
+        android:layout_height="65dip"
+        android:background="#ffffff" >
+
+        <TextView
+            android:id="@+id/friendsitem_text_rank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:textColor="@color/dblue"
+            android:textSize="16dip"
+            android:textStyle="bold"
+            />
+        
+        <ImageView
+            android:id="@+id/friendsitem_img_pic"
+            android:layout_width="55dip"
+            android:layout_height="55dip"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:layout_toRightOf="@id/friendsitem_text_rank"
+            android:background="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/friendsitem_text_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:layout_toRightOf="@id/friendsitem_img_pic"
+            android:text="Jeremy Lin"
+            android:textColor="@color/dblue"
+            android:textSize="16dip"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/friendsitem_text_net"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dip"
+            android:text="4,837"
+            android:textColor="@color/dblue"
+            android:textSize="16dip"
+            android:textStyle="bold" />
+
+
+    </RelativeLayout>
+
+</RelativeLayout>
