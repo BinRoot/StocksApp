@@ -22,9 +22,6 @@
       </GlobalState>
     </option>
   </component>
-  <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Portfolio" />
-  </component>
   <component name="ChangeListManager">
     <list default="true" id="aeb4e4e4-1f75-4012-83d0-8514ad0a7e8f" name="Default" comment="" />
     <ignored path="TrendsWithFriends.iws" />
@@ -44,7 +41,7 @@
   </component>
   <component name="DebuggerManager">
     <line_breakpoints>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/stocksapp/ProfileActivity.java" line="21" class="com.stocksapp.ProfileActivity" package="com.stocksapp">
+      <breakpoint url="file://$PROJECT_DIR$/src/com/stocksapp/ProfileActivity.java" line="22" class="com.stocksapp.ProfileActivity" package="com.stocksapp">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -98,50 +95,77 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ProfileActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/stocksapp/ProfileActivity.java">
+      <file leaf-file-name="FriendsActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/stocksapp/FriendsActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="52" selection-start="1064" selection-end="1064" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MyApplication.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/stocksapp/MyApplication.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="40" selection-start="637" selection-end="637" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PortfolioActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/stocksapp/PortfolioActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="706" column="0" selection-start="21255" selection-end="21255" vertical-scroll-proportion="-94.46154">
+            <state line="150" column="22" selection-start="4456" selection-end="4456" vertical-scroll-proportion="-7.6538463">
               <folding>
-                <element signature="e#9826#9851#0" expanded="true" />
-                <element signature="e#20962#21454#0" expanded="true" />
-                <element signature="e#21446#21447#0" expanded="true" />
+                <element signature="e#2218#2557#0" expanded="true" />
+                <element signature="e#2542#2543#0" expanded="true" />
+                <element signature="e#5820#5844#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TrendsAPI.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/API/TrendsAPI.java">
+      <file leaf-file-name="Activity.class" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://E:/Program Files (x86)/Android/android-sdk/platforms/android-7/android.jar!/android/app/Activity.class">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="126" column="68" selection-start="4094" selection-end="4094" vertical-scroll-proportion="0.0">
+            <state line="214" column="16" selection-start="10067" selection-end="10067" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="profile.xml" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ProfileActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/stocksapp/ProfileActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="86" column="22" selection-start="2530" selection-end="2530" vertical-scroll-proportion="-20.423077">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="friends.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/friends.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="14" column="31" selection-start="512" selection-end="512" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="friendsitem.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/friendsitem.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="34" column="42" selection-start="1295" selection-end="1297" vertical-scroll-proportion="-20.76">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="portfolio.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/portfolio.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="364" column="41" selection-start="17893" selection-end="17893" vertical-scroll-proportion="-7.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PortfolioActivity.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/stocksapp/PortfolioActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="233" column="75" selection-start="7272" selection-end="7272" vertical-scroll-proportion="0.036585364">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="profile.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/res/layout/profile.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="122" column="47" selection-start="5219" selection-end="5219" vertical-scroll-proportion="0.5492701">
+            <state line="89" column="57" selection-start="3606" selection-end="3606" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -158,13 +182,14 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/src/com/facebook/android/FbDialog.java" />
-        <option value="$PROJECT_DIR$/res/layout/portfolio.xml" />
-        <option value="$PROJECT_DIR$/src/com/stocksapp/FriendsActivity.java" />
         <option value="$PROJECT_DIR$/src/API/TrendsAPI.java" />
-        <option value="$PROJECT_DIR$/src/com/stocksapp/PortfolioActivity.java" />
-        <option value="$PROJECT_DIR$/src/com/stocksapp/ProfileActivity.java" />
         <option value="$PROJECT_DIR$/src/com/stocksapp/MyApplication.java" />
+        <option value="$PROJECT_DIR$/src/com/stocksapp/PortfolioActivity.java" />
         <option value="$PROJECT_DIR$/res/layout/profile.xml" />
+        <option value="$PROJECT_DIR$/res/layout/friendsitem.xml" />
+        <option value="$PROJECT_DIR$/src/com/stocksapp/ProfileActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/stocksapp/FriendsActivity.java" />
+        <option value="$PROJECT_DIR$/res/layout/portfolio.xml" />
       </list>
     </option>
   </component>
@@ -356,6 +381,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="OverrideImplement.combined" value="true" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="recentsLimit" value="5" />
     <property name="MemberChooser.sorted" value="false" />
@@ -609,7 +635,7 @@
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17851417" sideWeight="0.6707589" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17851417" sideWeight="0.6707589" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39955357" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -617,13 +643,13 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924107" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924107" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32924107" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924107" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13575628" sideWeight="0.6707589" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32924107" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924107" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924107" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -690,36 +716,63 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/facebook/android/FbDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="98" column="36" selection-start="3647" selection-end="3647" vertical-scroll-proportion="0.21428572" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/friends.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/discover.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/stocksapp/LoginActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="32" column="41" selection-start="822" selection-end="890" vertical-scroll-proportion="0.3383199" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/portfolio.xml">
+    <entry file="file://$PROJECT_DIR$/src/API/TrendsAPI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="116" column="44" selection-start="4532" selection-end="4532" vertical-scroll-proportion="0.0">
+        <state line="126" column="68" selection-start="4094" selection-end="4094" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/stocksapp/FriendsActivity.java">
+    <entry file="file://$PROJECT_DIR$/src/com/stocksapp/MyApplication.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="141" column="23" selection-start="4183" selection-end="4183" vertical-scroll-proportion="0.0" />
+        <state line="20" column="40" selection-start="637" selection-end="637" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/drawable-hdpi/btn_portfolio_pressed.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="jar://E:/Program Files (x86)/Android/android-sdk/platforms/android-7/android.jar!/android/os/AsyncTask.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="22" selection-start="157" selection-end="157" vertical-scroll-proportion="-0.27351916">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/profile.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="89" column="57" selection-start="3606" selection-end="3606" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/friends.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="31" selection-start="512" selection-end="512" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/friendsitem.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="42" selection-start="1295" selection-end="1297" vertical-scroll-proportion="-20.76">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://E:/Program Files (x86)/Android/android-sdk/platforms/android-7/android.jar!/android/os/Looper.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="16" selection-start="794" selection-end="794" vertical-scroll-proportion="0.56751466">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="jar://E:/Program Files (x86)/Android/android-sdk/platforms/android-7/android.jar!/android/os/Handler.class">
@@ -738,41 +791,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/API/TrendsAPI.java">
+    <entry file="jar://E:/Program Files (x86)/Android/android-sdk/platforms/android-7/android.jar!/android/app/Activity.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="126" column="68" selection-start="4094" selection-end="4094" vertical-scroll-proportion="0.0">
+        <state line="214" column="16" selection-start="10067" selection-end="10067" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/stocksapp/ProfileActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="52" selection-start="1064" selection-end="1064" vertical-scroll-proportion="0.0">
+        <state line="86" column="22" selection-start="2530" selection-end="2530" vertical-scroll-proportion="-20.423077">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/stocksapp/MyApplication.java">
+    <entry file="file://$PROJECT_DIR$/src/com/stocksapp/FriendsActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="40" selection-start="637" selection-end="637" vertical-scroll-proportion="0.0">
+        <state line="150" column="22" selection-start="4456" selection-end="4456" vertical-scroll-proportion="-7.6538463">
+          <folding>
+            <element signature="e#2218#2557#0" expanded="true" />
+            <element signature="e#2542#2543#0" expanded="true" />
+            <element signature="e#5820#5844#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/portfolio.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="364" column="41" selection-start="17893" selection-end="17893" vertical-scroll-proportion="-7.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/stocksapp/PortfolioActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="706" column="0" selection-start="21255" selection-end="21255" vertical-scroll-proportion="-94.46154">
-          <folding>
-            <element signature="e#9826#9851#0" expanded="true" />
-            <element signature="e#20962#21454#0" expanded="true" />
-            <element signature="e#21446#21447#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/profile.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="122" column="47" selection-start="5219" selection-end="5219" vertical-scroll-proportion="0.5492701">
+        <state line="233" column="75" selection-start="7272" selection-end="7272" vertical-scroll-proportion="0.036585364">
           <folding />
         </state>
       </provider>

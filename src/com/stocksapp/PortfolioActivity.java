@@ -1,5 +1,6 @@
 package com.stocksapp;
 
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
@@ -10,6 +11,9 @@ import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.widget.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,10 +32,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphView.GraphViewData;
@@ -73,16 +73,17 @@ public class PortfolioActivity extends Activity {
 			facebookID = ((MyApplication) this.getApplication()).facebookID;
 		}
 
-		
-		// doesn't work :(
-		((Button)findViewById(R.id.port_btn_port)).setPressed(true);
-		((Button)findViewById(R.id.port_btn_port)).setClickable(false);
-		
-
 
 		new LoginUserTask().execute();
+
+        findViewById(R.id.port_btn_port).setBackgroundResource(R.drawable.btn_portfolio_pressed);
 	}
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
 
 	private class LoginUserTask extends AsyncTask<Void, Void, Long> {
 
@@ -145,8 +146,7 @@ public class PortfolioActivity extends Activity {
 						long vStockId = (Long)v.getTag();
 						Log.d(DEBUG, "tag: "+vStockId);
 						// TODO: go to trade screen
-						((Button)findViewById(R.id.port_btn_port)).setPressed(false);
-						((Button)findViewById(R.id.port_btn_port)).setClickable(true);
+                        findViewById(R.id.port_btn_port).setBackgroundResource(R.drawable.btn_portfolio_normal);
 
 						trendClicked(vStockId);
 					}
@@ -625,15 +625,7 @@ public class PortfolioActivity extends Activity {
 
 		findViewById(R.id.port_rel_trend_bio).setVisibility(View.GONE);
 
-		((Button)findViewById(R.id.port_btn_port)).setClickable(false);
-		Handler mHandler = new Handler();
-		mHandler.post(new Runnable() {
-			@Override
-			public void run() {
-				((Button)findViewById(R.id.port_btn_port)).setPressed(true);
-			}
-		});
-
+        findViewById(R.id.port_btn_port).setBackgroundResource(R.drawable.btn_portfolio_pressed);
 	}
 	
 	public void friendsClicked(View v) {
@@ -681,6 +673,7 @@ public class PortfolioActivity extends Activity {
 				ll.removeAllViews();
 
 				// TODO: sort in order!
+
 
 				for(int i=0; i<ja.length(); i++) {
 					JSONObject jao = ja.getJSONObject(i);

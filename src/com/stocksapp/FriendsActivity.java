@@ -1,10 +1,13 @@
 package com.stocksapp;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.MotionEvent;
 import android.widget.*;
 import org.json.JSONArray;
@@ -79,6 +82,10 @@ public class FriendsActivity extends Activity {
 			
 			((TextView)v.findViewById(R.id.friendsitem_text_name)).setText(f.name);
 			((TextView)v.findViewById(R.id.friendsitem_text_net)).setText(f.net+"");
+
+            // TODO: display profile pic
+            new GetPic(((ImageView)v.findViewById(R.id.friendsitem_img_pic)), f.id).execute();
+
             v.setTag(f);
 
             v.setOnClickListener(new View.OnClickListener() {
@@ -86,6 +93,7 @@ public class FriendsActivity extends Activity {
                 @Override
                 public void onClick(View v) {
                     Friend vFriend = (Friend)v.getTag();
+
                     //Log.d(DEBUG, "tag: "+vFriendId);
                     // TODO: go to trade screen
 
@@ -104,7 +112,7 @@ public class FriendsActivity extends Activity {
                         ((TextView)v.findViewById(R.id.friendsitem_text_net)).setTextColor(getResources().getColor(R.color.blueshine));
                     }
                     if(event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
-                        v.findViewById(R.id.trenditem_rel_main).setBackgroundColor(0xffffffff);
+                        v.findViewById(R.id.friendsitem_rel_main).setBackgroundColor(0xffffffff);
                         ((TextView)v.findViewById(R.id.friendsitem_text_name)).setTextColor(getResources().getColor(R.color.dblue));
                         ((TextView)v.findViewById(R.id.friendsitem_text_net)).setTextColor(getResources().getColor(R.color.dblue));
                     }
@@ -137,19 +145,51 @@ public class FriendsActivity extends Activity {
     private void friendClicked(Friend vFriend) {
          // TODO: launch new activity
         Intent i = new Intent(FriendsActivity.this, ProfileActivity.class);
-        i.putExtra("id", vFriend.id);
-        i.putExtra("name", vFriend.name);
+        i.putExtra("id", vFriend.id+";"+vFriend.name);
         i.putExtra("net", vFriend.net);
         startActivity(i);
+        this.finish();
     }
 
     public void portfolioClicked(View v) {
-		
+         finish();
 	}
 	
 	public void discoverClicked(View v) {
 		
 	}
+
+    public class GetPic extends AsyncTask<Void, Void, Bitmap> {
+
+        ImageView iv = null;
+        long userId;
+
+        public GetPic(ImageView iv, String userId) {
+            this.iv = iv;
+            this.userId = Integer.parseInt(userId.substring(2));
+        }
+
+        @Override
+        protected Bitmap doInBackground(Void... voids) {
+
+            URL img_value = null;
+            try {
+                img_value = new URL("http://graph.facebook.com/"+userId+"/picture?type=large");
+                Bitmap mIcon1 = BitmapFactory.decodeStream(img_value.openConnection().getInputStream());
+                return mIcon1;
+            }
+            catch (Exception e) {
+                Log.d(DEBUG, "err: "+e.getMessage());
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap b) {
+            iv.setImageBitmap(b);
+        }
+    }
 
 	public class GetFriendsTask extends AsyncTask<String, Void, JSONObject> {
 

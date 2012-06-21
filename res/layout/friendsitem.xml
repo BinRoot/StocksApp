@@ -24,12 +24,11 @@
         
         <ImageView
             android:id="@+id/friendsitem_img_pic"
-            android:layout_width="55dip"
-            android:layout_height="55dip"
+            android:layout_width="64dip"
+            android:layout_height="64dip"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dip"
-            android:layout_toRightOf="@id/friendsitem_text_rank"
-            android:background="@drawable/ic_launcher" />
+            android:layout_toRightOf="@id/friendsitem_text_rank" />
 
         <TextView
             android:id="@+id/friendsitem_text_name"
