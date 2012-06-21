@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="#092b5d"
+                android:orientation="vertical" >
+
+    <RelativeLayout
+            android:id="@+id/pro_topbar"
+            android:layout_width="fill_parent"
+            android:layout_height="50dip"
+            android:background="@drawable/port_topbar_grad" >
+
+        <ImageView
+                android:layout_width="160dip"
+                android:layout_height="35dip"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dip"
+                android:background="@drawable/logo" />
+
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dip"
+                android:background="@drawable/btn_addfriends" />
+    </RelativeLayout>
+
+    <RelativeLayout
+            android:id="@+id/pro_navbar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/pro_topbar" >
+
+        <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+
+            <Button
+                    android:id="@+id/pro_btn_port"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_portfolio_x"
+                    android:onClick="portfolioClicked" />
+
+            <Button
+                    android:id="@+id/pro_btn_friends"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_friends_x"
+                    android:onClick="friendsClicked" />
+
+            <Button
+                    android:id="@+id/pro_btn_discover"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_discover_x" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!-- Header done -->
+
+    <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@id/pro_navbar" >
+
+        <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+            <RelativeLayout
+                    android:id="@+id/pro_rel_trend_bio"
+                    android:layout_width="fill_parent"
+                    android:layout_height="64dip"
+                    android:background="@drawable/port_bio_grad"
+                    android:visibility="visible" >
+
+                <ImageView
+                        android:id="@+id/pro_img_pic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dip"
+                        android:background="@drawable/ic_launcher" >
+                </ImageView>
+
+                <TextView
+                        android:id="@+id/pro_text_friendname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dip"
+                        android:layout_marginTop="15dip"
+                        android:layout_toRightOf="@id/pro_img_pic"
+                        android:text=""
+                        android:textColor="#eff5f9"
+                        android:textSize="18dip" />
+
+                <TextView
+                        android:id="@+id/pro_text_friendrank"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/pro_text_friendname"
+                        android:layout_marginLeft="10dip"
+                        android:layout_toRightOf="@id/pro_img_pic"
+                        android:text=""
+                        android:textColor="#eff5f9"
+                        android:textSize="10dip" />
+
+                <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dip"
+                        android:textColor="#2233dd"
+                        android:textSize="16dip"
+                        android:enabled="false"
+                        android:text="Following"/>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                    android:id="@+id/pro_rel_trend_trade"
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dip"
+                    android:layout_marginTop="7dip"
+                    android:background="@drawable/bgbox_graph"
+                    android:visibility="gone" >
+
+                <RelativeLayout
+                        android:id="@+id/pro_rel_boxheader_tradenow"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="11dip"
+                        android:layout_marginRight="12dip"
+                        android:background="@drawable/tradenow_header" >
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Trade Now"
+                            android:textColor="#FFFFFF"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginLeft="10dip" />"
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                    android:id="@+id/pro_graphbox"
+                    android:layout_width="fill_parent"
+                    android:layout_height="120dip"
+                    android:layout_below="@id/pro_rel_trend_bio"
+                    android:background="@drawable/graph_box_x"
+                    android:layout_marginLeft="13dip"
+                    android:layout_marginRight="14dip"
+                    android:layout_marginTop="10dip"
+                    >
+
+                <RelativeLayout
+                        android:id="@+id/pro_rel_boxheader"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:background="@drawable/bluebar_box_header" >
+
+                    <TextView
+                            android:id="@+id/pro_text_toptitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dip"
+                            android:text="Net Worth"
+                            android:textColor="#ffffff" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                        android:id="@+id/pro_rel_graphinfo"
+                        android:layout_width="fill_parent"
+                        android:layout_height="35dip"
+                        android:layout_below="@id/pro_rel_boxheader"
+                        android:layout_marginLeft="5dip"
+                        android:layout_marginRight="5dip" >
+
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                    android:id="@+id/pro_rel_trends"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/pro_graphbox"
+                    android:layout_marginLeft="13dip"
+                    android:layout_marginRight="14dip"
+                    android:layout_marginTop="10dip" >
+
+                <RelativeLayout
+                        android:id="@+id/pro_rel_trendheader"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:background="@drawable/bluebar_box_header" >
+
+                    <TextView
+                            android:id="@+id/pro_text_bottomtitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dip"
+                            android:text="Trends"
+                            android:textColor="#ffffff" />
+                </RelativeLayout>
+
+                <LinearLayout
+                        android:id="@+id/pro_linear_trends"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/pro_rel_trendheader"
+                        android:layout_marginLeft="2dip"
+                        android:layout_marginRight="2dip"
+                        android:background="#ffffff"
+                        android:orientation="vertical" >
+                </LinearLayout>
+
+                <LinearLayout
+                        android:id="@+id/pro_linear_trends2"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/pro_rel_trendheader"
+                        android:layout_marginLeft="2dip"
+                        android:layout_marginRight="2dip"
+                        android:background="#ffffff"
+                        android:orientation="vertical"
+                        android:visibility="gone" >
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

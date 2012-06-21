@@ -121,7 +121,8 @@
                     android:layout_marginRight="10dip"
                     android:background="@drawable/btn_trade_x"
                     android:onClick="tradeButtonClicked" />
-
+
+
             </RelativeLayout>
 
             <RelativeLayout

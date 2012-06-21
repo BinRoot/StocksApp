@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import android.content.Intent;
+import android.view.MotionEvent;
+import android.widget.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,10 +18,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
 
 public class FriendsActivity extends Activity {
 
@@ -80,7 +79,41 @@ public class FriendsActivity extends Activity {
 			
 			((TextView)v.findViewById(R.id.friendsitem_text_name)).setText(f.name);
 			((TextView)v.findViewById(R.id.friendsitem_text_net)).setText(f.net+"");
-			
+            v.setTag(f);
+
+            v.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    Friend vFriend = (Friend)v.getTag();
+                    //Log.d(DEBUG, "tag: "+vFriendId);
+                    // TODO: go to trade screen
+
+                    friendClicked(vFriend);
+                }
+            });
+
+            v.setOnTouchListener(new View.OnTouchListener() {
+
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if(event.getAction() == MotionEvent.ACTION_DOWN) {
+
+                        v.findViewById(R.id.friendsitem_rel_main).setBackgroundColor(getResources().getColor(R.color.blueselect));
+                        ((TextView)v.findViewById(R.id.friendsitem_text_name)).setTextColor(getResources().getColor(R.color.blueshine));
+                        ((TextView)v.findViewById(R.id.friendsitem_text_net)).setTextColor(getResources().getColor(R.color.blueshine));
+                    }
+                    if(event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
+                        v.findViewById(R.id.trenditem_rel_main).setBackgroundColor(0xffffffff);
+                        ((TextView)v.findViewById(R.id.friendsitem_text_name)).setTextColor(getResources().getColor(R.color.dblue));
+                        ((TextView)v.findViewById(R.id.friendsitem_text_net)).setTextColor(getResources().getColor(R.color.dblue));
+                    }
+
+                    return false;
+                }
+            });
+
+
 			return v;
 		}
 		
@@ -89,8 +122,8 @@ public class FriendsActivity extends Activity {
 			Collections.sort(friendList, new Comparator<Friend>() {
 				@Override
 				public int compare(Friend lhs, Friend rhs) {
-					if (lhs.net > rhs.net) return 1;
-					else if (lhs.net < rhs.net) return -1;
+					if (lhs.net > rhs.net) return -1;
+					else if (lhs.net < rhs.net) return 1;
 					else return 0;
 				}
 			});
@@ -100,8 +133,17 @@ public class FriendsActivity extends Activity {
 		
 		
 	}
-	
-	public void portfolioClicked(View v) {
+
+    private void friendClicked(Friend vFriend) {
+         // TODO: launch new activity
+        Intent i = new Intent(FriendsActivity.this, ProfileActivity.class);
+        i.putExtra("id", vFriend.id);
+        i.putExtra("name", vFriend.name);
+        i.putExtra("net", vFriend.net);
+        startActivity(i);
+    }
+
+    public void portfolioClicked(View v) {
 		
 	}
 	

@@ -691,7 +691,10 @@ public class PortfolioActivity extends Activity {
 					View v = getLayoutInflater().inflate(R.layout.shareholderitem, null);
 					((TextView)v.findViewById(R.id.shareholderitem_text_name)).setText(name);
 					((TextView)v.findViewById(R.id.shareholderitem_text_numShares)).setText(numShares+"");
-					v.setTag(userId);
+
+                    String myTag = userId +";"+ name;
+
+					v.setTag(myTag);
 
 					v.setOnClickListener(new OnClickListener() {
 						@Override
@@ -699,6 +702,11 @@ public class PortfolioActivity extends Activity {
 							String vUserId = (String) v.getTag();
 							Log.d(DEBUG, "tag: "+vUserId);
 							// TODO: go to user profile
+
+                            Intent i = new Intent(PortfolioActivity.this, ProfileActivity.class);
+                            i.putExtra("id", vUserId);
+                            Log.d(DEBUG, "Launching Portfolio Activity: "+vUserId);
+                            startActivity(i);
 						}
 					});
 
